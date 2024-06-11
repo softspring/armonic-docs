@@ -1,8 +1,8 @@
-# Sfs builder
+# Symfonic
 
-- [What is sfs builder?](introduction/what-is-sfs-builder.md)
+- [What is Symfonic?](introduction/what-is-symfonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
-- [Sfs builder flavours](introduction/sfs-builder-flavours.md)
+- [Symfonic flavours](introduction/symfonic-flavours.md)
 - [Features](introduction/features.md)
 
 ## Getting started
@@ -11,7 +11,7 @@
 - Installation
 - [Install in a new project](getting-started/install-new-symfony-project.md)
 - Install in an existing project
-- Use Sfs builder standalone edition
+- Use Symfonic standalone edition
 - Install in a Sylius project
 
 ## User manual

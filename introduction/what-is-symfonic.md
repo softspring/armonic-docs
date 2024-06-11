@@ -1,6 +1,6 @@
-# What is sfs builder?
+# What is Symfonic?
 
-Sfs builder is a powerful CMS system for Symfony projects.
+Symfonic is a powerful CMS system for Symfony projects.
 
 ## Why another CMS? {#why-another-cms}
 
@@ -21,11 +21,11 @@ Symfony is fast, secure, and easy to use, and allows you to build complex projec
 It's a long term solution, they have been working on it for more than 10 years with an excellent support, has a large 
 community, and is used by many big companies to build their projects.
 
-## Why sfs builder? {#why-sfs-builder}
+## Why Symfonic? {#why-symfonic}
 
-You will love sfs builder because it's easy to use, it's fast, it's secure, and it's powerful.
+You will love Symfonic because it's easy to use, it's fast, it's secure, and it's powerful.
 
-These are some of the features that make sfs builder the best choice for your project:
+These are some of the features that make Symfonic the best choice for your project:
 
 - It's easy to use, you can build a website in a few minutes.
 - It's fast, it's based on Symfony, and it's optimized for performance.

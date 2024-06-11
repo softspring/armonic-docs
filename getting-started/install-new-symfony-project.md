@@ -85,7 +85,7 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 ###< doctrine/doctrine-bundle ###
 ```
 
-## Install sfs-builder {#install-sfs-builder}
+## Install symfonic {#install-symfonic}
 
 We will use Symfony Flex to install SfsBuilder in the new Symfony project. 
 
@@ -96,10 +96,10 @@ We will use Symfony Flex to install SfsBuilder in the new Symfony project.
 > $ composer config minimum-stability dev
 > ```
 
-Install **sfs-builder** package with composer (say Yes or Yes for all packages to install the recipes):
+Install **symfonic** package with composer (say Yes or Yes for all packages to install the recipes):
 
 ```bash
-$ composer require softspring/sfs-builder:^5.2@dev
+$ composer require softspring/symfonic:^5.2@dev
 
  Do you want to execute this recipe?
     [y] Yes

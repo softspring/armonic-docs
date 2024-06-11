@@ -1,18 +1,18 @@
-<p align="center"><a href="https://softspring.es/sfs-builder" target="_blank">
+<p align="center"><a href="https://softspring.es/symfonic" target="_blank">
   <img src="https://storage.googleapis.com/softspring-images/d3ca848a7019bd4965f1b7da8ccb03c473b81dd0.png">
 </a></p>
 
 <h3 align="center">
-  The Sfs Builder Documentation
+  The Symfonic Documentation
 </h3>
 
 <p align="center">
-  <a href="https://docs.softspring.es/sfs-builder/current/">
+  <a href="https://docs.softspring.es/symfonic/current/">
     Read this documentation online
   </a>
     ·
-  <a href="https://github.com/softspring/sfs-builder">
-    Fork Sfs Builder on GitHub
+  <a href="https://github.com/softspring/symfonic">
+    Fork Symfonic on GitHub
   </a>
     ·
   Supported by

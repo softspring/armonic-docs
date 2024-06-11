@@ -2,12 +2,12 @@
     "index": "index.md",
     "structure": [
         {
-            "text": "Sfs Builder",
+            "text": "Symfonic",
             "children": [
                 {
-                    "text": "What is sfs builder?",
-                    "slug": "what-is-sfs-builder",
-                    "file": "introduction/what-is-sfs-builder.md"
+                    "text": "What is Symfonic?",
+                    "slug": "what-is-symfonic",
+                    "file": "introduction/what-is-symfonic.md"
                 },
                 {
                     "text": "Is it for me?",
@@ -15,9 +15,9 @@
                     "file": "introduction/is-it-for-me.md"
                 },
                 {
-                    "text": "Sfs builder flavours",
-                    "slug": "sfs-builder-flavours",
-                    "file": "introduction/sfs-builder-flavours.md"
+                    "text": "Symfonic flavours",
+                    "slug": "symfonic-flavours",
+                    "file": "introduction/symfonic-flavours.md"
                 },
                 {
                     "text": "Features",
@@ -46,7 +46,7 @@
                     "file": "getting-started/install-existing-symfony-project.md"
                 },
                 {
-                    "text": "Use Sfs builder standalone edition"
+                    "text": "Use Symfonic standalone edition"
                 },
                 {
                     "text": "Install in a Sylius project"
