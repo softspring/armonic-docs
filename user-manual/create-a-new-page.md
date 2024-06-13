@@ -25,7 +25,7 @@ Once you click on New page, a form will appear to define the page details. You n
       - **Frequency of updating your sitemap**: Define how often the content of the page is updated.
       - **URL priority in the sitemap**: Set the priority of the page in the sitemap.
 
-![symfonic-create-page.png](.files/symfonic-create-page.png)
+![symfonic-create-page.png](.files/symfonic-create-page.png){.img-fluid}
 
 Once you have completed the basic information and desired options, click on the Create page button to create the page on your website.
 
