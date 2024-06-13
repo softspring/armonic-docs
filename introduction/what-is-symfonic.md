@@ -30,7 +30,6 @@ With Symfonic, the marketing team can update content without constantly relying 
 **Total flexibility**  
 Symfonic adapts to your needs: it handles multiple languages, manages multiple sites from a single platform and customizes templates according to the requirements of each project.
 
-
 **Everything in the same place**  
 The full integration of Symfonic within Symfony facilitates content management without additional complications or external CMS (Headless type), which generates a more cohesive and efficient project.
 
