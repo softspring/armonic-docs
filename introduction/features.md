@@ -5,6 +5,8 @@
 - [Symfony](https://symfony.com/) The leading PHP framework to create websites and web applications. Built on top of the Symfony Components.
 - [Bootstrap](https://getbootstrap.com/) Build fast, responsive sites.
 
+![bootstrap-symfony.png](.files/bootstrap-symfony.png){.img-fluid}
+
 ## Pure Symfony {#pure-symfony}
 
 - **Rock-Solid Foundation**: Leverage the stability and security of the robust Symfony framework, known for its enterprise-grade features.
