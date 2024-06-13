@@ -32,15 +32,15 @@ Blocks can be defined as static (just twig code, not editable) or dynamic, and c
 
 On the content page by hovering over the gray parts, an add button will appear like the one in the image or in the primary color you have defined.
 
-![insert-module.png](.files/insert-module.png)
+![insert-module.png](.files/insert-module.png){.img-fluid}
 
 Click on it, a modal will open with all the available blocks and modules.
 
-![modules-modal.png](.files/modules-modal.png)
+![modules-modal.png](.files/modules-modal.png){.img-fluid}
 
 Select the module or block you want to add and click on it.
 
-![adding-module.png](.files/adding-module.png)
+![adding-module.png](.files/adding-module.png){.img-fluid}
 
 We have selected the WYSIWYG translatable module that allows you to add formatted and translatable text, as you can see in the image when you click on the module you can open the module edition on the right side.
 Here we can see the following options:
