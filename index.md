@@ -16,8 +16,9 @@
 
 ## User manual
 
-- Create a new page
-- Publish a page
+- [Create a new page](user-manual/create-new-page.md)
+- [Adding modules or blocks to a page](user-manual/adding-modules-or-blocks.md)
+- [Preview and publish a page](user-manual/preview-and-publish-a-page.md)
 - Create a new block
 - Create a new menu
 - Create a new media
@@ -25,13 +26,13 @@
 
 ## Configuration
 
-- Migración de base de datos
-- Autenticación
+- Database migration
+- Authentication
   - SfsUserBundle
   - FosUserBundle
-  - Otros sistemas
-- Configuración de admin
-  - Rutas
+  - Other systems
+- Admin Settings
+  - Routes
   - 
 
 ## Configure
