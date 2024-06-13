@@ -56,8 +56,21 @@
         {
             "text": "User manual",
             "children": [
-                { "text": "Create a new page" },
-                { "text": "Publish a page" },
+                {
+                    "text": "Create a new page",
+                    "slug": "create-a-new-page",
+                    "file": "user-manual/create-a-new-page.md"
+                },
+                {
+                    "text": "Adding modules or blocks to a page",
+                    "slug": "adding-modules-or-blocks",
+                    "file": "user-manual/adding-modules-or-blocks.md"
+                },
+                {
+                    "text": "Preview and publish a page",
+                    "slug": "preview-and-publish-a-page",
+                    "file": "user-manual/preview-and-publish-a-page.md"
+                },
                 { "text": "Create a new block" },
                 { "text": "Create a new menu" },
                 { "text": "Create a new media" },
