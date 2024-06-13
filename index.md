@@ -21,7 +21,7 @@
 - [Preview and publish a page](user-manual/preview-and-publish-a-page.md)
 - Create a new block
 - Create a new menu
-- Create a new media
+- [Create a new media](user-manual/create-a-new-media.md)
 - Configure routes
 
 ## Configuration

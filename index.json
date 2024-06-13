@@ -73,7 +73,11 @@
                 },
                 { "text": "Create a new block" },
                 { "text": "Create a new menu" },
-                { "text": "Create a new media" },
+                {
+                    "text": "Create a new media",
+                    "slug": "create-a-new-media",
+                    "file": "user-manual/create-a-new-media.md"
+                },
                 { "text": "Configure routes" }
             ]
         },
