@@ -2,7 +2,7 @@
 
 Once you've successfully created a page in Symfonic CMS, you can add modules and blocks. These building blocks empower you to structure and present your content in a visually appealing and organized manner.
 
-## Accessing the content section of a page
+## Accessing the content section of a page {#accessing-content-section}
 
 - Navigate to the Symfonic CMS administration panel.
 
@@ -12,9 +12,9 @@ Once you've successfully created a page in Symfonic CMS, you can add modules and
 
 - Once you have found the page you want to edit, **click on Content** to open it or click on View and click on the Content tab.
 
-## Understanding Modules and Blocks
+## Understanding Modules and Blocks {#understanding-modules-and-blocks}
 
-### Modules
+### Modules {#modules}
 
 A module is the minimum unit of content that can be added to a page or content type. A module can be a title block, a card, hero, containers and grids, etc.
 
@@ -22,13 +22,13 @@ One of the SfsCms best and powerful features is that custom modules can be creat
 
 Also, it is posible to add modules collections.
 
-### Blocks
+### Blocks {#blocks}
 
 A block is a piece of content that can be used in many pages, content types, or directly from twig templates.
 
 Blocks can be defined as static (just twig code, not editable) or dynamic, and can be singleton or many times instantiable. This means that an instance of a block can be created just once or many times.
 
-## Adding Modules/Blocks
+## Adding Modules/Blocks {#adding-modules-or-blocks}
 
 On the content page by hovering over the gray parts, an add button will appear like the one in the image or in the primary color you have defined.
 

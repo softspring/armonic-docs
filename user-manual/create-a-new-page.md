@@ -2,13 +2,13 @@
 
 his user manual will guide you step by step through the process of creating a new page in the Symfonic CMS administration panel.
 
-## Accessing the Page Creator
+## Accessing the Page Creator {#accessing-the-page-creator}
 
 Navigate to the Symfonic CMS administration panel.
 In the **left sidebar**, locate the **CMS/Pages** section.
 Find the **New Page button** located in the top right corner of the Pages section.
 
-## Filling Basic Information
+## Filling Basic Information {#filling-basic-information}
 
 Once you click on New page, a form will appear to define the page details. You need to fill in the following information:
 

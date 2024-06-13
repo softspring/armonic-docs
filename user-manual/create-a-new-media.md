@@ -2,7 +2,7 @@
 
 Symfonic CMS empowers you to integrate multimedia elements into your content, adding visual elements to your web pages. Whether it's images, videos, or icons, Symfonic CMS provides a simple process for creating and managing your media assets.
 
-## Media Creation Journey
+## Media Creation Journey {#media-creation-journey}
 
 - Access the Media section: Navigate to the "Medias" section within the Symfonic CMS administration panel. This serves as your central repository for managing all your media files.
 
@@ -16,7 +16,7 @@ Symfonic CMS empowers you to integrate multimedia elements into your content, ad
     - Additional File Uploads: For certain media types, such as images with different breakpoints or formats, you may need to upload multiple files. Symfonic CMS will guide you through this process.
   - With a click on the **"Upload media"** button, your media creation journey comes to a successful end. **Your media asset is now ready to be incorporated into your website's content**.
 
-## Show media details
+## Show media details {#show-media-details}
 
 The media list in Symfonic CMS offers a centralized section for managing and exploring your uploaded media assets. 
 
