@@ -8,7 +8,7 @@ Symfonic CMS empowers you to integrate multimedia elements into your content, ad
 
 - Locate the **"New Media"** button, often found near the top right corner of the Media section. Clicking on this button will launch the media creation process.
 
-  - **Selecting the Media Type**: Symfonic CMS presents a variety of media types to suit your creative needs. Choose from "Background Image," "Content Image (PNG)," "Content Image (JPG)," "Icon Image," "Content Video," or any other media types defined by your CMS. Carefully consider the intended use of the media when making your selection. Background images set the scene for your page, while content images enhance the flow of information. Icon images provide visual cues, and content videos captivate audiences with motion.
+  - **Selecting the Media Type**: Symfonic CMS presents a variety of media types to suit your creative needs. Choose from "Background Image," "Content Image (PNG)," "Content Image (JPG)," "Icon Image," "Content Video," or any other media types defined by your CMS. Carefully consider the intended use of the media when making your selection. 
   - **Filling in the Media Details**:
 
     - Provide a descriptive **"Name"** that accurately reflects the media's content, making it easy to identify and organize.
