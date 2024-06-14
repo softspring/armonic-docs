@@ -1,6 +1,6 @@
 # Creating a New Page in Symfonic CMS
 
-his user manual will guide you step by step through the process of creating a new page in the Symfonic CMS administration panel.
+This user manual will guide you step by step through the process of creating a new page in the Symfonic CMS administration panel.
 
 ## Accessing the Page Creator {#accessing-the-page-creator}
 
