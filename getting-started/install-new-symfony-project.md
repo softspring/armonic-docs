@@ -1,8 +1,8 @@
-# Install SfsBuilder in a new Symfony project
+# Install Symfonic in a new Symfony project
 
 ## Create a new symfony project {#create-new-symfony-project}
 
-SfsBuilder is a Symfony project, so first of all we need to create a new Symfony project. 
+Symfonic is a Symfony project, so first of all we need to create a new Symfony project. 
 You can create a new Symfony project using the Symfony CLI or Composer as shown in the official <a href="https://symfony.com/doc/current/setup.html">Symfony documentation</a>. 
 
 Let's create a new Symfony project using the Symfony CLI:
@@ -28,7 +28,7 @@ $ symfony server:start -d
 
 ## Configure database {#configure-database}
 
-SfsBuilder uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
+Symfonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
 
 First of all, you need to modify the composer.yaml file provided by the new Symfony project.
 
@@ -87,7 +87,7 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 
 ## Install symfonic {#install-symfonic}
 
-We will use Symfony Flex to install SfsBuilder in the new Symfony project. 
+We will use Symfony Flex to install Symfonic in the new Symfony project. 
 
 >[!info]
 > By the moment, configure recipes manually and accept dev versions.
@@ -121,9 +121,9 @@ After installing the package, you must run the Doctrine migrations to create the
 $ bin/console doctrine:migrations:migrate -n
 ```
 
-Now you can see the start page of the SfsBuilder project:
+Now you can see the start page of the Symfonic project:
 
-![welcome-to-sfsbuilder.png](.files/welcome-to-sfsbuilder.png){.img-fluid}
+![welcome-to-symfonic.png](.files/welcome-to-symfonic.png){.img-fluid}
 
 ## Configure security {#configure-security}
 
@@ -181,4 +181,4 @@ $ bin/console sfs:user:promote user@example.com
 
 Now you can go to admin area and login with the user you just created:
 
-![sfsbuilder-create-page.png](.files/sfsbuilder-create-page.png){.img-fluid}
+![symfonic-create-page.png](.files/symfonic-create-page.png){.img-fluid}
