@@ -90,16 +90,15 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 We will use Symfony Flex to install Symfonic in the new Symfony project. 
 
 >[!info]
-> By the moment, configure recipes manually and accept dev versions.
+> By the moment, configure recipes manually
 > ```bash
 > $ composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
-> $ composer config minimum-stability dev
 > ```
 
 Install **symfonic** package with composer (say Yes or Yes for all packages to install the recipes):
 
 ```bash
-$ composer require softspring/symfonic:^5.2@dev
+$ composer require softspring/symfonic:^5.2
 
  Do you want to execute this recipe?
     [y] Yes
@@ -136,7 +135,7 @@ You can use any Symfony <a href="https://symfony.com/doc/current/security.html">
 Install the Softspring User Bundle with composer:
 
 ```bash
-$ composer require softspring/user-bundle:^5.2@dev
+$ composer require softspring/user-bundle:^5.2
 ```
 
 We recommend to use the Symfony flex recipes to configure the bundle:

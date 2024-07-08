@@ -2,16 +2,10 @@
 
 A Symfony > 5.4 project is required to use this bundle, with a Doctrine database configured.
 
-> [!info]
-> Softspring 5.2 bundle version has not been released yet. This is a preview of the upcoming version.
-> ```bash
-> $ composer config minimum-stability dev
-> ```
-
 ## Installation {#installation}
 
 ```bash
-$ composer require softspring/user-bundle:^5.2@dev
+$ composer require softspring/user-bundle:^5.2
 ```
 
 ## Configuration {#configuration}
