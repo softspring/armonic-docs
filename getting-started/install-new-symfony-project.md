@@ -1,5 +1,10 @@
 # Install Symfonic in a new Symfony project
 
+>[!mportant]
+> You need Symfony to use Symfonic. 
+> We recommend installing Symfony CLI, as explained here: <a href="https://symfony.com/download">https://symfony.com/download</a> to create and manage Symfony projects.
+ 
+
 ## Create a new symfony project {#create-new-symfony-project}
 
 Symfonic is a Symfony project, so first of all we need to create a new Symfony project. 
@@ -16,6 +21,9 @@ By default, Symfony 7.0 version will be used, but you can specify the version of
 ```bash
 $ symfony new cms-new-project --version="6.4.*" --webapp
 ```
+
+* If it's your first time running symfony-cli, it might complain that you lack some needed packages (ie: ext-xml). You can install them with
+and try again, but you will need to delete the project folder "cms-new-project" and start over.
 
 After creating the project, you can start the Symfony local web server:
 
@@ -34,8 +42,6 @@ First of all, you need to modify the composer.yaml file provided by the new Symf
 
 ```yaml
 # compose.yaml
-version: '3'
-
 services:
     ###> doctrine/doctrine-bundle ###
     database:
