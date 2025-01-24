@@ -189,6 +189,14 @@ $ bin/console sfs:user:create username user@example.com 123456
 $ bin/console sfs:user:promote user@example.com
 ```
 
+## 7.¡Done! {#enter-admin-area}
+
 Now you can go to admin area and login with the user you just created:
+
+For the admin area, any URL starting with `/admin` should redirect you there.
+
+You can try with the pages list in the CMS: 
+
+`/admin/cms/pages/`
 
 ![symfonic-create-page.png](.files/symfonic-create-page.png){.img-fluid}
