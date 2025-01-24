@@ -30,7 +30,9 @@
             "text": "Getting Started",
             "children": [
                 {
-                    "text": "Requirements"
+                    "text": "Requirements",
+                    "slug": "requirements",
+                    "file": "getting-started/requirements.md"
                 },
                 {
                     "text": "Installation"

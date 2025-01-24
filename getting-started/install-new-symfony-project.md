@@ -1,11 +1,10 @@
 # Install Symfonic in a new Symfony project
 
->[!mportant]
-> You need Symfony to use Symfonic. 
-> We recommend installing Symfony CLI, as explained here: <a href="https://symfony.com/download">https://symfony.com/download</a> to create and manage Symfony projects.
- 
+>[!IMPORTANT]
+> This guide assumes you have Composer and Symfony CLI installed. 
+> If you don't have them installed, you can follow the instructions in the [Requirements](requirements.md) section.
 
-## Create a new symfony project {#create-new-symfony-project}
+## 1.Create a new symfony project {#create-new-symfony-project}
 
 Symfonic is a Symfony project, so first of all we need to create a new Symfony project. 
 You can create a new Symfony project using the Symfony CLI or Composer as shown in the official <a href="https://symfony.com/doc/current/setup.html">Symfony documentation</a>. 
@@ -34,7 +33,7 @@ $ symfony server:start -d
 
 ![welcome-to-symfony7.png](.files/welcome-to-symfony7.png){.img-fluid}
 
-## Configure database {#configure-database}
+## 2.Configure database {#configure-database}
 
 Symfonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
 
@@ -75,12 +74,16 @@ services:
             - "${MYSQL_PORT:-33061}:3306"
     ###< doctrine/doctrine-bundle ###
 ```
+## 3.Start the database
 
 Then you can start the database using Docker Compose:
 
 ```bash
 $ docker-compose up -d
 ```
+>[!NOTE]
+> If you restart your computer at some point, you will need to start the database again with `docker-compose up -d`.
+
 
 You will need to modify the .env file to configure the database connection:
 
@@ -91,11 +94,11 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 ###< doctrine/doctrine-bundle ###
 ```
 
-## Install symfonic {#install-symfonic}
+## 4.Install symfonic {#install-symfonic}
 
 We will use Symfony Flex to install Symfonic in the new Symfony project. 
 
->[!info]
+>[!INFO]
 > By the moment, configure recipes manually
 > ```bash
 > $ composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
@@ -114,7 +117,9 @@ $ composer require softspring/symfonic:^5.2
     (defaults to n): a
 ```
 
->[!info]
+This will currently install Symfonic 5.3, the latest version available.
+
+>[!INFO]
 > Also, you can configure the preferred install type for softspring packages as source:
 > ```bash
 > $ composer config 'preferred-install.softspring/*' source
@@ -130,13 +135,13 @@ Now you can see the start page of the Symfonic project:
 
 ![welcome-to-symfonic.png](.files/welcome-to-symfonic.png){.img-fluid}
 
-## Configure security {#configure-security}
+## 5.Configure security {#configure-security}
 
 Before you can create your first page, you need to configure security to access the admin area.
 
 You can use any Symfony <a href="https://symfony.com/doc/current/security.html">security configuration</a> or bundle you want, but for this example we will use the Softspring User Bundle.
 
-### Configure Softspring User Bundle {#configure-sfs-user-bundle}
+### 6.Configure Softspring User Bundle {#configure-sfs-user-bundle}
 
 Install the Softspring User Bundle with composer:
 
@@ -155,7 +160,7 @@ Do you want to execute this recipe?
     (defaults to n): y
 ```
 
->[!info]
+>[!INFO]
 > Also you can do it manually, see the [installation instructions](../bundles/user-bundle/install.md).
 
 Then a new User entity has been created, and routes to login, register, and reset password have been added.
