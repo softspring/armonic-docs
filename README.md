@@ -7,7 +7,7 @@
 </h3>
 
 <p align="center">
-  <a href="https://docs.softspring.es/symfonic/current/">
+  <a href="https://symfonic.softspring.es/latest/">
     Read this documentation online
   </a>
     ·
