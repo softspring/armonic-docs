@@ -83,6 +83,12 @@ sudo apt install npm
   bin/console sfs:user:promote email@example.com 
 ```
 
+8. Load fixtures
+
+```bash
+  bin/console doctrine:fixtures:load -n --append --group=test
+```
+
 ## Usage
 
 Open your browser and go to https://127.0.0.1:8000/app/es/login.
