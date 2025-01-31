@@ -91,11 +91,11 @@ sudo apt install npm
 
 ## Usage
 
-Open your browser and go to https://127.0.0.1:8000/app/es/login.
+Open your browser and go to https://127.0.0.1:8000/app/en/login.
 
 1. Log in with the email and password you created in the previous step.
 ![login.png](.files/login.png)
 
-2. You are done! You can now start working with Symfonic Standalone at https://127.0.0.1:8000/admin/es/.
+2. You are done! You can now start working with Symfonic Standalone at https://127.0.0.1:8000/admin/en/.
 ![dashboard.png](.files/dashboard.png)
 
