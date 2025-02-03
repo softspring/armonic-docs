@@ -83,13 +83,14 @@ sudo apt install npm
   bin/console sfs:user:promote email@example.com 
 ```
 
-8. (Optional) If you want a example page, you have to execute the following command:
+8. (Optional) If you want an example page, you have to execute the following command.  Then, you can view the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
+   If you publish it, you can see it at https://127.0.0.1:8000/en/home.
+   
 
 ```bash
   bin/console example:command
 ```
-  Then, you can view the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
-  If you publish it, you can see it at https://127.0.0.1:8000/en/home
+  
 ## Usage
 
 Open your browser and go to https://127.0.0.1:8000/app/en/login.
