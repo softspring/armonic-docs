@@ -21,7 +21,7 @@ quick and easy setup, you can have a fully functional local development environm
 curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 sudo apt install symfony-cli
 ```
-macOS:
+***macOS:***
 ```bash
 brew install symfony-cli/tap/symfony-cli
 ```
@@ -35,7 +35,7 @@ brew install symfony-cli/tap/symfony-cli
 sudo apt install php-cli 
 sudo apt in
 ```
-macOS:
+***macOS:***
 
 First you need Xcode Command ine tools:
 ```bash
@@ -54,7 +54,7 @@ brew install mysql
 ```bash
 sudo apt install composer
 ```
-macOS:
+***macOS:***
 ```bash
 brew install composer
 ```
