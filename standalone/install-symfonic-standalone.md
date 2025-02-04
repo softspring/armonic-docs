@@ -21,6 +21,10 @@ quick and easy setup, you can have a fully functional local development environm
 curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 sudo apt install symfony-cli
 ```
+macOS:
+```bash
+brew install symfony-cli/tap/symfony-cli
+```
 
 2. [Docker](https://docs.docker.com/get-docker/):
    Choose one option.
@@ -29,13 +33,30 @@ sudo apt install symfony-cli
 
 ```bash
 sudo apt install php-cli 
-sudo apt install php-mysql
+sudo apt in
 ```
+macOS:
+
+First you need Xcode Command ine tools:
+```bash
+xcode-select --install
+```
+
+```bash
+brew install php
+brew install mysql
+```
+
+
 
 4. Composer
 
 ```bash
 sudo apt install composer
+```
+macOS:
+```bash
+brew install composer
 ```
 
 5. NPM
@@ -45,43 +66,50 @@ sudo apt install composer
 sudo apt install npm
 ```
 
-3. Lift the containers
+6. Lift the containers
 
+in the folder where you downloaded symfonic-standalone run:
 ```bash
   docker compose up -d --force-recreate
 ```
 
-4. Start the Symfony server
+7. Start the Symfony server
 
 ```bash
   symfony server:ca:install
   symfony server:start -d
 ```
 
-5. Execute migrations
+8. Composer install
 
 ```bash
-  bin/console doctrine:migrations:migrate -n
+  composer install
 ```
 
-6. Install front-end dependencies
+9. Execute migrations
+
+```bash
+  php bin/console doctrine:migrations:migrate -n
+```
+
+10. Install front-end dependencies
 
 ```bash
   npm install
   npm run dev
 ```
 
-7. Create a test user. In this case, the user is “admin”, the email is “email@example.com” and the password is “admin”.
+11. Create a test user. In this case, the user is “admin”, the email is “email@example.com” and the password is “admin”.
 
 ```bash
-  bin/console sfs:user:create admin email@example.com admin
-  bin/console sfs:user:promote email@example.com 
+  php bin/console sfs:user:create admin email@example.com admin
+  php bin/console sfs:user:promote email@example.com 
 ```
 
-8. (Optional) If you want an example page, you have to load fixture:
+12. (Optional) If you want an example page, you have to load fixture:
 
 ```bash
-  bin/console doctrine:fixtures:load -n --append --group=test
+  php bin/console doctrine:fixtures:load -n --append --group=test
 ```
   
 ## Usage
