@@ -101,7 +101,9 @@ Open your browser and go to https://127.0.0.1:8000/app/en/login.
 
 3. If you have executed point 8 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
 ![example.png](.files/example.png)
+   You can see the page information and edit it in https://127.0.0.1:8000/admin/en/cms/pages/0194cfc9-bbfa-79e7-baf7-0a300514f3cf 
+![example-edit.png](.files/example-edit.png)
    If you publish it, you can see it at https://127.0.0.1:8000/en/home.
-![example_page.png](.files/example_page.png)
+![example-page.png](.files/example-page.png)
     
 
