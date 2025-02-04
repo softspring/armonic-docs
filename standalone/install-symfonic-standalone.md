@@ -1,5 +1,4 @@
-# Symfonic stansalone
-
+# Symfonic standalone
 
 ## Description
 
