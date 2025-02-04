@@ -1,14 +1,10 @@
 # Symfonic stansalone
 
-## Description
-[Symfonic Standalone](https://github.com/softspring/symfonic-standalone) is a great way to dive into the world of Symfonic. With a quick and easy setup, you can have a fully functional local development environment in minutes.
-
 
 ## Description
 
-Symfonic Standalone is a great way to dive into the world of [Symfonic](https://github.com/softspring/symfonic). With a
+[Symfonic Standalone](https://github.com/softspring/symfonic-standalone) is a great way to dive into the world of [Symfonic](https://github.com/softspring/symfonic). With a
 quick and easy setup, you can have a fully functional local development environment in minutes.
-fully functional in minutes.
 
 ## Installation
 
