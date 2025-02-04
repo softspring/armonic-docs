@@ -83,12 +83,10 @@ sudo apt install npm
   bin/console sfs:user:promote email@example.com 
 ```
 
-8. (Optional) If you want an example page, you have to execute the following command.  Then, you can view the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
-   If you publish it, you can see it at https://127.0.0.1:8000/en/home.
-   
+8. (Optional) If you want an example page, you have to load fixture:
 
 ```bash
-  bin/console example:command
+  bin/console doctrine:fixtures:load -n --append --group=test
 ```
   
 ## Usage
@@ -100,4 +98,10 @@ Open your browser and go to https://127.0.0.1:8000/app/en/login.
 
 2. You are done! You can now start working with Symfonic Standalone at https://127.0.0.1:8000/admin/en/.
 ![dashboard.png](.files/dashboard.png)
+
+3. If you have executed point 8 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
+![example.png](.files/example.png)
+   If you publish it, you can see it at https://127.0.0.1:8000/en/home.
+![example_page.png](.files/example_page.png)
+    
 
