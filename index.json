@@ -48,7 +48,9 @@
                     "file": "getting-started/install-existing-symfony-project.md"
                 },
                 {
-                    "text": "Use Symfonic standalone edition"
+                    "text": "Use Symfonic standalone edition",
+                    "slug": "use-symfonic-standalone-edition",
+                    "file": "standalone/install-symfonic-standalone.md"
                 },
                 {
                     "text": "Install in a Sylius project"

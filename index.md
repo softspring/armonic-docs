@@ -11,7 +11,7 @@
 - Installation
 - [Install in a new project](getting-started/install-new-symfony-project.md)
 - Install in an existing project
-- Use Symfonic standalone edition
+- [Use Symfonic standalone edition](standalone/install-symfonic-standalone.md)
 - Install in a Sylius project
 
 ## User manual
