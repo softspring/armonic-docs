@@ -189,7 +189,7 @@ $ bin/console sfs:user:create username user@example.com 123456
 $ bin/console sfs:user:promote user@example.com
 ```
 
-## 7.¡Done! {#enter-admin-area}
+## 7. Done! {#enter-admin-area}
 
 Now you can go to admin area and login with the user you just created:
 
