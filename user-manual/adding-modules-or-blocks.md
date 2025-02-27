@@ -1,10 +1,10 @@
 # Adding modules or blocks to a page
 
-Once you've successfully created a page in Symfonic CMS, you can add modules and blocks. These building blocks empower you to structure and present your content in a visually appealing and organized manner.
+Once you've successfully created a page in Armonic CMS, you can add modules and blocks. These building blocks empower you to structure and present your content in a visually appealing and organized manner.
 
 ## Accessing the content section of a page {#accessing-content-section}
 
-- Navigate to the Symfonic CMS administration panel.
+- Navigate to the Armonic CMS administration panel.
 
 - In the **left sidebar**, locate the **CMS/Pages** section.
 
