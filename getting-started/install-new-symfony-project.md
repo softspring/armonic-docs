@@ -1,4 +1,4 @@
-# Install Symfonic in a new Symfony project
+# Install Armonic in a new Symfony project
 
 >[!IMPORTANT]
 > This guide assumes you have Composer and Symfony CLI installed. 
@@ -6,7 +6,7 @@
 
 ## 1.Create a new symfony project {#create-new-symfony-project}
 
-Symfonic is a Symfony project, so first of all we need to create a new Symfony project. 
+Armonic is a Symfony project, so first of all we need to create a new Symfony project. 
 You can create a new Symfony project using the Symfony CLI or Composer as shown in the official <a href="https://symfony.com/doc/current/setup.html">Symfony documentation</a>. 
 
 Let's create a new Symfony project using the Symfony CLI:
@@ -35,7 +35,7 @@ $ symfony server:start -d
 
 ## 2.Configure database {#configure-database}
 
-Symfonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
+Armonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
 
 First of all, you need to modify the composer.yaml file provided by the new Symfony project.
 
@@ -94,9 +94,9 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 ###< doctrine/doctrine-bundle ###
 ```
 
-## 4.Install symfonic {#install-symfonic}
+## 4.Install armonic {#install-armonic}
 
-We will use Symfony Flex to install Symfonic in the new Symfony project. 
+We will use Symfony Flex to install Armonic in the new Symfony project. 
 
 >[!INFO]
 > By the moment, configure recipes manually
@@ -104,10 +104,10 @@ We will use Symfony Flex to install Symfonic in the new Symfony project.
 > $ composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
 > ```
 
-Install **symfonic** package with composer (say Yes or Yes for all packages to install the recipes):
+Install **armonic** package with composer (say Yes or Yes for all packages to install the recipes):
 
 ```bash
-$ composer require softspring/symfonic:^5.2
+$ composer require softspring/armonic:^5.2
 
  Do you want to execute this recipe?
     [y] Yes
@@ -117,7 +117,7 @@ $ composer require softspring/symfonic:^5.2
     (defaults to n): a
 ```
 
-This will currently install Symfonic 5.3, the latest version available.
+This will currently install Armonic 5.4, the latest version available.
 
 >[!INFO]
 > Also, you can configure the preferred install type for softspring packages as source:
@@ -131,9 +131,9 @@ After installing the package, you must run the Doctrine migrations to create the
 $ bin/console doctrine:migrations:migrate -n
 ```
 
-Now you can see the start page of the Symfonic project:
+Now you can see the start page of the Armonic project:
 
-![welcome-to-symfonic.png](.files/welcome-to-symfonic.png){.img-fluid}
+![welcome-to-armonic.png](.files/welcome-to-armonic.png){.img-fluid}
 
 ## 5.Configure security {#configure-security}
 
@@ -199,4 +199,4 @@ You can try with the pages list in the CMS:
 
 `/admin/cms/pages/`
 
-![symfonic-create-page.png](.files/symfonic-create-page.png){.img-fluid}
+![armonic-create-page.png](.files/armonic-create-page.png){.img-fluid}
