@@ -2,12 +2,12 @@
     "index": "index.md",
     "structure": [
         {
-            "text": "Symfonic",
+            "text": "Armonic",
             "children": [
                 {
-                    "text": "What is Symfonic?",
-                    "slug": "what-is-symfonic",
-                    "file": "introduction/what-is-symfonic.md"
+                    "text": "What is Armonic?",
+                    "slug": "what-is-armonic",
+                    "file": "introduction/what-is-armonic.md"
                 },
                 {
                     "text": "Is it for me?",
@@ -15,9 +15,9 @@
                     "file": "introduction/is-it-for-me.md"
                 },
                 {
-                    "text": "Symfonic flavours",
-                    "slug": "symfonic-flavours",
-                    "file": "introduction/symfonic-flavours.md"
+                    "text": "Armonic flavours",
+                    "slug": "armonic-flavours",
+                    "file": "introduction/armonic-flavours.md"
                 },
                 {
                     "text": "Features",
@@ -48,9 +48,9 @@
                     "file": "getting-started/install-existing-symfony-project.md"
                 },
                 {
-                    "text": "Use Symfonic standalone edition",
-                    "slug": "use-symfonic-standalone-edition",
-                    "file": "standalone/install-symfonic-standalone.md"
+                    "text": "Use Armonic standalone edition",
+                    "slug": "use-armonic-standalone-edition",
+                    "file": "standalone/install-armonic-standalone.md"
                 },
                 {
                     "text": "Install in a Sylius project"

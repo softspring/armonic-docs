@@ -1,6 +1,6 @@
 # Requirements
 
-You can add Symfonic to your existing Symfony project following 
+You can add Armonic to your existing Symfony project following 
 the guide we provide in the [install in existing Symfony Project](install-existing-symfony-project.md).
 
 For a new project and to follow the guide in [install new Symfony Project](install-new-symfony-project.md), you will need:

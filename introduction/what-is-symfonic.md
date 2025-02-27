@@ -1,8 +1,8 @@
-# What is Symfonic?
+# What is Armonic?
 
-Symfonic is a powerful content management system (CMS) thanks to which you can create and manage static pages of your website from a single place, simplifying the work process, and also the life of the developers.
+Armonic is a powerful content management system (CMS) thanks to which you can create and manage static pages of your website from a single place, simplifying the work process, and also the life of the developers.
 
-Symfonic is our made at home CMS solution that we have designed to integrate with Symfony, the well-known PHP framework (and also our favorite).
+Armonic is our made at home CMS solution that we have designed to integrate with Symfony, the well-known PHP framework (and also our favorite).
 
 ## Why another CMS? {#why-another-cms}
 
@@ -20,25 +20,25 @@ Symfony is fast, secure, and easy to use, and allows you to build complex projec
 
 It's a long term solution, they have been working on it for more than 10 years with an excellent support, has a large community, and is used by many big companies to build their projects.
 
-## Why Symfonic? {#why-symfonic}
+## Why Armonic? {#why-armonic}
 
-Symfonic was developed in response to the need for a CMS system that would **simplify the creation of static pages and landings**.
+Armonic was developed in response to the need for a CMS system that would **simplify the creation of static pages and landings**.
 
 **Simplified management**  
-With Symfonic, the marketing team can update content without constantly relying on the technical team. This integration saves time and effort, enabling agile and straightforward changes.
+With Armonic, the marketing team can update content without constantly relying on the technical team. This integration saves time and effort, enabling agile and straightforward changes.
 
 **Total flexibility**  
-Symfonic adapts to your needs: it handles multiple languages, manages multiple sites from a single platform and customizes templates according to the requirements of each project.
+Armonic adapts to your needs: it handles multiple languages, manages multiple sites from a single platform and customizes templates according to the requirements of each project.
 
 **Everything in the same place**  
-The full integration of Symfonic within Symfony facilitates content management without additional complications or external CMS (Headless type), which generates a more cohesive and efficient project.
+The full integration of Armonic within Symfony facilitates content management without additional complications or external CMS (Headless type), which generates a more cohesive and efficient project.
 
 **Advanced customization**  
-With Symfonic you can develop your own modules and blocks, ensuring that every aspect of the CMS fits perfectly to the specifications of your project.
+With Armonic you can develop your own modules and blocks, ensuring that every aspect of the CMS fits perfectly to the specifications of your project.
 
-You will love Symfonic because it's **easy to use**, it's **fast**, it's **secure**, and it's **powerful**.
+You will love Armonic because it's **easy to use**, it's **fast**, it's **secure**, and it's **powerful**.
 
-These are some of the features that make Symfonic the best choice for your project:
+These are some of the features that make Armonic the best choice for your project:
 
 - It's **easy to use**, you can build a website in a few minutes.
 - It's **fast**, it's based on Symfony, and it's optimized for performance.

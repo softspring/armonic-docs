@@ -1,8 +1,8 @@
-# Symfonic standalone
+# Armonic standalone
 
 ## Description
 
-[Symfonic Standalone](https://github.com/softspring/symfonic-standalone) is a great way to dive into the world of [Symfonic](https://github.com/softspring/symfonic). With a
+[Armonic Standalone](https://github.com/softspring/armonic-standalone) is a great way to dive into the world of [Armonic](https://github.com/softspring/armonic). With a
 quick and easy setup, you can have a fully functional local development environment in minutes.
 
 ## Installation
@@ -10,7 +10,7 @@ quick and easy setup, you can have a fully functional local development environm
 **1. Clone this repository:**
 
 ```bash
-    git clone https://github.com/softspring/symfonic-standalone
+    git clone https://github.com/softspring/armonic-standalone
 ```
 
 **2. Install dependencies**
@@ -68,7 +68,7 @@ sudo apt install npm
 
 6. Lift the containers
 
-in the folder where you downloaded symfonic-standalone run:
+in the folder where you downloaded armonic-standalone run:
 ```bash
   docker compose up -d --force-recreate
 ```
@@ -119,7 +119,7 @@ Open your browser and go to https://127.0.0.1:8000/app/en/login.
 1. Log in with the email and password you created in the previous step.
 ![login.png](.files/login.png)
 
-2. You are done! You can now start working with Symfonic Standalone at https://127.0.0.1:8000/admin/en/.
+2. You are done! You can now start working with Armonic Standalone at https://127.0.0.1:8000/admin/en/.
 ![dashboard.png](.files/dashboard.png)
 
 3. If you have executed point 8 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
