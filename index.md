@@ -2,7 +2,7 @@
 
 - [What is Symfonic?](introduction/what-is-symfonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
-- [Symfonic flavours](introduction/symfonic-flavours.md)
+- [Symfonic flavours](introduction/armonic-flavours)
 - [Features](introduction/features.md)
 
 ## Getting started
@@ -11,7 +11,7 @@
 - Installation
 - [Install in a new project](getting-started/install-new-symfony-project.md)
 - Install in an existing project
-- [Use Symfonic standalone edition](standalone/install-symfonic-standalone.md)
+- [Use Symfonic standalone edition](standalone/install-armonic-standalone)
 - Install in a Sylius project
 
 ## User manual
