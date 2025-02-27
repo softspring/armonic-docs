@@ -59,8 +59,7 @@ You can translate inline, or translate from the translation management page. You
 
 ## SEO ready and friendly {#seo-ready-and-friendly}
 
-Should we say this in 2025? It should be a must, right? Armonic is SEO ready and friendly, you can edit all the meta tags, title, description, etc from 
-an specific SEO tab in the page editor.
+Should we say this in 2025? It should be a must, right? Armonic is SEO ready and friendly, you can edit all the meta tags, title, description, etc from an specific SEO tab in the page editor.
 
 ## AI ready {#ai-ready}
 
