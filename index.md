@@ -2,7 +2,7 @@
 
 - [What is Armonic?](introduction/what-is-armonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
-- [Armonic flavours](introduction/armonic-flavours)
+- [Armonic flavours](introduction/armonic-flavours.md)
 - [Features](introduction/features.md)
 
 ## Getting started
@@ -11,7 +11,7 @@
 - Installation
 - [Install in a new project](getting-started/install-new-symfony-project.md)
 - [Install in an existing project](getting-started/install-existing-symfony-project.md)
-- [Use Armonic standalone edition](standalone/install-armonic-standalone)
+- [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
 - Install in a Sylius project
 
 ## User manual
