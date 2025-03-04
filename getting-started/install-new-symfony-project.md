@@ -35,6 +35,11 @@ $ symfony server:start -d
 
 ## 2.Configure database {#configure-database}
 
+>[!INFO]
+> We use Docker for all our development, as it is the easiest way to manage different projects, services, and dependencies.
+> Here we use Docker to have a container with the Database, but you could have MySQL installed on your computer as well.
+> If you don't have Docker installed [Requirements](requirements.md) section.
+
 Armonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
 
 First of all, you need to modify the composer.yaml file provided by the new Symfony project.

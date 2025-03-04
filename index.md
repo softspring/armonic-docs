@@ -7,10 +7,10 @@
 
 ## Getting started
 
-- Requirements
+- [Requirements](getting-started/requirements.md)
 - Installation
 - [Install in a new project](getting-started/install-new-symfony-project.md)
-- Install in an existing project
+- [Install in an existing project](getting-started/install-existing-symfony-project.md)
 - [Use Armonic standalone edition](standalone/install-armonic-standalone)
 - Install in a Sylius project
 
