@@ -1,6 +1,6 @@
 # Armonic
 
-<video><source src=".files/armonic.webm" type="video/webm" /></video>
+<video><source src=".files/armonic.mp4" type="video/mp4" /></video>
 
 - [What is Armonic?](introduction/what-is-armonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
