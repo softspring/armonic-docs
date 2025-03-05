@@ -1,6 +1,8 @@
 # Armonic
 
-![](.files/armonic.mp4)
+
+https://github.com/user-attachments/assets/d8ad135f-2296-4085-a18e-b188ea841aae
+
 
 - [What is Armonic?](introduction/what-is-armonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
