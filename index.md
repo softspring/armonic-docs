@@ -1,7 +1,7 @@
 # Armonic
 
 
-<video> <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm"/> </video>
+<video autoplay muted> <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm" type="video/webm"/> </video>
 
 
 - [What is Armonic?](introduction/what-is-armonic.md)
