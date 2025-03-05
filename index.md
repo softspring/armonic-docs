@@ -1,8 +1,8 @@
 # Armonic
 
-
-<video autoplay muted> <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm" type="video/webm"/> </video>
-
+<video autoplay muted> 
+  <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm" type="video/webm"/> 
+</video>
 
 - [What is Armonic?](introduction/what-is-armonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
@@ -13,10 +13,10 @@
 
 - [Requirements](getting-started/requirements.md)
 - Installation
-- [Install in a new project](getting-started/install-new-symfony-project.md)
-- [Install in an existing project](getting-started/install-existing-symfony-project.md)
-- [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
-- Install in a Sylius project
+  - [Install in a new project](getting-started/install-new-symfony-project.md)
+  - [Install in an existing project](getting-started/install-existing-symfony-project.md)
+  - [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
+  - Install in a Sylius project
 
 ## User manual
 
