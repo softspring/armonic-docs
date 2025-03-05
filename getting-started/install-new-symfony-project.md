@@ -103,7 +103,7 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 
 We will use Symfony Flex to install Armonic in the new Symfony project. 
 
->[!INFO]
+>[!NOTE]
 > By the moment, configure recipes manually
 > ```bash
 > $ composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
@@ -124,7 +124,7 @@ $ composer require softspring/armonic:^5.2
 
 This will currently install Armonic 5.4, the latest version available.
 
->[!INFO]
+>[!NOTE]
 > Also, you can configure the preferred install type for softspring packages as source:
 > ```bash
 > $ composer config 'preferred-install.softspring/*' source
@@ -165,7 +165,7 @@ Do you want to execute this recipe?
     (defaults to n): y
 ```
 
->[!INFO]
+>[!NOTE]
 > Also you can do it manually, see the [installation instructions](../bundles/user-bundle/install.md).
 
 Then a new User entity has been created, and routes to login, register, and reset password have been added.
