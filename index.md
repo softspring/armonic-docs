@@ -1,5 +1,7 @@
 # Armonic
 
+[!(Armonic Video)](.files/armonic.webm)
+
 - [What is Armonic?](introduction/what-is-armonic.md)
 - [Is it for me?](introduction/is-it-for-me.md)
 - [Armonic flavours](introduction/armonic-flavours.md)
