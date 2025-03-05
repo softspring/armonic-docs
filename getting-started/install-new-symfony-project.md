@@ -176,6 +176,11 @@ Run the following commands to configure the security and routes:
 
 ```bash
 $ mv config/packages/security.yaml.dist config/packages/security.yaml
+```
+
+For older versions of Armonic you might also need to do:
+
+```bash
 $ cat config/routes.yaml.dist >> config/routes.yaml
 $ rm config/routes.yaml.dist 
 ```
