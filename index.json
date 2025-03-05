@@ -35,25 +35,27 @@
                     "file": "getting-started/requirements.md"
                 },
                 {
-                    "text": "Installation"
-                },
-                {
-                    "text": "Install new Symfony project",
-                    "slug": "install-new-symfony-project",
-                    "file": "getting-started/install-new-symfony-project.md"
-                },
-                {
-                    "text": "Install existing Symfony project",
-                    "slug": "install-existing-symfony-project",
-                    "file": "getting-started/install-existing-symfony-project.md"
-                },
-                {
-                    "text": "Use Armonic standalone edition",
-                    "slug": "use-armonic-standalone-edition",
-                    "file": "standalone/install-armonic-standalone.md"
-                },
-                {
-                    "text": "Install in a Sylius project"
+                    "text": "Installation",
+                    "children": [
+                        {
+                            "text": "Install new Symfony project",
+                            "slug": "install-new-symfony-project",
+                            "file": "getting-started/install-new-symfony-project.md"
+                        },
+                        {
+                            "text": "Install existing Symfony project",
+                            "slug": "install-existing-symfony-project",
+                            "file": "getting-started/install-existing-symfony-project.md"
+                        },
+                        {
+                            "text": "Use Armonic standalone edition",
+                            "slug": "use-armonic-standalone-edition",
+                            "file": "standalone/install-armonic-standalone.md"
+                        },
+                        {
+                            "text": "Install in a Sylius project"
+                        }
+                    ]
                 }
             ]
         },
