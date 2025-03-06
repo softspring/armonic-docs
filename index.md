@@ -1,6 +1,6 @@
 # Armonic
 
-<video autoplay muted> 
+<video autoplay muted loop> 
   <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm" type="video/webm"/> 
 </video>
 
