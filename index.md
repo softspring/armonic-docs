@@ -30,8 +30,8 @@
 
 ## CMS Configuration
 
-- [Configure sites](cms-configuration/configure-sites.md)
-- [Configure content types](cms-configuration/configure-content-types.md)
+- [Configure sites](configuration/configure-sites.md)
+- [Configure content types](configuration/configure-content-types.md)
 - Configure layout
 - Configure modules
 - Configure medias
