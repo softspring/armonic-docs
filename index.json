@@ -92,11 +92,11 @@
             "children": [
                 { "text": "Configure sites" ,
                   "slug": "configure-sites",
-                  "file": "configure/configure-sites.md"
+                  "file": "configuration/configure-sites.md"
                 },
                 { "text": "Configure Content Types",
                   "slug": "configure-content-types",
-                  "file": "configure/configure-content-types.md"
+                  "file": "configuration/configure-content-types.md"
                 },
                 { "text": "Configure layouts" },
                 { "text": "Configure modules" },
