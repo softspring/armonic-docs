@@ -39,7 +39,7 @@
   - Routes
   - 
 
-## Configure
+## CMS Configuration
 
 1. Configure sites
 2. Configure layout
