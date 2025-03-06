@@ -5,7 +5,7 @@ A Symfony > 5.4 project is required to use this bundle, with a Doctrine database
 ## Installation {#installation}
 
 ```bash
-$ composer require softspring/user-bundle:^5.2
+$ composer require softspring\user-bundle:^5.4
 ```
 
 ## Configuration {#configuration}
