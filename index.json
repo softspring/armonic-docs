@@ -90,7 +90,14 @@
         {
             "text": "Configure",
             "children": [
-                { "text": "Configure sites" },
+                { "text": "Configure sites" ,
+                  "slug": "configure-sites",
+                  "file": "configure/configure-sites.md"
+                },
+                { "text": "Configure Content Types",
+                  "slug": "configure-content-types",
+                  "file": "configure/configure-content-types.md"
+                },
                 { "text": "Configure layouts" },
                 { "text": "Configure modules" },
                 { "text": "Configure medias" },

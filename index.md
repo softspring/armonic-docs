@@ -28,6 +28,16 @@
 - [Create a new media](user-manual/create-a-new-media.md)
 - Configure routes
 
+## CMS Configuration
+
+- [Configure sites](cms-configuration/configure-sites.md)
+- [Configure content types](cms-configuration/configure-content-types.md)
+- Configure layout
+- Configure modules
+- Configure medias
+- Configure blocks
+- Configure menus
+
 ## Configuration
 
 - Database migration
@@ -38,15 +48,6 @@
 - Admin Settings
   - Routes
   - 
-
-## CMS Configuration
-
-1. Configure sites
-2. Configure layout
-3. Configure modules
-4. Configure medias
-5. Configure blocks
-6. Configure menus
 
 ## Architecture
 
