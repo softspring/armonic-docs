@@ -16,12 +16,12 @@
 - id
 - layout
 - mediaAlt
-- [mediaModal](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/form-types/media-modal.md)
-- [media](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/form-types/media.md)
+- [mediaModal](modules/media-modal.md)
+- [media](modules/media.md)
 - route
-- [symfonyRoute](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/form-types/symfony-route.md)
+- [symfonyRoute](modules/symfony-route.md)
 - tinymce
-- [translatable](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/form-types/translatable.md)
+- [translatable](modules/translatable.md)
 - *user*
 
 ### Basic symfony types
