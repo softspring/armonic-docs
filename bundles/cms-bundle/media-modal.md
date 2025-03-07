@@ -7,7 +7,7 @@ This **mediaModal** type makes reference to *Softspring\CmsBundle\Form\Type\Medi
 
 > *The "mediaModal" type replaces the deprecated "imageModal" type, but it works exactly the same. It has been replaced because of semantic reasons.*
 
-It's similiar to [media](media.md) type, but this *mediaModal* type has more features explained bellow.
+It's similiar to [media](modules/media.md) type, but this *mediaModal* type has more features explained bellow.
 
 ## Example usage
 
@@ -28,19 +28,19 @@ module:
                             image: 'sm'
 ```
 
-This requires some *softspring/media-bundle* configuration (see [media form type](media.md) for more info).
+This requires some *softspring/media-bundle* configuration (see [media form type](modules/media.md) for more info).
 
 ## Preview values
 
-Preview values works the same as [media form type](media.md).
+Preview values works the same as [media form type](modules/media.md).
 
 ## Field rendering
 
-Field rendering works the same as [media form type](media.md).
+Field rendering works the same as [media form type](modules/media.md).
 
 ## Media attributes
 
-Media attributes works the same as [media form type](media.md).
+Media attributes works the same as [media form type](modules/media.md).
 
 ## Thumbnails
 
@@ -63,5 +63,5 @@ module:
 
 ## Field options
 
-Same options as [media form type](media.md).
+Same options as [media form type](modules/media.md).
 
