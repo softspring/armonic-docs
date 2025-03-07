@@ -186,7 +186,7 @@ module:
 This will render this tag:
 
 ```html
-<video autoplay="" loop="" muted="" playsinline="" controls="" src="..."></video>
+<video autoplay="" loop="" muted="" playsinline="" controls="" src=""></video>
 ```
 
 ## Field Options

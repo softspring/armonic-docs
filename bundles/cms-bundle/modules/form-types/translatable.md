@@ -29,7 +29,7 @@ The values are stored as a json object with locale as key:
     "description": {
         "en": "Product",
         "es": "Producto",
-        "de": "Produkt",
+        "de": "Produkt"
     }
 }
 ```
