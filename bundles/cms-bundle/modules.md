@@ -16,12 +16,12 @@
 - id
 - layout
 - mediaAlt
-- [mediaModal](modules/form-types/media-modal.md)
-- [media](modules/form-types/media.md)
+- [mediaModal](./modules/form-types/media-modal.md)
+- [media](./modules/form-types/media.md)
 - route
-- [symfonyRoute](modules/form-types/symfony-route.md)
+- [symfonyRoute](./modules/form-types/symfony-route.md)
 - tinymce
-- [translatable](modules/form-types/translatable.md)
+- [translatable](./modules/form-types/translatable.md)
 - *user*
 
 ### Basic symfony types
