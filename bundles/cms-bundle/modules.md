@@ -16,7 +16,7 @@
 - id
 - layout
 - mediaAlt
-- [mediaModal](modules/media-modal.md)
+- [mediaModal](media-modal.md)
 - [media](modules/media.md)
 - route
 - [symfonyRoute](modules/symfony-route.md)
