@@ -121,7 +121,7 @@
             "text": "Bundles",
             "children": [
                 {
-                    "text": "",
+                    "text": "Account bundle",
                     "children": [
                         {
                             "text": "Install",
@@ -139,8 +139,8 @@
                         },
                         {
                             "text": "Admin Accounts",
-                            "slug": "bundles/account-bundle/account-bundle",
-                            "file": "bundles/account-bundle/account-bundle.md"
+                            "slug": "bundles/account-bundle/admin-accounts",
+                            "file": "bundles/account-bundle/admin-accounts.md"
                         },
                         {
                             "text": "Account bundle"
@@ -225,7 +225,7 @@
                         {
                             "text": "Concepts",
                             "slug": "bundles/media-bundle/concepts",
-                            "file": "bundles/media-bundle/concepts.md",
+                            "file": "bundles/media-bundle/concepts.md"
                         },
                         {
                             "text": "Configure media types",
