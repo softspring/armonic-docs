@@ -117,16 +117,19 @@ in the folder where you downloaded armonic-standalone run:
 Open your browser and go to https://127.0.0.1:8000/app/en/login.
 
 1. Log in with the email and password you created in the previous step.
-![login.png](.files/login.png)
+<img src=".files/login.png" alt="login" class="img-fluid" />
 
 2. You are done! You can now start working with Armonic Standalone at https://127.0.0.1:8000/admin/en/.
-![dashboard.png](.files/dashboard.png)
+<img src=".files/dashboard.png" alt="dashboard" class="img-fluid" />
 
 3. If you have executed point 8 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
-![example.png](.files/example.png)
-   You can see the page information and edit it in https://127.0.0.1:8000/admin/en/cms/pages/0194cfc9-bbfa-79e7-baf7-0a300514f3cf 
-![example-edit.png](.files/example-edit.png)
+<img src=".files/example.png" alt="example.png" class="img-fluid" />
+
+   You can see the page information and edit it in https://127.0.0.1:8000/admin/en/cms/pages/0194cfc9-bbfa-79e7-baf7-0a300514f3cf
+<img src=".files/example-edit.png" alt="example-edit.png" class="img-fluid" />
+
    If you publish it, you can see it at https://127.0.0.1:8000/en/home.
-![example-page.png](.files/example-page.png)
+<img src=".files/example-page.png" alt="example-page.png" class="img-fluid" />
+
     
 
