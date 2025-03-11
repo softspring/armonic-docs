@@ -35,25 +35,27 @@
                     "file": "getting-started/requirements.md"
                 },
                 {
-                    "text": "Installation"
-                },
-                {
-                    "text": "Install new Symfony project",
-                    "slug": "install-new-symfony-project",
-                    "file": "getting-started/install-new-symfony-project.md"
-                },
-                {
-                    "text": "Install existing Symfony project",
-                    "slug": "install-existing-symfony-project",
-                    "file": "getting-started/install-existing-symfony-project.md"
-                },
-                {
-                    "text": "Use Armonic standalone edition",
-                    "slug": "use-armonic-standalone-edition",
-                    "file": "standalone/install-armonic-standalone.md"
-                },
-                {
-                    "text": "Install in a Sylius project"
+                    "text": "Installation",
+                    "children": [
+                        {
+                            "text": "Install new Symfony project",
+                            "slug": "install-new-symfony-project",
+                            "file": "getting-started/install-new-symfony-project.md"
+                        },
+                        {
+                            "text": "Install existing Symfony project",
+                            "slug": "install-existing-symfony-project",
+                            "file": "getting-started/install-existing-symfony-project.md"
+                        },
+                        {
+                            "text": "Use Armonic standalone edition",
+                            "slug": "use-armonic-standalone-edition",
+                            "file": "standalone/install-armonic-standalone.md"
+                        },
+                        {
+                            "text": "Install in a Sylius project"
+                        }
+                    ]
                 }
             ]
         },
@@ -88,7 +90,14 @@
         {
             "text": "Configure",
             "children": [
-                { "text": "Configure sites" },
+                { "text": "Configure sites" ,
+                  "slug": "configure-sites",
+                  "file": "configuration/configure-sites.md"
+                },
+                { "text": "Configure content types",
+                  "slug": "configure-content-types",
+                  "file": "configuration/configure-content-types.md"
+                },
                 { "text": "Configure layouts" },
                 { "text": "Configure modules" },
                 { "text": "Configure medias" },
@@ -111,10 +120,140 @@
         {
             "text": "Bundles",
             "children": [
-                { "text": "Account bundle" },
+                {
+                    "text": "Account bundle",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "bundles/account-bundle/install",
+                            "file": "bundles/account-bundle/install.md"
+                        },
+                        {
+                            "text": "Configure model"
+                        },
+                        {
+                            "text": "Register"
+                        },
+                        {
+                            "text": "Account settings"
+                        },
+                        {
+                            "text": "Admin Accounts",
+                            "slug": "bundles/account-bundle/admin-accounts",
+                            "file": "bundles/account-bundle/admin-accounts.md"
+                        },
+                        {
+                            "text": "Account bundle"
+                        }
+                    ]
+                },
                 { "text": "Crudl bundle" },
-                { "text": "Cms bundle" },
-                { "text": "Media bundle" },
+                {
+                    "text": "Cms bundle",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "bundles/cms-bundle/install",
+                            "file": "bundles/cms-bundle/install.md"
+                        },
+                        {
+                            "text": "Getting started",
+                            "slug": "bundles/cms-bundle/getting-started",
+                            "file": "bundles/cms-bundle/getting-started.md"
+                        },
+                        {
+                            "text": "Concepts",
+                            "slug": "bundles/cms-bundle/concepts",
+                            "file": "bundles/cms-bundle/concepts.md"
+                        },
+                        {
+                            "text": "Configuration",
+                            "slug": "bundles/cms-bundle/configuration",
+                            "file": "bundles/cms-bundle/configuration.md"
+                        },
+                        {
+                            "text": "Sites",
+                            "slug": "bundles/cms-bundle/sites",
+                            "file": "bundles/cms-bundle/sites.md"
+                        },
+                        {
+                            "text": "Layouts"
+                        },
+                        {
+                            "text": "Modules",
+                            "slug": "bundles/cms-bundle/modules",
+                            "file": "bundles/cms-bundle/modules.md"
+                        },
+                        {
+                            "text": "Menus"
+                        },
+                        {
+                            "text": "Blocks"
+                        },
+                        {
+                            "text": "Dynamic forms"
+                        },
+                        {
+                            "text": "Using medias"
+                        },
+                        {
+                            "text": "Caching"
+                        },
+                        {
+                            "text": "Logging"
+                        },
+                        {
+                            "text": "Extend with collections",
+                            "slug": "bundles/cms-bundle/collections",
+                            "file": "bundles/cms-bundle/collections.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Media bundle",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "bundles/media-bundle/install",
+                            "file": "bundles/media-bundle/install.md"
+                        },
+                        {
+                            "text": "Getting started",
+                            "slug": "bundles/media-bundle/getting-started",
+                            "file": "bundles/media-bundle/getting-started.md"
+                        },
+                        {
+                            "text": "Concepts",
+                            "slug": "bundles/media-bundle/concepts",
+                            "file": "bundles/media-bundle/concepts.md"
+                        },
+                        {
+                            "text": "Configure media types",
+                            "slug": "bundles/media-bundle/media-types",
+                            "file": "bundles/media-bundle/media-types.md"
+                        },
+                        {
+                            "text": "Using medias"
+                        },
+                        {
+                            "text": "Admin medias"
+                        },
+                        {
+                            "text": "Integrations"
+                        },
+                        {
+                            "text": "Storage options",
+                            "slug": "bundles/media-bundle/storage-options",
+                            "file": "bundles/media-bundle/storage-options.md"
+                        },
+                        {
+                            "text": "Name generators"
+                        },
+                        {
+                            "text": "Extending bundle"
+                        }
+                    ]
+                },
                 {
                     "text": "User bundle",
                     "children": [
@@ -122,6 +261,41 @@
                             "text": "Install",
                             "slug": "bundles/user-bundle/install",
                             "file": "bundles/user-bundle/install.md"
+                        },
+                        {
+                            "text": "Configure model"
+                        },
+                        {
+                            "text": "Security"
+                        },
+                        {
+                            "text": "Register"
+                        },
+                        {
+                            "text": "Confirmation"
+                        },
+                        {
+                            "text": "User settings"
+                        },
+                        {
+                            "text": "Admin users"
+                        },
+                        {
+                            "text": "Admin administrators"
+                        },
+                        {
+                            "text": "Invitations"
+                        },
+                        {
+                            "text": "Access history"
+                        },
+                        {
+                            "text": "Commands"
+                        },
+                        {
+                            "text": "OAuth",
+                            "slug": "bundles/user-bundle/oauth",
+                            "file": "bundles/user-bundle/oauth.md"
                         }
                     ]
                 }
@@ -130,8 +304,42 @@
         {
             "text": "Components",
             "children": [
-                { "text": "Components" },
-                { "text": "Dynamic form type" }
+                {
+                    "text": "Components",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "components/components/install",
+                            "file": "components/components/install.md"
+                        },
+                        {
+                            "text": "Concepts",
+                            "slug": "components/components/concepts",
+                            "file": "components/components/concepts.md"
+                        },
+                        {
+                            "text": "Base template",
+                            "slug": "components/components/base-template",
+                            "file": "components/components/base-template.md"
+                        },
+                        {
+                            "text": "Layouts"
+                        },
+                        {
+                            "text": "Components"
+                        }
+                    ]
+                },
+                {
+                    "text": "Dynamic form type",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "components/dynamic-form-type/install",
+                            "file": "components/dynamic-form-type/install.md"
+                        }
+                    ]
+                }
             ]
         }
     ]
