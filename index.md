@@ -63,7 +63,7 @@
 
 ### user-bundle
 
-- [Install](bundles/user-bundle/install.md)
+- [Install](bundles/user-bundle/install.md){.img-fluid}
 
 ## Components
 
