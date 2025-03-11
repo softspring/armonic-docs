@@ -6,11 +6,19 @@ This user manual will guide you step by step through the process of creating a n
 
 Navigate to the Armonic CMS administration panel.
 In the **left sidebar**, locate the **CMS/Pages** section.
+
+![armonic-pages-section.png](.files/armonic-pages-section.png){.img-fluid}
+
 Find the **New Page button** located in the top right corner of the Pages section.
+
+![armonic-new-page-button.png](.files/armonic-new-page-button.png){.img-fluid}
 
 ## Filling Basic Information {#filling-basic-information}
 
 Once you click on New page, a form will appear to define the page details. You need to fill in the following information:
+
+>[!TIP]
+> All of these fields can be changed afterwards in the page edition.
 
 - **Name**: Enter the name that will be displayed internally to identify the page.
 - **Sites**: Select the site(s) where the page will be available.
