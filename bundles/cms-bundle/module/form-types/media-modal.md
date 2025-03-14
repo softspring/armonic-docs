@@ -14,7 +14,7 @@ It's similiar to [media](media.md) type, but this *mediaModal* type has more fea
 When you are modeling a CMS module, you can use this *mediaModal* field as follows:
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     module_options:
         form_fields:
@@ -47,7 +47,7 @@ Media attributes works the same as [media form type](media.md).
 This *mediaModal* type also allows to show a thumbnail of selected image:
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     module_options:
         form_fields:
