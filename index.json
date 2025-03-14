@@ -182,7 +182,29 @@
                         {
                             "text": "Modules",
                             "slug": "bundles/cms-bundle/modules",
-                            "file": "bundles/cms-bundle/modules.md"
+                            "file": "bundles/cms-bundle/modules.md",
+                            "children" : [
+                                {
+                                    "text": "Module Form Type Media",
+                                    "slug": "bundles/cms-bundle/modules/media",
+                                    "file": "bundles/cms-bundle/module/form-type/media.md"
+                                },
+                                {
+                                    "text": "Module Form Type Media Modal",
+                                    "slug": "bundles/cms-bundle/modules/media-modal",
+                                    "file": "bundles/cms-bundle/module/form-type/media-modal.md"
+                                },
+                                {
+                                    "text": "Module Form Type Symfony Route",
+                                    "slug": "bundles/cms-bundle/modules/symfony-route",
+                                    "file": "bundles/cms-bundle/module/form-type/symfony-route.md"
+                                },
+                                {
+                                    "text": "Module Form Type Translatable",
+                                    "slug": "bundles/cms-bundle/modules/translatable",
+                                    "file": "bundles/cms-bundle/module/form-type/translatable.md"
+                                }
+                            ]
                         },
                         {
                             "text": "Menus"

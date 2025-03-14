@@ -19,9 +19,9 @@
 - [mediaModal](./bundles/cms-bundle/module/form-types/media-modal.md)
 - [media](./module/form-types/media.md)
 - route
-- [symfonyRoute](https://symfony.com/doc/current/reference/forms/types/text.html)
+- [symfonyRoute](module/form-types/symfony-route.md)
 - tinymce
-- [translatable](/bundles/cms-bundle/module/form-types/media-modal.md)
+- [translatable](/bundles/cms-bundle/module/form-types/translatable.md)
 - user
 
 ### Basic symfony types
