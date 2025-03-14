@@ -12,7 +12,7 @@ This **media** type makes reference to *Softspring\CmsBundle\Form\Type\MediaType
 When you are modeling a CMS module, you can use this media field as follows:
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     module_options:
         form_fields:
@@ -45,7 +45,7 @@ sfs_media:
 To use the media preview feature, you must include a preview identificator in a **data-media-preview-input** attribute: 
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     edit_template: '@module/example/edit.html.twig'
     module_options:
@@ -118,7 +118,7 @@ The *media_attr* is appened to the other specific *\*_attr* options, so is a sha
 The config file would be as follows:
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     module_options:
         form_fields:
@@ -168,7 +168,7 @@ Usually, you will want to configure *\<video\>* tag attributes such as *autoplay
 This is a common configuration for those attributes:
 
 ```yaml
-# cms/modules/example/config.yaml
+# cms/module/example/config.yaml
 module:
     module_options:
         form_fields:
