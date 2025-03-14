@@ -67,6 +67,11 @@
 - [Sites](bundles/cms-bundle/sites.md)
 - Layouts
 - [Modules](bundles/cms-bundle/modules.md)
+  - CMS Form types
+    - [Media](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/media)
+    - [MediaModal](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/media-modal)
+    - [Symfony Route](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/symfony-route)
+    - [Translatable](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/translatable)
 - Menus
 - Blocks
 - Dynamic forms
