@@ -62,7 +62,7 @@ For each container, you can specify:
 The twig layout files can be as complex as you like, but in general you will be adding some seo information in the header
 and then rendering the containers in the body of the page, like this:
 
-```twig'
+```
 {% extends '@SfsComponents/base.html.twig' %}
 {% block stylesheets %}
     {{ encore_entry_link_tags('sfs24') }}
@@ -83,11 +83,12 @@ and then rendering the containers in the body of the page, like this:
 ...
 {% endblock seo %}
 ```
+
 This is a simplified version of one of our layouts, but includes some containers as extra_headers, stylesheets, and SEO metadata.
 
 Then, in the body of the page, you can render the containers like this:
 
-```twig
+```
 {% block body %}
 
     {% include 'partials/sfs24-header.html.twig' %}
@@ -100,6 +101,7 @@ Then, in the body of the page, you can render the containers like this:
 
 {% endblock body %}
 ```
+
 Here we include templates for the header and footer, and then we render the `main` container in the body of the page.
 
 
