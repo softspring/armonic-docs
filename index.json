@@ -98,7 +98,10 @@
                   "slug": "configure-content-types",
                   "file": "configuration/configure-content-types.md"
                 },
-                { "text": "Configure layouts" },
+                { "text": "Configure layouts" ,
+                    "slug": "configure-layouts",
+                    "file": "configuration/configure-layouts.md"
+                },
                 { "text": "Configure modules" },
                 { "text": "Configure medias" },
                 { "text": "Configure blocks" },

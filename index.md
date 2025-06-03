@@ -32,7 +32,7 @@
 
 - [Configure sites](configuration/configure-sites.md)
 - [Configure content types](configuration/configure-content-types.md)
-- Configure layout
+- [Configure layout](configuration/configure-layouts.md)
 - Configure modules
 - Configure medias
 - Configure blocks
