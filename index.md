@@ -16,7 +16,7 @@
   - [Install in a new project](getting-started/install-new-symfony-project.md)
   - [Install in an existing project](getting-started/install-existing-symfony-project.md)
   - [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
-  - Install in a Sylius project
+  - [Install in a Sylius project](getting-started/install-sylius-project.md)
 
 ## User manual
 
@@ -117,7 +117,7 @@
 - [Base templates](components/components/base-template.md)
 - Layouts
 - Components
-- 
+
 ### dynamic-form-type
 
 - [Install](components/dynamic-form-type/install.md)
