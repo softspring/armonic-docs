@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Getting Started"
+description: "Enable the main admin routes and complete the initial setup needed to start working with the Softspring CMS Bundle."
+---
+
 # Getting started
 
 ## Load welcome fixtures
@@ -31,5 +36,4 @@ _sfs_cms_blocks_:
     resource: "@SfsCmsBundle/config/routing/admin_blocks.yaml"
     prefix: "/admin/cms/blocks"
 ```
-
 

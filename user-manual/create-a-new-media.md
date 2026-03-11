@@ -1,3 +1,8 @@
+---
+title: "Create New Media in Armonic CMS"
+description: "Upload and manage images, videos, and other assets in Armonic CMS, including media types and asset details."
+---
+
 # Create a new media
 
 Armonic CMS empowers you to integrate multimedia elements into your content, adding visual elements to your web pages. Whether it's images, videos, or icons, Armonic CMS provides a simple process for creating and managing your media assets.

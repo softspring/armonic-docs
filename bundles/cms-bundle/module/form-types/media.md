@@ -1,3 +1,8 @@
+---
+title: "CMS Module Media Field Type"
+description: "Use the CMS media form type to select media entries from the Media Bundle inside module configuration forms."
+---
+
 # Media type
 
 This type depends on [softspring/media-bundle](https://github.com/softspring/media-bundle), and 
@@ -229,4 +234,3 @@ media_types:
 **type:** *array* **default:** *[]*
 
 A list of attributes to be included in the resuting HTML tag.
-

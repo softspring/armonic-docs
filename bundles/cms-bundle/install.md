@@ -1,3 +1,8 @@
+---
+title: "Install the CMS Bundle"
+description: "Install the Softspring CMS Bundle in a Symfony application using Composer and Symfony Flex conventions."
+---
+
 # Installation
 
 Make sure Composer is installed globally, as explained in the
@@ -46,4 +51,3 @@ yarn add "file:vendor/softspring/polymorphic-form-type/assets" --dev
 yarn add "file:vendor/softspring/media-bundle/assets" --dev
 yarn add "file:vendor/softspring/cms-bundle/assets" --dev
 ```
-

@@ -1,3 +1,8 @@
+---
+title: "Armonic Standalone Installation"
+description: "Install and run the Armonic standalone project locally with the required tools, dependencies, and setup steps."
+---
+
 # Armonic standalone
 
 ## Description

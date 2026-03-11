@@ -1,3 +1,8 @@
+---
+title: "Armonic Requirements"
+description: "Check the tools and PHP extensions required to install Armonic in a new or existing Symfony project."
+---
+
 # Requirements
 
 You can add Armonic to your existing Symfony project following the guide we provide in the [install in existing Symfony Project](install-existing-symfony-project.md).
