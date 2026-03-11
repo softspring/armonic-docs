@@ -1,3 +1,8 @@
+---
+title: "Media Bundle Concepts"
+description: "Understand the media model, generated versions, and responsive rendering concepts used by the Softspring Media Bundle."
+---
+
 # Concepts
 
 To begin using the *media-bundle* you must know some concepts explained next.

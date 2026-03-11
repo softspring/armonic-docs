@@ -1,3 +1,8 @@
+---
+title: "Armonic Features"
+description: "Explore Armonic features such as multi-site management, multilingual content, inline editing, and SEO tooling on Symfony."
+---
+
 # Features
 
 ## Technologies {#technologies}
@@ -68,5 +73,4 @@ Should we say this in 2025? It should be a must, right? Armonic is SEO ready and
 ## Performance {#performance}
 
 **Blazing-Fast Speed**: Deliver a seamless browsing experience for your users with the CMS's optimized performance and efficient resource management.
-
 

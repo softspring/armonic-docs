@@ -1,3 +1,8 @@
+---
+title: "Armonic Documentation"
+description: "Documentation hub for Armonic, covering installation, CMS usage, configuration, bundles, and Symfony integration."
+---
+
 # Armonic
 
 <video autoplay muted loop> 

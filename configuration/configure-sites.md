@@ -1,3 +1,8 @@
+---
+title: "Configure CMS Sites"
+description: "Set up multiple sites in Armonic CMS with their own hosts, locales, robots rules, and allowed content types."
+---
+
 # Multi-Site Setup in CMS
 
 In the CMS, you can configure multiple sites with different settings, languages, and content types. This allows you to manage various websites from a single platform. Let's explore how to configure sites in the CMS:
@@ -151,4 +156,3 @@ sitemaps:
 ---
 
 This configuration ensures a flexible and scalable multi-site setup!
-

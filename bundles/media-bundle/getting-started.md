@@ -1,3 +1,8 @@
+---
+title: "Media Bundle Getting Started"
+description: "Configure storage, define a basic media type, and enable the first steps required to use the Softspring Media Bundle."
+---
+
 # Getting started
 
 ## Configure storage

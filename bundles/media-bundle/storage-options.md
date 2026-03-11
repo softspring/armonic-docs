@@ -1,3 +1,8 @@
+---
+title: "Media Bundle Storage Options"
+description: "Configure supported storage backends for the Media Bundle, including Google Cloud Storage requirements and setup."
+---
+
 # Storage options
 
 ## Google Storage
@@ -28,4 +33,3 @@ sfs_media:
   google_cloud_storage:
     bucket: '%env(MEDIA_BUCKET_NAME)%'
 ```
-

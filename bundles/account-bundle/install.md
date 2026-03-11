@@ -1,3 +1,8 @@
+---
+title: "Install the Account Bundle"
+description: "Install the Softspring Account Bundle in Symfony using Composer, with or without Symfony Flex."
+---
+
 # Installation
 
 Make sure Composer is installed globally, as explained in the

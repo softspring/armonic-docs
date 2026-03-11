@@ -1,3 +1,8 @@
+---
+title: "Softspring Base Template"
+description: "Reference the base Twig template provided by Softspring Components, including layout blocks, SEO, and app metadata."
+---
+
 # Base template
 
 The *base.html.twig* template is aimed to provide a structured template for most purposes. 
