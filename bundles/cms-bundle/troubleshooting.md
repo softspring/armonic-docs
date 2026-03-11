@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Troubleshooting"
+description: "Fix common CMS Bundle issues such as MySQL memory errors and silent failures related to ESI blocks and HTTP cache."
+---
+
 # Troubleshooting
 
 ## Mysql memory allocation error

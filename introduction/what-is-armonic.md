@@ -1,3 +1,8 @@
+---
+title: "What Is Armonic?"
+description: "Learn what Armonic is, why it was built on Symfony, and how it helps teams manage website content in one place."
+---
+
 # What is Armonic?
 
 Armonic is a powerful content management system (CMS) thanks to which you can create and manage static pages of your website from a single place, simplifying the work process, and also the life of the developers.

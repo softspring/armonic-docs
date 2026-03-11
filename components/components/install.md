@@ -1,3 +1,8 @@
+---
+title: "Install Softspring Components"
+description: "Install the Softspring Components package in a Symfony project and prepare its Twig components and base templates."
+---
+
 # Installation
 
 Make sure Composer is installed globally, as explained in the

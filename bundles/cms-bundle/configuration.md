@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Configuration"
+description: "Understand the project-level CMS directory structure and how blocks, contents, layouts, menus, modules, and sites are defined."
+---
+
 # Configuration
 
 ## Configuration structure
@@ -50,5 +55,4 @@ The overriding preference is as follows:
 3. project configuration
 
 Likewise, twig template namespaces work with the same overriding preference. 
-
 

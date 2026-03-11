@@ -1,3 +1,8 @@
+---
+title: "Armonic Flavours"
+description: "Compare the main ways to use Armonic: standalone, inside an existing Symfony project, or integrated with Sylius."
+---
+
 # Armonic flavours
 
 ## Armonic standalone {#armonic-standalone}
@@ -13,4 +18,3 @@ Armonic can be integrated into an existing Symfony project, just installing the 
 ## Armonic for Sylius {#armonic-sylius}
 
 Armonic can be integrated into a Sylius project, just installing the bundles and components you need.
-

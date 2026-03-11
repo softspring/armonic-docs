@@ -1,3 +1,8 @@
+---
+title: "CMS Module Media Modal Field Type"
+description: "Use the CMS media modal field type to pick media entries from a popup with richer selection options."
+---
+
 # Media Modal type
 
 This type depends on [softspring/media-bundle](https://github.com/softspring/media-bundle), and
@@ -64,4 +69,3 @@ module:
 ## Field options
 
 Same options as [media form type](media.md).
-
