@@ -1,3 +1,8 @@
+---
+title: "Configure CMS Content Types"
+description: "Define Armonic CMS content types with YAML configuration, admin form fields, rendering rules, and entity mapping."
+---
+
 # Content Configuration (`app/cms/contents`)
 
 This folder holds the configuration for each content type used in the CMS.  
@@ -106,4 +111,3 @@ To create a new content type:
    The system handles generic content storage by default.
 
 This structure is **flexible** and **minimal**. You only configure what’s specific to your content — the system takes care of the rest.
-

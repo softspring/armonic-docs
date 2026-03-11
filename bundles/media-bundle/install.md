@@ -1,3 +1,8 @@
+---
+title: "Install the Media Bundle"
+description: "Install the Softspring Media Bundle, review its image and storage requirements, and enable it in Symfony."
+---
+
 # Installation
 
 Make sure Composer is installed globally, as explained in the
@@ -52,4 +57,3 @@ return [
     Softspring\MediaBundle\SfsMediaBundle::class => ['all' => true],
 ];
 ```
-

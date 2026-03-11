@@ -1,3 +1,8 @@
+---
+title: "Install Armonic in a New Symfony Project"
+description: "Step-by-step guide to create a new Symfony application and set it up with Armonic and its required services."
+---
+
 # Install Armonic in a new Symfony project
 
 >[!IMPORTANT]

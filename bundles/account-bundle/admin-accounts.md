@@ -1,3 +1,8 @@
+---
+title: "Account Bundle Admin Accounts"
+description: "Configure the admin account routes and customize account listing filters for the Softspring Account Bundle."
+---
+
 # Admin Accounts
 
 ## Configuration
