@@ -1,3 +1,8 @@
+---
+title: "Install Armonic in a New Symfony Project"
+description: "Step-by-step guide to create a new Symfony application and set it up with Armonic and its required services."
+---
+
 # Install Armonic in a new Symfony project
 
 >[!IMPORTANT]
@@ -122,7 +127,7 @@ $ composer require softspring/armonic:^5.2
     (defaults to n): a
 ```
 
-This will currently install Armonic 5.4, the latest version available.
+This will currently install Armonic 6.0, the latest version available.
 
 >[!NOTE]
 > Also, you can configure the preferred install type for softspring packages as source:

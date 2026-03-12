@@ -1,3 +1,8 @@
+---
+title: "CMS Module Symfony Route Field Type"
+description: "Configure the symfonyRoute form type to select Symfony routes and route parameters inside CMS modules."
+---
+
 # Symfony Route type
 
 This **symfonyRoute** type makes reference to *Softspring\CmsBundle\Form\Type\SymfonyRouteType* form type.

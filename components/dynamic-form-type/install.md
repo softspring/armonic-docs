@@ -1,3 +1,8 @@
+---
+title: "Install Dynamic Form Type"
+description: "Install the dynamic-form-type package in Symfony and enable the bundle to use dynamic forms in your project."
+---
+
 # Installation
 
 Make sure Composer is installed globally, as explained in the

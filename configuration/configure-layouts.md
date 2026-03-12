@@ -1,3 +1,8 @@
+---
+title: "Configure CMS Layouts"
+description: "Define page layouts in Armonic with layout config, editable containers, render templates, and translation files."
+---
+
 ## Layout Configuration (`layout` section)
 
 This configuration defines the layout structure of a page or content type.  
@@ -103,7 +108,6 @@ Then, in the body of the page, you can render the containers like this:
 ```
 
 Here we include templates for the header and footer, and then we render the `main` container in the body of the page.
-
 
 
 

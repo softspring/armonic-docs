@@ -1,3 +1,8 @@
+---
+title: "Create a New Page in Armonic CMS"
+description: "Learn how to create a page in Armonic CMS, define its route and site settings, and prepare it for editing."
+---
+
 # Creating a New Page in Armonic CMS
 
 This user manual will guide you step by step through the process of creating a new page in the Armonic CMS administration panel.

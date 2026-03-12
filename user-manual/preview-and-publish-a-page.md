@@ -1,3 +1,8 @@
+---
+title: "Preview and Publish a Page"
+description: "Review how to preview page changes, publish versions, and roll back to earlier published versions in Armonic CMS."
+---
+
 # Previewing and publishing a page
 
 Once all the content has been created, we can see how it will look like once published, to do this we can go to the top right of the page and in the **drop-down Save version click on save and preview**.

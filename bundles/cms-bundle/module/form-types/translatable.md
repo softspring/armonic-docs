@@ -1,3 +1,8 @@
+---
+title: "CMS Module Translatable Field Type"
+description: "Use the translatable form type to store locale-aware values for texts and other fields in CMS modules."
+---
+
 # Translatable type
 
 This **translatable** type makes reference to *Softspring\CmsBundle\Form\Type\TranslatableType* form type.
@@ -157,5 +162,4 @@ module:
 ### children_attr
 
 **type:** *array* **default:** *[]*
-
 

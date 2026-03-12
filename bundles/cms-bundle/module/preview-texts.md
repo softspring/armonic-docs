@@ -1,3 +1,8 @@
+---
+title: "CMS Module Preview Texts"
+description: "Show live text previews inside module edit templates using form values and editable placeholders in the CMS admin."
+---
+
 # Preview texts
 
 This example stores a title field into the module.

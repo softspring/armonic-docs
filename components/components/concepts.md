@@ -1,3 +1,8 @@
+---
+title: "Softspring Components Concepts"
+description: "Understand the structure of Softspring Components, including reusable Twig components, base templates, and theming."
+---
+
 # Concepts
 
 This package provides some template *components* for Symfony projects.
