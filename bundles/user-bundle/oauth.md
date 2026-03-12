@@ -1,3 +1,8 @@
+---
+title: "User Bundle OAuth Providers"
+description: "Integrate OAuth providers such as Facebook with the Softspring User Bundle using HWIOAuthBundle."
+---
+
 # Integrate Oauth providers 
 
 This bundle integrates with HWIOAuthBundle.
@@ -76,5 +81,4 @@ Set the security configuration:
                     # Inject a service that will be created in the step #6
                     oauth_user_provider:
                         service: sfs_user.oauth_provider
-
 

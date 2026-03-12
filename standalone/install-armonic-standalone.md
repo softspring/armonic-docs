@@ -1,3 +1,8 @@
+---
+title: "Armonic Standalone Installation"
+description: "Install and run the Armonic standalone project locally with the required tools, dependencies, and setup steps."
+---
+
 # Armonic standalone
 
 ## Description
@@ -33,11 +38,10 @@ brew install symfony-cli/tap/symfony-cli
 
 ```bash
 sudo apt install php-cli 
-sudo apt in
 ```
 ***macOS:***
 
-First you need Xcode Command ine tools:
+First you need Xcode Command Line Tools:
 ```bash
 xcode-select --install
 ```
@@ -46,8 +50,6 @@ xcode-select --install
 brew install php
 brew install mysql
 ```
-
-
 
 4. Composer
 
@@ -66,55 +68,85 @@ brew install composer
 sudo apt install npm
 ```
 
-6. Lift the containers
+6. Install Composer packages
 
-in the folder where you downloaded armonic-standalone run:
-```bash
-  docker compose up -d --force-recreate
-```
-
-7. Start the Symfony server
+In the folder where you downloaded armonic-standalone run. In this case, armonic-standalone:
 
 ```bash
-  symfony server:ca:install
-  symfony server:start -d
+  cd armonic-standalone
+  composer update
 ```
 
-8. Composer install
+7. Start the containers
 
 ```bash
-  composer install
+  docker compose up -d
 ```
 
-9. Execute migrations
+8. Execute migrations
 
 ```bash
   php bin/console doctrine:migrations:migrate -n
 ```
 
-10. Install front-end dependencies
+
+Troubleshooting:
+- If you have an error like:
+```bash
+  An exception occurred in the driver: SQLSTATE[HY000] [1045] Access denied for user 'app'@'localhost' (using password: YES)
+```
+Create a new file compose.override.yaml in the root of the project with the following content:
+
+```yaml
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "${MYSQL_PORT:-33061}:3306"
+###< doctrine/doctrine-bundle ###
+```
+Create a new file .env.local with the following content:
+
+```env
+   DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&charset=utf8mb4"
+```
+And execute again:
+
+```bash
+  docker compose up -d
+  php bin/console doctrine:migrations:migrate -n
+```
+
+9. Install front-end dependencies
 
 ```bash
   npm install
   npm run dev
 ```
 
-11. Create a test user. In this case, the user is “admin”, the email is “email@example.com” and the password is “admin”.
+10. Start the Symfony server
+
+```bash
+  symfony server:ca:install
+  symfony server:start -d
+```
+
+11. (Optional) If you want an example page, you have to load fixtures:
+
+```bash
+  php bin/console doctrine:fixtures:load
+```
+
+12. Create a test user. In this case, the user is “admin”, the email is “email@example.com” and the password is “admin”.
 
 ```bash
   php bin/console sfs:user:create admin email@example.com admin
   php bin/console sfs:user:promote email@example.com 
 ```
 
-12. (Optional) If you want an example page, you have to load fixture:
-
-```bash
-  php bin/console doctrine:fixtures:load -n --append --group=test
-```
-
 ## Usage
 
-Open your browser and go to https://127.0.0.1:8000/app/en/login.
+Open your browser and go to https://127.0.0.1:8000/app/en/login (or https://127.0.0.1:8000/app/es/login if you prefer in Spanish).
 
 1. Log in with the email and password you created in the previous step.
    ![login.png](.files/login.png){.img-fluid}
@@ -122,11 +154,10 @@ Open your browser and go to https://127.0.0.1:8000/app/en/login.
 2. You are done! You can now start working with Armonic Standalone at https://127.0.0.1:8000/admin/en/.
    ![dashboard.png](.files/dashboard.png){.img-fluid}
 
-3. If you have executed point 8 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
+3. If you have executed point 11 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
    ![example.png](.files/example.png){.img-fluid}
-   You can see the page information and edit it in https://127.0.0.1:8000/admin/en/cms/pages/0194cfc9-bbfa-79e7-baf7-0a300514f3cf
+   You can see the page information and edit it in "View" link.
    ![example-edit.png](.files/example-edit.png){.img-fluid}
-   If you publish it, you can see it at https://127.0.0.1:8000/en/home.
+   In the list of "Last versions" or in the "Versions" section, you can publish the page and you can see it at https://127.0.0.1:8000/en/.
    ![example-page.png](.files/example-page.png){.img-fluid}
     
-

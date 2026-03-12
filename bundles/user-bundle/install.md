@@ -1,3 +1,8 @@
+---
+title: "Install the User Bundle"
+description: "Install and configure the Softspring User Bundle in Symfony, including required routes, bundles, and security setup."
+---
+
 ## Requirements {#requirements}
 
 A Symfony > 5.4 project is required to use this bundle, with a Doctrine database configured.
@@ -240,5 +245,4 @@ $ php bin/console sfs:user:promote user@example.com
 ### Check login {#check-login}
 
 Now you can go to login page at /app/login and login with the user you just created.
-
 

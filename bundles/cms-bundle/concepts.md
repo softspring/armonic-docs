@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Concepts"
+description: "Learn the core concepts behind the Softspring CMS Bundle, including sites, layouts, contents, routes, and modules."
+---
+
 # Concepts
 
 To begin using the SfsCms you must know some concepts explained next.
@@ -94,4 +99,3 @@ Menus can be rendered in any template with a twig function, as a special type of
 ### Rendering contents
 
 ### Caches
-

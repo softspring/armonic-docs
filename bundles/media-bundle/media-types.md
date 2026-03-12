@@ -1,3 +1,8 @@
+---
+title: "Media Bundle Media Types"
+description: "Define media types, upload rules, and image validation settings for files managed by the Softspring Media Bundle."
+---
+
 # Media types
 
 As shown in [Concepts](concepts.md), media types are the definition of files are wanted to store.
@@ -189,5 +194,4 @@ sfs_media:
                     img:
                         src_version: xl
 ```
-
 

@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Collections"
+description: "Extend the CMS with reusable module collections distributed as composer packages and loaded through configuration."
+---
+
 # Extending with collections
 
 You can define your own reusable CMS components collections.

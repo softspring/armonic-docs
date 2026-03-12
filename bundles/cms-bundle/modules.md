@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Modules"
+description: "Overview of CMS modules and the built-in form field types available when modeling editable module content."
+---
+
 # Modules
 
 > *This documentation page is not yet written*

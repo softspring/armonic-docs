@@ -1,3 +1,8 @@
+---
+title: "CMS Bundle Sites"
+description: "Configure CMS sites, locales, hosts, HTTPS redirects, sitemaps, and default site behavior in the Softspring CMS Bundle."
+---
+
 # Sites
 
 ## Site locales
@@ -250,4 +255,3 @@ site:
     sitemaps_index:
       url: false 
 ```
-
