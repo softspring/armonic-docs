@@ -5,7 +5,7 @@ description: "Configure the admin account routes and customize account listing f
 
 # Admin Accounts
 
-## Configuration
+## Configuration {#configuration}
 
 **Configure routes**
 
@@ -15,7 +15,7 @@ description: "Configure the admin account routes and customize account listing f
         resource: "@SfsAccountBundle/Resources/config/routing/admin_accounts.yaml"
         prefix: "/admin/accounts"
         
-### List accounts
+### List accounts {#list-accounts}
 
 **Change filter form**
 

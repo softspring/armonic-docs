@@ -15,7 +15,7 @@ These YAML files describe how the content behaves:
 
 ---
 
-## Example: `app/cms/contents/project/config.yaml`
+## Example: `app/cms/contents/project/config.yaml` {#example-appcmscontentsprojectconfigyaml}
 
 ```yaml
 content:
@@ -48,9 +48,9 @@ content:
             page_view: '@content/project/admin/list-page.html.twig'
 ```
 
-## Field Reference
+## Field Reference {#field-reference}
 
-### `content`
+### `content` {#content}
 
 - **`revision`**  
   Used to force cache or schema rebuilds when the structure changes.
@@ -65,7 +65,7 @@ content:
 
 ---
 
-### `extra_fields`
+### `extra_fields` {#extrafields}
 
 These are examples of fields you can define for your content type, but don't need to be the same we are using here. 
 In our case, for example, we have "client" as a text field to define the client name for this project, and show
@@ -90,7 +90,7 @@ it in a special way in the frontend. For example, in this page: https://softspri
 
 ---
 
-### `admin`
+### `admin` {#admin}
 
 Defines which templates to use in the admin panel:
 
@@ -100,7 +100,7 @@ Defines which templates to use in the admin panel:
 
 ---
 
-## Adding New Content Types
+## Adding New Content Types {#adding-new-content-types}
 
 To create a new content type:
 

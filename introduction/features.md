@@ -25,26 +25,26 @@ description: "Explore Armonic features such as multi-site management, multilingu
 
 **Global Reach**: Deliver content in multiple languages, catering to a wider audience and expanding your global reach.
 
-## Inline Content Editing
+## Inline Content Editing {#inline-content-editing}
 
 Edit all the content directly on the page  (or you can also do it in the module editor, ¡you choose!)
 
-## Versions and History
+## Versions and History {#versions-and-history}
 
 All changes are stored as new versions, you can go back to any previous version at any time. You can also see who did the
 changes to the version and when.
 
 ![versions.png](.files/versions.png){.img-fluid}
 
-## Publish and Unpublish
+## Publish and Unpublish {#publish-and-unpublish}
 
 You can publish and unpublish any page, any version, at any given time. 
 
-## Live Preview
+## Live Preview {#live-preview}
 
 You can see how the page will look like before publishing it.
 
-## Module-based editor
+## Module-based editor {#module-based-editor}
 
 You can create your own modules and blocks, and use them in any page you want. You can also use the modules and blocks we provide.
 Each instance of a module is unique in a page, but blocks are shared between pages (for example, you create one "Black Friday" banner

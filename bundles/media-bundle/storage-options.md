@@ -5,7 +5,7 @@ description: "Configure supported storage backends for the Media Bundle, includi
 
 # Storage options
 
-## Google Storage
+## Google Storage {#google-storage}
 
 **Requirements**
 

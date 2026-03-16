@@ -7,9 +7,9 @@ description: "Overview of CMS modules and the built-in form field types availabl
 
 > *This documentation page is not yet written*
  
-## Form types
+## Form types {#form-types}
 
-### CMS provided types
+### CMS provided types {#cms-provided-types}
 
 - block
 - class
@@ -29,9 +29,9 @@ description: "Overview of CMS modules and the built-in form field types availabl
 - [translatable](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/translatable)
 - user
 
-### Basic symfony types
+### Basic symfony types {#basic-symfony-types}
 
-#### Text Fields
+#### Text Fields {#text-fields}
 
 - [text](https://symfony.com/doc/current/reference/forms/types/text.html)
 - [textarea](https://symfony.com/doc/current/reference/forms/types/textarea.html)
@@ -47,7 +47,7 @@ description: "Overview of CMS modules and the built-in form field types availabl
 - [tel](https://symfony.com/doc/current/reference/forms/types/tel.html)
 - ~~[color](https://symfony.com/doc/current/reference/forms/types/color.html)~~ (this color widget is overriden by CMS color field)
 
-#### Choice Fields
+#### Choice Fields {#choice-fields}
 
 - [choice](https://symfony.com/doc/current/reference/forms/types/choice.html)
 - [enum](https://symfony.com/doc/current/reference/forms/types/enum.html)
@@ -58,7 +58,7 @@ description: "Overview of CMS modules and the built-in form field types availabl
 - [timezone](https://symfony.com/doc/current/reference/forms/types/timezone.html)
 - [currency](https://symfony.com/doc/current/reference/forms/types/currency.html)
 
-#### Date and Time Fields
+#### Date and Time Fields {#date-and-time-fields}
 
 - [date](https://symfony.com/doc/current/reference/forms/types/date.html)
 - [dateInterval](https://symfony.com/doc/current/reference/forms/types/dateinterval.html)
@@ -67,49 +67,49 @@ description: "Overview of CMS modules and the built-in form field types availabl
 - [birthday](https://symfony.com/doc/current/reference/forms/types/birthday.html)
 - [week](https://symfony.com/doc/current/reference/forms/types/week.html)
 
-#### Other Fields
+#### Other Fields {#other-fields}
 
 - [checkbox](https://symfony.com/doc/current/reference/forms/types/checkbox.html)
 - [file](https://symfony.com/doc/current/reference/forms/types/file.html)
 - [radio](https://symfony.com/doc/current/reference/forms/types/radio.html)
 
-#### Symfony UX Fields
+#### Symfony UX Fields {#symfony-ux-fields}
 
 
-#### UID Fields
+#### UID Fields {#uid-fields}
 
 - [uuid](https://symfony.com/doc/current/reference/forms/types/uuid.html)
 - [ulid](https://symfony.com/doc/current/reference/forms/types/ulid.html)
 
-#### Field Groups
+#### Field Groups {#field-groups}
 
 - [collection](https://symfony.com/doc/current/reference/forms/types/collection.html)
 - [repeated](https://symfony.com/doc/current/reference/forms/types/repeated.html)
 
-#### Hidden Fields
+#### Hidden Fields {#hidden-fields}
 
 - [hidden](https://symfony.com/doc/current/reference/forms/types/hidden.html)
 
-#### Buttons
+#### Buttons {#buttons}
 
 - [button](https://symfony.com/doc/current/reference/forms/types/button.html)
 - [reset](https://symfony.com/doc/current/reference/forms/types/reset.html)
 - [submit](https://symfony.com/doc/current/reference/forms/types/submit.html)
 
-#### Base Fields
+#### Base Fields {#base-fields}
 
 - [form](https://symfony.com/doc/current/reference/forms/types/form.html)
 
-### Use another form types
+### Use another form types {#use-another-form-types}
 
 > *This is not yet written*
 
-### Build your own form types for modules
+### Build your own form types for modules {#build-your-own-form-types-for-modules}
 
 > *This is not yet written*
 
 
-### How to create or overwrite a module
+### How to create or overwrite a module {#how-to-create-or-overwrite-a-module}
 
 A module consists of four files and translations:
 - **config.yaml**: Definition of the module, version, file path for editing and its form, and the fields required by the module.
@@ -117,7 +117,7 @@ A module consists of four files and translations:
 - **edit.html.twig**: Layout for the module edition, which should show how the module will look like. With a series of data attributes you can link the form fields defined in the config.yaml and how they will look like.
 - **render.html.twig**: Final rendering of the module, used in the preview action and in the final rendering of the page.
 
-#### Create
+#### Create {#create}
 You can create new modules to suit your project design needs.
 
 In the folder your-project/cms/modules, add a folder with the name of the module you want to create, e.g. **rating**.
@@ -138,7 +138,7 @@ Add the following files inside the folder:
     - edit.html.twig
     - render.html.twig
 ```
-##### config.yaml
+##### config.yaml {#configyaml}
 
 ```
 module:
@@ -248,7 +248,7 @@ module:
 
 ```
 
-##### translations/sfs_cms_modules.en.yaml
+##### translations/sfs_cms_modules.en.yaml {#translationssfscmsmodulesenyaml}
 
 ```
 rating:
@@ -284,7 +284,7 @@ rating:
             five: "5 stars"
             
 ```
-##### form.yaml
+##### form.yaml {#formyaml}
 
 ```
 <<div class="row">
@@ -326,7 +326,7 @@ rating:
 
 ```
 
-##### edit.yaml
+##### edit.yaml {#edityaml}
 
 ```
 {% set defaultRatingClass = 'sfs-rating' %}
@@ -429,7 +429,7 @@ rating:
 </div>
 ```
 
-##### render.yaml
+##### render.yaml {#renderyaml}
 
 ```
 <div id="{{ id|default('') }}" class="sfs-rating {{ class|default('') }}" style="{{ bg_color|default(false) ? 'background-color:'~bg_color : '' }}">
@@ -463,11 +463,11 @@ rating:
 
 > IMPORTANT: Clear cache when adding a new module. (php bin/console cache:clear --env=dev)
 
-##### Final result
+##### Final result {#final-result}
 ![Rating](https://storage.googleapis.com/mailingimg/softspring/cms/module-rating.png)
 
 
-#### Overwrite
+#### Overwrite {#overwrite}
 
 In the folder your-project/cms/modules, add a folder with the same name as the module you want to overwrite, for example, card.
 
@@ -482,7 +482,7 @@ As an example we are going to change the button field, so that the CSS classes a
     - config.yaml
 ```
 
-##### config.yaml
+##### config.yaml {#configyaml-2}
 
 ```
 module:
@@ -528,7 +528,7 @@ module:
 
 ```
 
-##### translations/sfs_cms_modules.en.yaml
+##### translations/sfs_cms_modules.en.yaml {#translationssfscmsmodulesenyaml-2}
 
 ```
 button:

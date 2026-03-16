@@ -5,7 +5,7 @@ description: "Configure storage, define a basic media type, and enable the first
 
 # Getting started
 
-## Configure storage
+## Configure storage {#configure-storage}
 
 First, you need to configure a storage option, see [Storage options](storage-options.md) section.
 
@@ -23,7 +23,7 @@ sfs_media:
     bucket: '%env(MEDIA_BUCKET_NAME)%'
 ```
 
-## Configure basic media type
+## Configure basic media type {#configure-basic-media-type}
 
 ```yaml
 # config/packages/sfs_media.yaml
@@ -33,7 +33,7 @@ sfs_media:
     upload_requirements: { minWidth: 100, minHeight: 100, mimeTypes: ['image/jpeg'],  }
 ```
 
-## Configure admin panel
+## Configure admin panel {#configure-admin-panel}
 
 **Enable admin panel**
 
@@ -65,7 +65,7 @@ security:
       - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
 ```
 
-## Using medias
+## Using medias {#using-medias}
 
 After uploading your first media file, you can use it:
 
