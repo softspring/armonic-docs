@@ -9,7 +9,7 @@ This **symfonyRoute** type makes reference to *Softspring\CmsBundle\Form\Type\Sy
 
 This form type provides a way to select a route.
 
-## Fields
+## Fields {#fields}
 
 **Route name**
 
@@ -29,9 +29,9 @@ product_big_view:
 
 requires a "color" parameter. We can define its value with *{"color": "yellow"}*.
 
-## Options
+## Options {#options}
 
-### restrict_patterns
+### restrict_patterns {#restrictpatterns}
 
 Routes can be filtered by a default value.
 
@@ -73,7 +73,7 @@ module:
                          - "use_for_route_paramsernative_content"
 ```
 
-### restrict_default_attribute
+### restrict_default_attribute {#restrictdefaultattribute}
 
 Also routes can be filtered by patterns using restrict_patterns option.
 
@@ -97,7 +97,7 @@ module:
 
 Of course, you can combine both restriction methods ("restrict_default_attribute" and "restrict_patterns").
 
-## Use the value
+## Use the value {#use-the-value}
 
 This type returns an array with both fields:
 

@@ -12,9 +12,9 @@ First of all the main goal of the bundle.
 This bundle is aimed to store and manage project dynamic media files, generating automatically as many versions as required
  and making easy the html generation to be responsive with every device. 
 
-## Model
+## Model {#model}
 
-### Media 
+### Media {#media}
 
 The *Media* entity will store every media instance that the system stores. It stores the name, description, type and versions references.
 
@@ -46,7 +46,7 @@ class User
 }
 ```
 
-### Media Version
+### Media Version {#media-version}
 
 A *Media* is linked to a configuration media type, witch can contain as many versions as configured.
 
@@ -57,7 +57,7 @@ This *Media Version* stores version name, mime type, sizes, configuration that g
 
 By default, *Softspring/MediaBundle/Entity/MediaVersion* class is used (if rewrite is required see [10. Extending bundle]()).
 
-## Media types
+## Media types {#media-types}
 
 Let's see some examples to learn about media types.
 
