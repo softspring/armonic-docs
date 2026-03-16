@@ -9,6 +9,10 @@ Armonic is a powerful content management system (CMS) thanks to which you can cr
 
 Armonic is our made at home CMS solution that we have designed to integrate with Symfony, the well-known PHP framework (and also our favorite).
 
+<video autoplay muted loop> 
+  <source src="https://raw.githubusercontent.com/softspring/armonic-docs/5.4/.files/armonic.webm" type="video/webm"/> 
+</video>
+
 ## Why another CMS? {#why-another-cms}
 
 We have been working with Symfony for a long time, and we have tried many CMS systems, but we have not found any that meets our needs.
