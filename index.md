@@ -38,10 +38,10 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Configure sites](configuration/configure-sites.md)
 - [Configure content types](configuration/configure-content-types.md)
 - [Configure layout](configuration/configure-layouts.md)
-- Configure modules
-- Configure medias
-- Configure blocks
-- Configure menus
+- [Configure modules](configuration/configure-modules.md)
+- [Configure medias](configuration/configure-medias.md)
+- [Configure blocks](configuration/configure-blocks.md)
+- [Configure menus](configuration/configure-menu.md)
 
 ## Architecture {#architecture}
 
