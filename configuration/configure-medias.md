@@ -111,4 +111,4 @@ If a version includes its own `upload_requirements`, that version is expected as
 
 ## Related Docs {#related-docs}
 
-- [Media types reference](../bundles/media-bundle/media-types.md#versions) for detailed `types`, `versions`, and `pictures` examples.
+- [Media types reference](../bundles/media-bundle/media-types.md) for detailed `types`, `versions`, and `pictures` examples.
