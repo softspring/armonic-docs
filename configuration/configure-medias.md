@@ -58,6 +58,21 @@ sfs_media:
 - `version`: media version entity behavior (`class`, `find_field_name`)
 - `types`: media type definitions used by CMS forms and rendering
 
+### About `versions` (important)
+
+`versions` are derived files generated from the original uploaded media (`_original`).
+
+- You upload one original file.
+- The bundle generates all configured versions (sizes/formats) for that media type.
+- Those versions are then used in templates, pictures, thumbnails, and responsive rendering.
+
+Typical use cases:
+
+- `_thumbnail` for admin listings
+- `sm`, `md`, `xl` for responsive front-end output
+
+If a version includes its own `upload_requirements`, that version is expected as an uploaded version instead of being auto-generated.
+
 ### `types.<id>` common keys
 
 - `type` (`image` or `video`, default `image`)
