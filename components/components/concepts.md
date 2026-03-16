@@ -7,7 +7,7 @@ description: "Understand the structure of Softspring Components, including reusa
 
 This package provides some template *components* for Symfony projects.
 
-## Structure
+## Structure {#structure}
 
 The are some components provided by now, like flash-messages and paginator, and some base templates like *base*
  and *layout/admin*.
@@ -28,7 +28,7 @@ In the case of *components* you require to include them:
 {% include '@SfsComponents/paginator/table.html.twig' %}
 ```
 
-## Theming
+## Theming {#theming}
 
 This package is prepared to contain different template themes, in spite of now it just provides bootstrap5 theme.
 

@@ -5,12 +5,12 @@ description: "Install and run the Armonic standalone project locally with the re
 
 # Armonic standalone
 
-## Description
+## Description {#description}
 
 [Armonic Standalone](https://github.com/softspring/armonic-standalone) is a great way to dive into the world of [Armonic](https://github.com/softspring/armonic). With a
 quick and easy setup, you can have a fully functional local development environment in minutes.
 
-## Installation
+## Installation {#instalation}
 
 **1. Clone this repository:**
 
@@ -144,7 +144,7 @@ And execute again:
   php bin/console sfs:user:promote email@example.com 
 ```
 
-## Usage
+## Usage {#usage}
 
 Open your browser and go to https://127.0.0.1:8000/app/en/login (or https://127.0.0.1:8000/app/es/login if you prefer in Spanish).
 

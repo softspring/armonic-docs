@@ -11,7 +11,7 @@ This form type provides multiple language values for any field and type.
 
 It uses the de *%kernel.enabled_locales%* and *%kernel.default_locale%* values to configure languages, as default.
 
-## Translate texts
+## Translate texts {#translate-texts}
 
 The most common use of this type is to translate texts.
 
@@ -39,7 +39,7 @@ The values are stored as a json object with locale as key:
 }
 ```
 
-## Render values
+## Render values {#render-values}
 
 The way to render translated values is using it as an array, accessing it throw the locale:
 
@@ -50,7 +50,7 @@ The way to render translated values is using it as an array, accessing it throw 
 > Also is posible to render it using *description[app.request.locale]|default* but it's not recommended because it
 > does not take into account the default locale. 
 
-## Preview values
+## Preview values {#preview-values}
 
 Preview values works similiar as contained type does, but accesing it throw the locale:
 
@@ -73,13 +73,13 @@ module:
 {% endfor %}
 ```
 
-## Translate medias
+## Translate medias {#translate-medias}
 
 > *This documentation page is not yet written*
 
-## Options
+## Options {#options}
 
-### type
+### type {#type}
 
 **type:** *string* **required** 
 
@@ -129,7 +129,7 @@ module:
                     type: "Vendor\FeatureBundle\Type\ExampleType"
 ```
 
-### type_options
+### type_options {#typeoptions}
 
 **type:** *array* **default:** *[]*
 
@@ -151,15 +151,15 @@ module:
                             example2: 2
 ```
 
-### languages
+### languages {#languages}
 
 **type:** *array* **default:** *%kernel.enabled_locales%*
 
-### default_language
+### default_language {#defaultlanguage}
 
 **type:** *string* **default:** *%kernel.default_locale%*
 
-### children_attr
+### children_attr {#childrenattr}
 
 **type:** *array* **default:** *[]*
 

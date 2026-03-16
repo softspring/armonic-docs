@@ -12,7 +12,7 @@ This **media** type makes reference to *Softspring\CmsBundle\Form\Type\MediaType
 
 > *The "media" type replaces the deprecated "image" type, but it works exactly the same. It has been replaced because of semantic reasons.*
 
-## Example usage
+## Example usage {#example-usage}
 
 When you are modeling a CMS module, you can use this media field as follows:
 
@@ -45,7 +45,7 @@ sfs_media:
                 sm: { scale_width: 600 }
 ```
 
-## Preview values
+## Preview values {#preview-values}
 
 To use the media preview feature, you must include a preview identificator in a **data-media-preview-input** attribute: 
 
@@ -91,7 +91,7 @@ Maybe, your media field contains only video elements or, like in the example bel
 </div>
 ```
 
-## Field rendering
+## Field rendering {#field-rendering}
 
 Now you are ready to show your media image in the content render:
 
@@ -111,7 +111,7 @@ Remember that if it can contain images or videos:
 {% endif %}
 ```
 
-## Media attributes
+## Media attributes {#media-attributes}
 
 In some cases, you want to add some attributes for the *sfs_media_render_image* or *sfs_media_render_video* twig filters.
 
@@ -166,7 +166,7 @@ In the render template you can access to the module configuration with the **_co
 {% endif %}
 ```
 
-### Working with videos
+### Working with videos {#working-with-videos}
 
 Usually, you will want to configure *\<video\>* tag attributes such as *autoplay* or *controls*. (View video [tag documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for all atributes).
 
@@ -194,9 +194,9 @@ This will render this tag:
 <video autoplay="" loop="" muted="" playsinline="" controls="" src=""></video>
 ```
 
-## Field Options
+## Field Options {#field-options}
 
-### media_types
+### media_types {#mediatypes}
 
 **type:** *array* **default:** *[]*
 
@@ -229,7 +229,7 @@ media_types:
         picture: '_default'
 ```
 
-### media_attr
+### media_attr {#mediaattr}
 
 **type:** *array* **default:** *[]*
 
