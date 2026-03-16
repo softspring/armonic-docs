@@ -102,10 +102,22 @@
                     "slug": "configure-layouts",
                     "file": "configuration/configure-layouts.md"
                 },
-                { "text": "Configure modules" },
-                { "text": "Configure medias" },
-                { "text": "Configure blocks" },
-                { "text": "Configure menus" }
+                { "text": "Configure modules",
+                  "slug": "configure-modules",
+                  "file": "configuration/configure-modules.md"
+                },
+                { "text": "Configure medias",
+                  "slug": "configure-medias",
+                  "file": "configuration/configure-medias.md"
+                },
+                { "text": "Configure blocks",
+                  "slug": "configure-blocks",
+                  "file": "configuration/configure-blocks.md"
+                },
+                { "text": "Configure menus",
+                  "slug": "configure-menu",
+                  "file": "configuration/configure-menu.md"
+                }
             ]
         },
         {
