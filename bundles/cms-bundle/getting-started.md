@@ -5,11 +5,11 @@ description: "Enable the main admin routes and complete the initial setup needed
 
 # Getting started
 
-## Load welcome fixtures
+## Load welcome fixtures {#load-welcome-fixtures}
 
 *TODO: load welcome fixtures*
 
-## Admin routes
+## Admin routes {#admin-routes}
 
 ```yaml
 # config/routes.yaml

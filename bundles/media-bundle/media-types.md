@@ -17,13 +17,13 @@ sfs_media:
             name: 'My type id'
 ```
 
-## Upload requirements
+## Upload requirements {#upload-requirements}
 
 For the file uploading, *Symfony\Component\Form\Extension\Core\Type\FileType* field type is used.
 
 For the uploaded file validation Symfony standard constraints are used.
 
-### Image validation
+### Image validation {#image-validation}
 
 The *upload_requirements* allowed options are the *Symfony\Component\Validator\Constraints\Image* accepted ones,
  see [Image constraint options in Symfony documentation page](https://symfony.com/doc/current/reference/constraints/Image.html).
@@ -68,17 +68,17 @@ sfs_media:
                 mimeTypes: ['image/png', 'image/jpeg'] 
 ```
 
-### Other file validation
+### Other file validation {#other-file-validation}
 
 *TODO: implement other file validations*
 
-## Versions
+## Versions {#versions}
 
 Every version is wanted to be generated (or uploaded, see below) needs to be configured. 
 
 Versions are identified by a key name, and it's recommended to be related with its size or purpose.
 
-### Generating versions
+### Generating versions {#generating-versions}
 
 [Imagine library](https://imagine.readthedocs.io/en/stable/) is used for this automatic generation, so take a look to its configuration options.
 
@@ -123,7 +123,7 @@ sfs_media:
                     resampling-filter: 'lanczos'
 ```
 
-### Uploading versions
+### Uploading versions {#uploading-versions}
 
 Instead of generating versions automatically you can also configure them to be uploaded on media creation.
 
@@ -146,20 +146,20 @@ sfs_media:
                     mimeTypes: ['image/png', 'image/jpeg'] 
 ```
 
-### Default versions
+### Default versions {#default-versions}
 
 Every media has a special default version called *_original*. This feature stores the original media version
  in the configured Storage.
 
 This *_original* version allows to use it for the front pages and future image processing.
 
-## Pictures
+## Pictures {#pictures}
 
 As shown in [Concepts](concepts.md) *MediaBundle* provides a feature to work with [HTML picture tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture).
 
 The configuration has two blocks: **sources** and **img**.
 
-### Sources
+### Sources {#sources}
 
 The first *sources* block defines each source to be rendered:
 
@@ -173,11 +173,11 @@ The descriptor, can be width descriptor (5.4w) or a pixel density descriptor (2x
 
 HTML tag attributes to be included in the source tag (media, sizes, etc).
 
-### Default image
+### Default image {#default-image}
 
 The *img* block contains a **src_version** attribute with the version identifier for the img html tag inside picture.
 
-### Configuration example
+### Configuration example {#configuration-example}
 
 ```yaml
 # config/packages/sfs_media.yaml
