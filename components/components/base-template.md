@@ -9,7 +9,7 @@ The *base.html.twig* template is aimed to provide a structured template for most
 
 It defines the basic HTML structure, includes most common header blocks, and provides basic styles and JS code.
 
-## Basic Usage
+## Basic Usage {#basic-usage}
 
 If you want to use this base template as default project template, you should extend it from your project *base.html.twig* 
  template, witch is the most common base template in Symfony projects.
@@ -19,7 +19,7 @@ If you want to use this base template as default project template, you should ex
 {% extends '@SfsComponents/base.html.twig' %}
 ```
 
-## Three level templates
+## Three level templates {#three-level}
 
 Symfony recommends using a three level template system: base -> layout -> content. See 
  [template inheritance and layouts](https://symfony.com/doc/current/templates.html#template-inheritance-and-layouts) section.
@@ -82,7 +82,7 @@ The content template is the one that contains the specific page content.
 ```
 
 
-## Header blocks
+## Header blocks {#header-blocks}
 
 This template includes most common HTML header parts, defined in different extensible blocks.
 
@@ -118,14 +118,14 @@ or fully override it, or *disable* it without including any code:
 {% endblock viewport %}
 ```
 
-### head_begin
+### head_begin {#head-begin}
 
 This is the first part of the *<head>* tag, it's useful to include some code you want to be at the 
  really begining of the HTML code.
 
 By default, it does not include any code.
 
-### viewport
+### viewport {#viewport}
 
 This block is aimed to include the *viewport* configuration code. 
 
@@ -136,7 +136,7 @@ By default, it contains:
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 ```
 
-### seo
+### seo {#seo}
 
 The *seo* block is used to include every *SEO* related code, such as title, description, keywords, etc.
 
@@ -166,11 +166,11 @@ And usually you will want to include more *SEO* info:
 
 See above [variables section](#title_prefix) to know about *title_prefix* variable.
 
-### title
+### title {#title}
 
 Explained before :)
 
-### favicon
+### favicon {#favicon}
 
 You should override the favicon block, because by default it includes a dot.
 
@@ -181,7 +181,7 @@ You should override the favicon block, because by default it includes a dot.
 {% endblock favicon %}
 ```
 
-### extra_headers
+### extra_headers {#extra-headers}
 
 This block is general purpose. You can include here anything you need to include in HTML head.
 
@@ -189,7 +189,7 @@ By default, it includes two configurable parts: *generator* meta tag and *theme 
 
 See [app_version](#app_version) and [app_color](#app_color) variables.
 
-### stylesheets
+### stylesheets {#stylesheet}
 
 This block should contain every style related code.
 
@@ -209,7 +209,7 @@ Of course, you should override it to include your own styles and code:
 {% endblock %}
 ```
 
-### header_javascripts
+### header_javascripts {#headers-js}
 
 As well as the template defines styles block, it includes some javascript blocks.
 
@@ -227,33 +227,33 @@ By default, it sets a cookie called *utz* with the user's timezone, and it inclu
 {% endblock %}
 ```
 
-## Body blocks
+## Body blocks {#body-blocks}
 
-### body_begin
+### body_begin {#body-begin}
 
 Use this block to include some code you want to be located at the really begining of the *<body>* tag.
 
-### body
+### body {#body}
 
 This block is aimed to be the **main content block** in the template.
 
-### javascripts
+### javascripts {#js}
 
 This block includes javascript code after content. As said before, use it as you consider.
 
 By default, it includes CDN base javascript (for example bootstrap5).
 
-### body_end
+### body_end {#body-end}
 
 This block is located at the really ending position of the *<body>* tag.
 
 You can include here anything you want to be at the end of the HTML code.
 
-## Variables
+## Variables {#variables}
 
 There are some variables defined, to configure some parts of the base template.
 
-### html_classes
+### html_classes {#html-classes}
 
 This variable is used to include *classes* into the *<html>* tag.
 
@@ -268,7 +268,7 @@ Use it to include some of them:
 {% extends '@SfsComponents/base.html.twig' %}
 ```
 
-### title_prefix
+### title_prefix {#title-prefix}
 
 This variable is included before the *title block* in the *seo block*.
 
@@ -287,7 +287,7 @@ twig:
         title_prefix: '%env(ENVIRONMENT_TITLE_PREFIX)%'
 ```
 
-### app_version
+### app_version {#app-version}
 
 This *app_version* variable allows to include your application version.
 
@@ -306,7 +306,7 @@ twig:
         app_version: '%env(APP_VERSION)%'
 ```
 
-### app_color
+### app_color {#app-color}
 
 In some devices, such as mobile phones and tablets, the browser shows a color for your site. This *app_color* variable
  is aimed to define it for this purpose.
@@ -325,7 +325,7 @@ twig:
         app_color: '2277dd'
 ```
 
-### body_classes
+### body_classes {#body-classes}
 
 As well as *html_classes* there is a *body_classes* variable to include *classes* into the *<body>* tag.
 

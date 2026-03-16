@@ -3,7 +3,7 @@ title: "Configure CMS Layouts"
 description: "Define page layouts in Armonic with layout config, editable containers, render templates, and translation files."
 ---
 
-## Layout Configuration (`layout` section)
+## Layout Configuration (`layout` section) {#layout-configuration-layout-section}
 
 This configuration defines the layout structure of a page or content type.  
 You can use it to control which types of modules can be inserted into different parts of the page.
@@ -35,12 +35,12 @@ or can have some definition of allowed modules in the containers, like this:
 see that in the first example we call the container "header" and in the second example we call it "headers", this is completely flexible, up to you. 
 The important thing is that, afterwards, in the templates, you use the same name to render the container.
 
-## Config reference:
+## Config reference: {#config-reference}
 
 ---
-## Field Reference
+## Field Reference {#field-reference}
 
-### `layout`
+### `layout` {#layout}
 
 - **`revision`**  
   Used to force cache or layout rebuilds when the layout structure changes.
@@ -50,7 +50,7 @@ The important thing is that, afterwards, in the templates, you use the same name
 
 ---
 
-### `containers`
+### `containers` {#containers}
 
 Each key under `containers` defines a named area in the layout.  
 These areas correspond to sections in the HTML output (e.g. `headers`, `main`, `sidebar`, etc.).
@@ -62,7 +62,7 @@ For each container, you can specify:
 
 ---
 
-## Template files
+## Template files {#template-files}
 
 The twig layout files can be as complex as you like, but in general you will be adding some seo information in the header
 and then rendering the containers in the body of the page, like this:

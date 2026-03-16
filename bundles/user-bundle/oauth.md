@@ -3,13 +3,13 @@ title: "User Bundle OAuth Providers"
 description: "Integrate OAuth providers such as Facebook with the Softspring User Bundle using HWIOAuthBundle."
 ---
 
-# Integrate Oauth providers 
+# Integrate Oauth providers {#integrate-oauth-providers}
 
 This bundle integrates with HWIOAuthBundle.
 
     composer require hwi/oauth-bundle php-http/guzzle6-adapter php-http/httplug-bundle
 
-## Facebook
+## Facebook {#facebook}
 
 Configure your User entity with:
 
@@ -81,4 +81,3 @@ Set the security configuration:
                     # Inject a service that will be created in the step #6
                     oauth_user_provider:
                         service: sfs_user.oauth_provider
-

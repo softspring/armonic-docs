@@ -84,7 +84,7 @@ services:
             - "${MYSQL_PORT:-33061}:3306"
     ###< doctrine/doctrine-bundle ###
 ```
-## 3.Start the database
+## 3.Start the database {#start-database}
 
 Then you can start the database using Docker Compose:
 

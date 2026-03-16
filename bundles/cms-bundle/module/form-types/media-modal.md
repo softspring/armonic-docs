@@ -14,7 +14,7 @@ This **mediaModal** type makes reference to *Softspring\CmsBundle\Form\Type\Medi
 
 It's similiar to [media](media.md) type, but this *mediaModal* type has more features explained bellow.
 
-## Example usage
+## Example usage {#example-usage}
 
 When you are modeling a CMS module, you can use this *mediaModal* field as follows:
 
@@ -35,19 +35,19 @@ module:
 
 This requires some *softspring/media-bundle* configuration (see [media form type](media.md) for more info).
 
-## Preview values
+## Preview values {#preview-values}
 
 Preview values works the same as [media form type](media.md).
 
-## Field rendering
+## Field rendering {#field-rendering}
 
 Field rendering works the same as [media form type](media.md).
 
-## Media attributes
+## Media attributes {#media-attributes}
 
 Media attributes works the same as [media form type](media.md).
 
-## Thumbnails
+## Thumbnails {#thumbnails}
 
 This *mediaModal* type also allows to show a thumbnail of selected image:
 
@@ -62,10 +62,10 @@ module:
                     show_thumbnail: true
 ```
 
-## Upload new medias
+## Upload new medias {#upload-new-medias}
 
 > *This type will provide the feature of uploading new medias, but it's not yet implemented.*
 
-## Field options
+## Field options {#field-options}
 
 Same options as [media form type](media.md).
