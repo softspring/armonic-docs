@@ -7,9 +7,9 @@ description: "Learn the core concepts behind the Softspring CMS Bundle, includin
 
 To begin using the SfsCms you must know some concepts explained next.
 
-## Elements
+## Elements {#elements}
 
-### Sites
+### Sites {#sites}
 
 A site defines a *webspace* or application that needs to serve contents on it. 
 
@@ -23,7 +23,7 @@ Sites can configure different languages, different sitemaps, and some special be
 
 Contents and routes will be site dependant.
 
-### Layout
+### Layout {#layout}
 
 A layout is a way to show contents. Put it in some way, is a kind of web structure.
 
@@ -31,19 +31,19 @@ A layout can define different areas to show contents, onwards we'll call them **
 
 A layout has its own twig template as base template for contents using it. So, menus, sidebars, etc, can be defined on it. 
 
-### Contents
+### Contents {#contents}
 
-#### Pages
+#### Pages {#pages}
 
 A page is an instance of contents to be shown when a user visit a URL.
 
 It's linked to a layout that defines its structure. 
 
-#### Versions
+#### Versions {#versions}
 
 When a page is edited, a new content version is created. This allows to keep the history of versions along the time.
 
-#### Custom content types
+#### Custom content types {#custom-content-types}
 
 A page is the basic kind of content, but, the SfsCms provides the feature of creating **custom content types**.
 
@@ -61,14 +61,14 @@ A blog post can be defined in a custom content type. We can define App\Entity\Po
 Other example can be a product content type for a store site. The product content type could be linked to an existing
  product entity and use its contents and data.
 
-### Routes
+### Routes {#routes}
 
 A route allows to reach contents from URLs. It contains a collection of paths or slugs (linked or not to languages) and 
  defines a behaviour to be performed.
 
 The basic behaviour is to serve a content (page or content type), but it can be configured to act as a redirection, ...
 
-### Modules
+### Modules {#modules}
 
 A module is the minimum unit of content that can be added to a page or content type. A module can be a title block, a card, hero,
  containers and grids, etc.
@@ -77,25 +77,25 @@ One of the SfsCms best and powerful features is that custom modules can be creat
 
 Also, it is posible to add modules collections.
 
-### Blocks
+### Blocks {#blocks}
 
 A block is a piece of content that can be used in many pages, content types, or directly from twig templates. 
 
 Blocks can be defined as static (just twig code, not editable) or dynamic, and can be singleton or many times instantiable. 
  This means that an instance of a block can be created just once or many times.
 
-### Menus
+### Menus {#menus}
 
 A menu is a list of links with text and links (linked to a route) rendered in a template.
 
 Menus can be rendered in any template with a twig function, as a special type of block.
 
-## How it works
+## How it works {#how-it-works}
 
-### Editing contents
+### Editing contents {#editing-contents}
 
-### SfsCms Router
+### SfsCms Router {#sfscms-router}
 
-### Rendering contents
+### Rendering contents {#rendering-contents}
 
-### Caches
+### Caches {#caches}

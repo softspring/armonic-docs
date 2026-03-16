@@ -4,7 +4,7 @@ description: "Quick start for adding Armonic to an existing Symfony application 
 ---
 
 
-# Proyecto existente 
+# Existing project {#existing-project}
 
 ```bash
 symfony new cms-demo-project --demo

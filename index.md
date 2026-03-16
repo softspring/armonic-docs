@@ -14,7 +14,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Armonic flavours](introduction/armonic-flavours.md)
 - [Features](introduction/features.md)
 
-## Getting started
+## Getting started {#getting-started}
 
 - [Requirements](getting-started/requirements.md)
 - Installation
@@ -23,7 +23,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
   - [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
   - [Install in a Sylius project](getting-started/install-sylius-project.md)
 
-## User manual
+## User manual {#user-manual}
 
 - [Create a new page](user-manual/create-a-new-page.md)
 - [Adding modules or blocks to a page](user-manual/adding-modules-or-blocks.md)
@@ -33,27 +33,27 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Create a new media](user-manual/create-a-new-media.md)
 - Configure routes
 
-## CMS Configuration
+## CMS Configuration {#cms-configuration}
 
 - [Configure sites](configuration/configure-sites.md)
 - [Configure content types](configuration/configure-content-types.md)
 - [Configure layout](configuration/configure-layouts.md)
-- Configure modules
-- Configure medias
-- Configure blocks
-- Configure menus
+- [Configure modules](configuration/configure-modules.md)
+- [Configure medias](configuration/configure-medias.md)
+- [Configure blocks](configuration/configure-blocks.md)
+- [Configure menus](configuration/configure-menu.md)
 
-## Architecture
+## Architecture {#architecture}
 
-## Performance
+## Performance {#performance}
 
-### Configure caches
+### Configure caches {#configure-caches}
 
-## Troubleshooting
+## Troubleshooting {#troubleshooting}
 
-## Bundles
+## Bundles {#bundles}
 
-### account-bundle
+### account-bundle {#account-bundle}
 
 - [Install](bundles/account-bundle/install.md)
 - Configure model
@@ -61,9 +61,9 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Account settings
 - [Admin Accounts](bundles/account-bundle/admin-accounts.md)
 
-### crudl-bundle
+### crudl-bundle {#crudl-bundle}
 
-### cms-bundle
+### cms-bundle {#cms-bundle}
 
 - [Install](bundles/cms-bundle/install.md)
 - [Getting started](bundles/cms-bundle/getting-started.md)
@@ -85,7 +85,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Logging
 - [Extend with collections](bundles/cms-bundle/collections.md)
 
-### media-bundle
+### media-bundle {#media-bundle}
 
 - [Install](bundles/media-bundle/install.md)
 - [Getting started](bundles/media-bundle/getting-started.md)
@@ -98,7 +98,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Name generators
 - Extending bundle
 
-### user-bundle
+### user-bundle {#user-bundle}
 
 - [Install](bundles/user-bundle/install.md)
 - Configure model
@@ -113,9 +113,9 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Commands
 - [OAuth](bundles/user-bundle/oauth.md)
 
-## Components
+## Components {#components}
 
-### components
+### components {#components-2}
 
 - [Install](components/components/install.md)
 - [Concepts](components/components/concepts.md)
@@ -123,6 +123,6 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Layouts
 - Components
 
-### dynamic-form-type
+### dynamic-form-type {#dynamic-form-type}
 
 - [Install](components/dynamic-form-type/install.md)

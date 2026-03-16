@@ -5,7 +5,7 @@ description: "Understand the project-level CMS directory structure and how block
 
 # Configuration
 
-## Configuration structure
+## Configuration structure {#configuration-structure}
 
 After install SfsCms a new "cms" folder is created on project root. This new folder will contain the SfsCms configuration
  for the project.
@@ -20,7 +20,7 @@ Inside this directory, other directories will be created:
 - **cms/modules**: modules configuration
 - **cms/sites**: sites configuration
 
-## How create elements
+## How create elements {#how-create-elements}
 
 Inside the configuration directories (blocks, contents, layouts, ...) a new directory, with the element identifier name,
  needs to be created.
@@ -38,7 +38,7 @@ For example, if a new "Call to action" module needs to be created, this is the c
       - *config.yaml*
       - *render.html.twig*
 
-## Configuration overriding
+## Configuration overriding {#configuration-overriding}
 
 Is posible to override every element configuration, using the same element name in folders.
 

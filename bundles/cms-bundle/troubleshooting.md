@@ -5,7 +5,7 @@ description: "Fix common CMS Bundle issues such as MySQL memory errors and silen
 
 # Troubleshooting
 
-## Mysql memory allocation error
+## Mysql memory allocation error {#mysql-memory-allocation-error}
 
 In some situations, Doctrine can dispatch a "Doctrine\DBAL\Exception\DriverException" exception with an "out of sort memory" message.
 
@@ -15,7 +15,7 @@ This is a common error if database instance has a low value for [sort_buffer_siz
 
 The solution is easy: increase this value, for example to 5.4k.
 
-## Silent fail using a lot of ESI blocks or menus and http cache
+## Silent fail using a lot of ESI blocks or menus and http cache {#silent-fail-using-a-lot-of-esi-blocks-or-menus-and-http-cache}
 
 If you use a lot of menus (sometimes about 20-30 items) you can experiment a silent error. 
 
@@ -29,7 +29,7 @@ framework:
     esi: true
 ```
 
-## After deploying a new version assets are not loaded
+## After deploying a new version assets are not loaded {#after-deploying-a-new-version-assets-are-not-loaded}
 
 SfsCms compiles contents, and stores them in database by default to be used later and improve performance.
 
@@ -79,7 +79,7 @@ sfs_cms:
         prefix_compiled: '%env(APP_VERSION)%/'
 ```
 
-## Some site or locale content render has not styles or scripts
+## Some site or locale content render has not styles or scripts {#some-site-or-locale-content-render-has-not-styles-or-scripts}
 
 When a content is saved or republished, the content is compiled and stored in database. This content includes styles and scripts references.
 

@@ -5,7 +5,7 @@ description: "Configure CMS sites, locales, hosts, HTTPS redirects, sitemaps, an
 
 # Sites
 
-## Site locales
+## Site locales {#site-locales}
 
 A site can be localized with many locales:
 
@@ -25,7 +25,7 @@ framework:
   enabled_locales: [ en, de, fr, it, es ]
 ```
 
-## Force https
+## Force https {#force-https}
 
 Symfony provides a https redirect configuration way using SecurityBundle (https://symfony.com/doc/current/security/force_https.html).
 
@@ -36,7 +36,7 @@ site:
     https_redirect: true
 ```
 
-## Configure hostnames
+## Configure hostnames {#configure-hostnames}
 
 ```yaml
 site:
@@ -52,7 +52,7 @@ site:
         - { domain: '%env(WEB_DOMAIN)%' }
 ```
 
-### Canonical hostname
+### Canonical hostname {#canonical-hostname}
 
 One of the hosts can be defined as canonical:
 
@@ -72,7 +72,7 @@ site:
         - { domain: 'www.%env(WEB_DOMAIN)%', redirect_to_canonical: true }
 ```
 
-## Locale hostnames or paths
+## Locale hostnames or paths {#locale-hostnames-or-paths}
 
 Hosts can define a locale to be selected when using it:  
 
@@ -93,7 +93,7 @@ site:
         - { path: '/de/', locale: 'de' }
 ```
 
-## Error pages
+## Error pages {#error-pages}
 
 ```yaml
 site:
@@ -109,7 +109,7 @@ site:
             en: [ '@site/store/error_pages/5xx.html.twig', '/srv/cms/site/store/error_pages/5xx-en.html' ]
 ```
 
-## Slash route behaviours
+## Slash route behaviours {#slash-route-behaviours}
 
 **Redirect / route to a specific route depending on the user language**
 
@@ -120,7 +120,7 @@ site:
         route: 'home'
 ```
 
-## Site sitemaps
+## Site sitemaps {#site-sitemaps}
 
 ```yaml
 site:
@@ -130,7 +130,7 @@ site:
         cache_ttl: 300
 ```
 
-## Allowed content types
+## Allowed content types {#allowed-content-types}
 
 As default, "page" contents are included for every configured host.
 
@@ -142,7 +142,7 @@ site:
     allowed_content_types: ['page', 'post']
 ```
 
-## Default site
+## Default site {#default-site}
 
 ```yaml
 site:
@@ -168,7 +168,7 @@ site:
         route: 'home'
 ```
 
-## Override default site
+## Override default site {#override-default-site}
 
 Every site default configuration can be overridden for the project:
 
@@ -178,7 +178,7 @@ site:
     allowed_content_types: ['page', 'product', 'news', 'faq']
 ```
 
-## Create custom site
+## Create custom site {#create-custom-site}
 
 SfsCms supports multisite. It's easy adding a new site creating a config file:
 
@@ -196,7 +196,7 @@ site:
         - { path: '/en', locale: 'en' }
 ```
 
-## Configuration reference
+## Configuration reference {#configuration-reference}
 
 ```yaml
 # Default configuration for sites
