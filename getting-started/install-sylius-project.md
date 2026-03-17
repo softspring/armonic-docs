@@ -1,87 +1,286 @@
+---
+title: "Install Armonic in a Sylius Project"
+description: "Step-by-step guide to install Sylius and integrate Armonic CMS bundles."
+---
+
 # Install Armonic in a Sylius project
 
+These instructions are provided as a general guide. Sylius versions and their dependencies can vary significantly from one release to another, so this documentation focuses on a very basic installation flow to get started quickly. If you need a more tailored installation for your project, please contact Softspring.
+
 >[!IMPORTANT]
-> This guide assumes you have Composer, PHP, Node.js/Yarn (or npm), and MySQL database.
+> This guide assumes you have Composer, PHP, Node.js (npm or Yarn), and MySQL installed.
 
-## Install Sylius project {#install-sylius-project}
+## 1. Install or prepare a Sylius project {#install-sylius-project}
 
-If you have an existing Sylius project, you can skip this section and go to the [Install Armonic in the Sylius project](#install-armonic) section.
-If you don't have a Sylius project yet, you can create one using the Sylius Standard Edition. 
-You can follow the official Sylius installation guide to set up a new Sylius project: https://docs.sylius.com.
-These are the basic steps to create a new Sylius project:
+If you already have a Sylius project, skip to [Install Armonic in the Sylius project](#install-armonic).
 
-## 1. Requirements {#requirements}
+If not, follow the official Sylius documentation:
+- Main docs: <https://docs.sylius.com>
+- Requirements: <https://docs.sylius.com/getting-started-with-sylius/before-you-begin>
 
-Make sure you have the following requirements installed on your system:
-https://docs.sylius.com/getting-started-with-sylius/before-you-begin
-
-## 1.Create a new Sylius project {#create-new-sylius-project}
-
-We will install Sylius Community Edition. The document of this is in https://docs.sylius.com/the-book/sylius-ce-installation. This is a resume:
+### 1.1 Create a new Sylius project {#create-new-sylius-project}
 
 ```bash
 $ composer create-project sylius/sylius-standard ArmonicSyliusProject
 $ cd ArmonicSyliusProject
-$ npm install
-$ npm run build
 ```
 
-## 2.Configure database {#configure-database}
+### 1.2 Configure the database {#configure-database}
 
-We will configure MySQL database and, for this, we will create (if it doesn't exist) a .env.local file with the following content.
-In this configuration file, we will put:
-```
+Create (or update) `.env.local`:
+
+```dotenv
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/sylius_%kernel.environment%?serverVersion=8.0"
 ```
-Replace db_user, db_password, and other values with your credentials
 
-## 3.Install Sylius {#sylius-install}
+Replace `db_user`, `db_password`, and any other values with your own credentials.
 
-````bash
+### 1.3 Install Sylius {#sylius-install}
+
+```bash
 $ php bin/console sylius:install
-````
-## 4. Install frontend assets {#install-assets}
+```
 
-You can install frontend assets using Yarn or npm. With yarn:
+### 1.4 Install frontend assets {#install-assets}
+
+Using Yarn:
+
 ```bash
 $ yarn install
 $ yarn build
 ```
-With npm:
+
+Using npm:
+
 ```bash
 $ npm install
 $ npm run build
 ```
-## 5. Load fixtures {#load-fixtures}
 
-Sylius comes with a set of fixtures that you can load to populate your database with sample data.
+### 1.5 Load fixtures {#load-fixtures}
 
 ```bash
 $ php bin/console sylius:fixtures:load
 ```
 
-## 6. Start the local development server {#start-server}
-
-Once Sylius is installed and the assets are compiled, you can start a local web server:
+### 1.6 Start the local development server {#start-server}
 
 ```bash
-symfony serve
+$ symfony serve
 ```
 
-Then open your browser at http://127.0.0.1:8000 to view the shop. 
-The admin dashboard at http://127.0.0.1:8000/admin is accessible with the following credentials:
-- Username: sylius@example.com
-- Password: sylius
+Then open:
+- Shop: <https://localhost:8005/en_US/> (or <https://127.0.0.1:8005>)
+- Admin: <http://localhost:8005/admin> (or <http://127.0.0.1:8005/admin>)
+
+Default admin credentials:
+- Username: `sylius`
+- Password: `sylius`
 
 ![sylius-admin.png](.files/sylius-admin.png){.img-fluid}
 
-## Install Armonic in the Sylius project {#install-armonic}
+## 2. Install Armonic in the Sylius project {#install-armonic}
 
-Now that you have a Sylius project up and running, you can install Armonic in it.
+Now that Sylius is running, install the Armonic CMS bundles.
 
-## 1. Install packages {#install-packages}
+### 2.1 Install CMS bundles
 
-Get the packages with composer. 
 ```bash
-$ composer require softspring/cms-bundle
+$ composer require softspring/cms-bundle:^6.0@dev softspring/cms-sylius-bundle:^6.0@dev
 ```
+
+### 2.2 Configure CMS routes for the admin area
+
+Create `config/routes/sfs_cms_admin.yaml`:
+
+```yaml
+_sfs_cms_pages_:
+    resource: "@SfsCmsBundle/config/routing/admin_pages.yaml"
+    prefix: "/admin/pages"
+
+_sfs_cms_routes_:
+    resource: "@SfsCmsBundle/config/routing/admin_routes.yaml"
+    prefix: "/admin/routes"
+
+_sfs_cms_menus_:
+    resource: "@SfsCmsBundle/config/routing/admin_menus.yaml"
+    prefix: "/admin/menus"
+
+_sfs_cms_blocks_:
+    resource: "@SfsCmsBundle/config/routing/admin_blocks.yaml"
+    prefix: "/admin/blocks"
+
+_sfs_cms_sites_:
+    resource: "@SfsCmsBundle/config/routing/admin_sites.yaml"
+    prefix: "/admin/sites"
+
+_sfs_media_admin_types_:
+    resource: "@SfsMediaBundle/config/routing/admin_media.yaml"
+    prefix: "/admin/media"
+```
+
+### 2.3 Configure CMS roles and site behavior
+
+Create `config/packages/sfs_cms.yaml`:
+
+```yaml
+imports:
+    - { resource: '@SfsCmsBundle/config/security/admin_role_hierarchy.yaml' }
+
+security:
+    role_hierarchy:
+        ROLE_ADMINISTRATION_ACCESS:
+            - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
+            - ROLE_SFS_CMS_ADMIN_BLOCKS_RW
+            - ROLE_SFS_CMS_ADMIN_CONTENTS_RW
+            - ROLE_SFS_CMS_ADMIN_ROUTES_RW
+            - ROLE_SFS_CMS_ADMIN_MENUS_RW
+            - ROLE_SFS_CMS_ADMIN_SITES_RO
+            - ROLE_SFS_CMS_ADMIN_CONTENTS_TRANSLATOR
+        ROLE_ADMIN:
+            - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
+            - ROLE_SFS_CMS_ADMIN_BLOCKS_RW
+            - ROLE_SFS_CMS_ADMIN_CONTENTS_RW
+            - ROLE_SFS_CMS_ADMIN_ROUTES_RW
+            - ROLE_SFS_CMS_ADMIN_MENUS_RW
+            - ROLE_SFS_CMS_ADMIN_SITES_RO
+            - ROLE_SFS_CMS_ADMIN_CONTENTS_TRANSLATOR
+
+sfs_cms:
+    site:
+        identification: "domain"
+        throw_not_found: false
+```
+
+### 2.4 Add CMS entries to the admin menu
+
+Create `config/packages/sfs_admin_menu_cms.yaml` with your CMS menu entries for the Sylius admin sidebar.
+
+### 2.5 Add translations
+
+Create `translations/messages.en.yaml`:
+
+```yaml
+sfs_sylius_cms_plugin:
+    ui:
+        cms: "CMS"
+        contents:
+            page: "Pages"
+        routes: "Paths"
+        blocks: "Blocks"
+        sections: "Sections"
+        menus: "Menus"
+        medias: "Medias"
+```
+
+Create `translations/sfs_components.en.yaml`:
+
+```yaml
+sidebar:
+    menu:
+        cms:
+            title: "CMS"
+            pages: "Pages"
+            menus: "Menus"
+            blocks: "Blocks"
+            medias: "Media"
+            routes: "Routes"
+            sites: "Sites"
+```
+
+### 2.6 Build assets and clear cache
+
+```bash
+$ npm install
+$ npm run build
+$ php bin/console cache:clear
+```
+## Applied compatibility fixes
+
+During integration, the following Sylius 2.2 compatibility fixes were applied.
+
+1. `Twig\Extension\StringLoaderExtension` duplicate registration (`config/packages/twig.yaml`)
+
+```yaml
+# Before
+sfs_cms.twig.extension.loader:
+    class: Twig\Extension\StringLoaderExtension
+
+# After
+sfs_cms.twig.extension.loader:
+    class: Twig\Extension\StringLoaderExtension
+    autoconfigure: false
+```
+
+2. Obsolete admin layout (`@SyliusAdmin/layout.html.twig`)
+
+```twig
+{# Before #}
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{# After #}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+```
+
+3. Removed deprecated `sylius_template_event(...)` calls in CMS admin layouts
+
+```twig
+{# Before #}
+{{ sylius_template_event('sylius.admin.layout.content') }}
+
+{# After #}
+{% include '@SyliusAdmin/shared/crud/common/sidebar.html.twig' %}
+{% include '@SyliusAdmin/shared/crud/common/navbar.html.twig' %}
+{% include '@SyliusAdmin/shared/crud/common/content/flashes.html.twig' %}
+{{ block('content') }}
+```
+
+4. CMS entrypoint fallback when `admin-entry-cms` is not present
+
+```twig
+{# Before #}
+{{ encore_entry_script_tags('admin-entry-cms', null, 'admin') }}
+
+{# After #}
+{% if encore_entry_exists('admin-entry-cms', 'admin') %}
+    {{ encore_entry_script_tags('admin-entry-cms', null, 'admin') }}
+{% else %}
+    {{ encore_entry_script_tags('admin-entry', null, 'admin') }}
+{% endif %}
+```
+
+5. Form theme path case fix (`Form` -> `form`)
+
+```twig
+{# Before #}
+{% extends '@SyliusUi/Form/theme.html.twig' %}
+
+{# After #}
+{% extends '@SyliusUi/form/theme.html.twig' %}
+```
+
+Applied in:
+- `vendor/softspring/cms-sylius-bundle/templates/bundles/SfsCmsBundle/forms/cms_theme_semantic.html.twig`
+- create/update/delete templates for routes, blocks, menus, and media.
+
+6. Visual alignment with Sylius admin (Bootstrap/Tabler instead of Semantic classes)
+
+```twig
+{# Before #}
+{% set sfs_components_theme = 'semantic-ui' %}
+<a class="ui labeled icon button primary">Create</a>
+<div class="ui buttons">...</div>
+{% embed '@SfsComponents/paginator/table.html.twig' with {'classes': 'table ui celled'} %}
+
+{# After #}
+<a class="btn btn-primary">Create</a>
+<div class="btn-group" role="group">...</div>
+{% embed '@SfsComponents/paginator/table.html.twig' with {'classes': 'table'} %}
+```
+
+Affected pages:
+- `/admin/pages/`
+- `/admin/routes/`
+- `/admin/blocks/`
+- `/admin/menus/`
+- `/admin/media/`
