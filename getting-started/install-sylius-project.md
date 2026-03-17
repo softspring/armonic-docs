@@ -5,7 +5,7 @@ description: "Step-by-step guide to install Sylius and integrate Armonic CMS bun
 
 # Install Armonic in a Sylius project
 
-These instructions are provided as a general guide. Sylius versions and their dependencies can vary significantly from one release to another, so this documentation focuses on a very basic installation flow to get started quickly. If you need a more tailored installation for your project, please contact Softspring.
+These instructions are intended as a general guide. Versions of Sylius and its dependencies can vary considerably from one release to the next, which affects the functionality of the Armonic CMS. This documentation focuses on a very basic installation process to help you get started quickly. If you require a more customised installation for your project, please contact Softspring through the [contact form](https://softspring.es/en/contact) or [WhatsApp](https://wa.me/message/OAIKKFTIRFICM1).
 
 >[!IMPORTANT]
 > This guide assumes you have Composer, PHP, Node.js (npm or Yarn), and MySQL installed.
