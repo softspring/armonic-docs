@@ -59,14 +59,14 @@ And let's go step by step:
 > You don't need to configure all of these, only the ones needed for your site. 
 > You can see in the [Install new Symfony Project](getting-started/install-new-symfony-project.md) that you can have a site without any configuration.
 
-### **1️⃣ Allowed Content Types** {#1-allowed-content-types}
+### **1️⃣ Allowed Content Types** {#allowed-content-types}
 ```yaml
 allowed_content_types: ['page', 'technology', 'project']
 ```
 - Defines which content types are permitted in this site configuration. We explain more about Content Types in the [Content Types](configure-content-types.md) section.
 - In this case, the site allows **pages**, **technology articles**, and **projects**.
 
-### **2️⃣ Locales (Languages)** {#2-locales-languages}
+### **2️⃣ Locales (Languages)** {#locales-languages}
 ```yaml
 locales: ['es', 'en']
 default_locale: 'es'
@@ -74,13 +74,13 @@ default_locale: 'es'
 - The site supports **Spanish (es)** and **English (en)**.
 - Spanish (`es`) is set as the **default language**.
 
-### **3️⃣ HTTPS Redirection** {#3-https-redirection}
+### **3️⃣ HTTPS Redirection** {#https-redirection}
 ```yaml
 https_redirect: true
 ```
 - Ensures all traffic is redirected to **HTTPS**.
 
-### **4️⃣ Robots Configuration** {#4-robots-configuration}
+### **4️⃣ Robots Configuration** {#robots-configuration}
 ```yaml
 robots:
     mode: static
@@ -90,7 +90,7 @@ robots:
 - The mode is **static**, meaning it serves a predefined file.
 - The file used is located at `@site/default/robots.txt.twig`.
 
-### **5️⃣ Host Configuration** {#5-host-configuration}
+### **5️⃣ Host Configuration** {#host-configuration}
 ```yaml
 hosts:
     - { domain: '%env(WEB_DOMAIN)%', canonical: true }
@@ -100,7 +100,7 @@ hosts:
 - The **canonical** domain is taken from an environment variable (`WEB_DOMAIN`).
 - Other domains (like `www.` versions) are redirected to the canonical domain.
 
-### **6️⃣ Path Configuration** {#6-path-configuration}
+### **6️⃣ Path Configuration** {#path-configuration}
 ```yaml
 paths:
     - { path: '/es/', locale: 'es', trailing_slash_on_root: true }
@@ -111,14 +111,14 @@ paths:
 - `/en/` → English (`en`)
 - **trailing_slash_on_root: true** ensures a trailing slash is added.
 
-### **7️⃣ Extra Settings** {#7-extra-settings}
+### **7️⃣ Extra Settings** {#extra-settings}
 ```yaml
 extra:
     order: 1
 ```
 - Defines an **ordering priority** for the site (useful in multi-site configurations).
 
-### **8️⃣ Error Page Configuration** {#8-error-page-configuration}
+### **8️⃣ Error Page Configuration** {#error-page-configuration}
 ```yaml
 error_pages:
     404:
@@ -135,7 +135,7 @@ error_pages:
 - **404 pages** are language-specific.
 - **4xx and 5xx errors** support multiple templates.
 
-### **9️⃣ Slash Route Handling** {#9-slash-route-handling}
+### **9️⃣ Slash Route Handling** {#slash-route-handling}
 ```yaml
 slash_route:
     behaviour: 'redirect_to_route_with_user_language'
