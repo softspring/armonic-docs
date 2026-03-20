@@ -53,7 +53,9 @@
                             "file": "standalone/install-armonic-standalone.md"
                         },
                         {
-                            "text": "Install in a Sylius project"
+                            "text": "Install in a Sylius project",
+                            "slug": "install-sylius-project",
+                            "file": "getting-started/install-sylius-project.md"
                         }
                     ]
                 }
