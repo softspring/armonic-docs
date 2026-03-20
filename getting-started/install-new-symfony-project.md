@@ -151,7 +151,7 @@ Before you can create your first page, you need to configure security to access 
 
 You can use any Symfony <a href="https://symfony.com/doc/current/security.html">security configuration</a> or bundle you want, but for this example we will use the Softspring User Bundle.
 
-### 6.Configure Softspring User Bundle {#configure-sfs-user-bundle}
+### Configure Softspring User Bundle {#configure-sfs-user-bundle}
 
 Install the Softspring User Bundle with composer:
 
@@ -204,7 +204,7 @@ $ bin/console sfs:user:create username user@example.com 123456
 $ bin/console sfs:user:promote user@example.com
 ```
 
-## 7. Done! {#enter-admin-area}
+## 6. Done! {#enter-admin-area}
 
 Now you can go to admin area and login with the user you just created:
 
