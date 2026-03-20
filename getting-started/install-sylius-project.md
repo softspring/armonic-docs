@@ -129,22 +129,21 @@ imports:
 
 security:
     role_hierarchy:
+        role_hierarchy:
         ROLE_ADMINISTRATION_ACCESS:
-            - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
-            - ROLE_SFS_CMS_ADMIN_BLOCKS_RW
-            - ROLE_SFS_CMS_ADMIN_CONTENTS_RW
-            - ROLE_SFS_CMS_ADMIN_ROUTES_RW
-            - ROLE_SFS_CMS_ADMIN_MENUS_RW
+            - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RO
+            - ROLE_SFS_CMS_ADMIN_BLOCKS_RO
+            - ROLE_SFS_CMS_ADMIN_CONTENTS_RO
+            - ROLE_SFS_CMS_ADMIN_ROUTES_RO
+            - ROLE_SFS_CMS_ADMIN_MENUS_RO
             - ROLE_SFS_CMS_ADMIN_SITES_RO
-            - ROLE_SFS_CMS_ADMIN_CONTENTS_TRANSLATOR
         ROLE_ADMIN:
+            - ROLE_ADMINISTRATION_ACCESS
             - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
             - ROLE_SFS_CMS_ADMIN_BLOCKS_RW
             - ROLE_SFS_CMS_ADMIN_CONTENTS_RW
             - ROLE_SFS_CMS_ADMIN_ROUTES_RW
             - ROLE_SFS_CMS_ADMIN_MENUS_RW
-            - ROLE_SFS_CMS_ADMIN_SITES_RO
-            - ROLE_SFS_CMS_ADMIN_CONTENTS_TRANSLATOR
 
 sfs_cms:
     site:
