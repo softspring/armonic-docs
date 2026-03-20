@@ -94,29 +94,12 @@ $ composer require softspring/cms-bundle:^6.0@dev softspring/cms-sylius-bundle:^
 Create `config/routes/sfs_cms_admin.yaml`:
 
 ```yaml
-_sfs_cms_pages_:
-    resource: "@SfsCmsBundle/config/routing/admin_pages.yaml"
-    prefix: "/admin/pages"
+_sfs_cms_admin_:
+    resource: "@SfsCmsBundle/config/routing/admin.yaml"
+    prefix: "/admin"
 
-_sfs_cms_routes_:
-    resource: "@SfsCmsBundle/config/routing/admin_routes.yaml"
-    prefix: "/admin/routes"
-
-_sfs_cms_menus_:
-    resource: "@SfsCmsBundle/config/routing/admin_menus.yaml"
-    prefix: "/admin/menus"
-
-_sfs_cms_blocks_:
-    resource: "@SfsCmsBundle/config/routing/admin_blocks.yaml"
-    prefix: "/admin/blocks"
-
-_sfs_cms_sites_:
-    resource: "@SfsCmsBundle/config/routing/admin_sites.yaml"
-    prefix: "/admin/sites"
-
-_sfs_media_admin_types_:
-    resource: "@SfsMediaBundle/config/routing/admin_media.yaml"
-    prefix: "/admin/media"
+_sfs_cms_frontend_:
+    resource: "@SfsCmsBundle/config/routing/frontend.yaml"
 ```
 
 ### 2.3 Configure CMS roles and site behavior
