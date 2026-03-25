@@ -309,7 +309,7 @@ Su presencia es tranquilizadora, y su llegada siempre oportuna, reflejando esa c
 En Softspring, adoptamos la figura de Gandalf como nuestro "Brand Persona" porque personifica nuestro propósito de ofrecer soluciones tecnológicas que no solo son complejas y solucionan problemas, también son éticas y profundamente humanas.
 
 Atributos de nuestro Gandalf:
-● Sabiduría: Gandalf es reconocido por su profundo conocimiento del mundo. En Softspring, esta característica se traduce en nuestro entendimiento avanzado de la tecnología y las necesidades técnicas de cadaproyecto.
+● Sabiduría: Gandalf es reconocido por su profundo conocimiento del mundo. En Softspring, esta característica se traduce en nuestro entendimiento avanzado de la tecnología y las necesidades técnicas de cada proyecto.
 ● Confianza: El personaje de Gandalf inspira confianza y lealtad. Nosotros actuamos como un consejero, alguien en el que sabes que puedes confiar, y que asegura que las decisiones tecnológicas se toman con una comprensión completa de sus implicaciones.
 ● Transformación: Gandalf es crucial en la transformación de personajes como Bilbo y Frodo, ayudándoles a encontrar la fuerza interior para enfrentar sus desafíos. Nosotros hacemos lo mismo aportando el conocimiento y las herramientas a nuestros clientes que transforman sus negocios.
 ● Integridad: Gandalf siempre actúa con un fuerte sentido de la integridad, uno de los 4 valores principales de Softspring.
