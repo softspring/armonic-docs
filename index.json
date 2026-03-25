@@ -79,7 +79,11 @@
                     "slug": "preview-and-publish-a-page",
                     "file": "user-manual/preview-and-publish-a-page.md"
                 },
-                { "text": "Create a new block" },
+                {
+                    "text": "Create a new block",
+                    "slug": "create-a-new-block",
+                    "file": "user-manual/create-a-new-block.md"
+                },
                 { "text": "Create a new menu" },
                 {
                     "text": "Create a new media",
