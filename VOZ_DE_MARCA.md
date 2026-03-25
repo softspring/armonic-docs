@@ -434,7 +434,7 @@ Aquí algunos aspectos clave para definir el tono en nuestras comunicaciones:
    Tagline
    El tagline es el apellido que acompaña siempre a nuestro nombre. Una frase breve y memorable asociada con nuestra marca en su conjunto. Un buen tagline es atemporal y permanece constante
    “Tecnología de humanos para humanos”.
-   (��Si nos gusta más en inglés: “Technology made by humans for humans”).
+   (Si nos gusta más en inglés: “Technology made by humans for humans”).
    Fondo:
    Un buen tagline no es el tagline más creativo. Es el que mejor expresa la esencia de nuestro propósito.
    Queremos alejarnos de la percepción de que la tecnología es fría e impersonal y poner en valor las soluciones que consideran las necesidades humanas, mejorando la interacción diaria con la tecnología.
