@@ -22,7 +22,7 @@ With this bundle, you get tracing around common Symfony layers with almost no ap
 - dispatched events
 - Twig template rendering
 - Symfony HttpCache execution
-- Doctrine DBAL query and transaction activity
+- Doctrine DBAL query activity and related low-level DBAL operations
 
 That gives you a fast way to answer practical questions such as:
 
@@ -113,13 +113,12 @@ It supports two styles depending on the DBAL version in use:
 - middleware-based tracing on newer DBAL versions
 - SQL logger decoration on older DBAL versions
 
-This gives you spans for:
+This gives you spans for common DBAL work such as:
 
 - queries
 - `exec`
-- transaction begin
-- commit
-- rollback
+
+The exact low-level coverage depends on the DBAL integration style available in the application.
 
 ## Using The Kernel Trait {#using-the-kernel-trait}
 
