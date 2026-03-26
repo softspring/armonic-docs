@@ -19,7 +19,7 @@ Working rules for documentation changes in this repository.
 - Place infrastructure or technical integration packages in `components/` even if they are implemented as Symfony bundles.
 - Organize the page in titled sections, similar to Symfony documentation.
 - Keep English simple and direct.
-- Follow the communication guidelines from `VOZ_DE_MARCA.md` while keeping the result as technical documentation.
+- Follow the communication guidelines from `../armonic-docs-server/VOZ_DE_MARCA.md` while keeping the result as technical documentation.
 - Write in a clear, honest, practical, and accessible way, avoiding unnecessary jargon and empty marketing language.
 
 ## Content
