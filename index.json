@@ -356,25 +356,99 @@
                     "text": "Components",
                     "children": [
                         {
-                            "text": "Install",
-                            "slug": "components/components/install",
-                            "file": "components/components/install.md"
-                        },
+                            "text": "Guide",
+                            "slug": "components/components",
+                            "file": "components/components.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Collection form type",
+                    "children": [
                         {
-                            "text": "Concepts",
-                            "slug": "components/components/concepts",
-                            "file": "components/components/concepts.md"
-                        },
+                            "text": "Guide",
+                            "slug": "components/collection-form-type",
+                            "file": "components/collection-form-type.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Command controller",
+                    "children": [
                         {
-                            "text": "Base template",
-                            "slug": "components/components/base-template",
-                            "file": "components/components/base-template.md"
-                        },
+                            "text": "Guide",
+                            "slug": "components/command-controller",
+                            "file": "components/command-controller.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Crudl bundle",
+                    "children": [
                         {
-                            "text": "Layouts"
-                        },
+                            "text": "Guide",
+                            "slug": "components/crudl-bundle",
+                            "file": "components/crudl-bundle.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Crudl controller",
+                    "children": [
                         {
-                            "text": "Components"
+                            "text": "Guide",
+                            "slug": "components/crudl-controller",
+                            "file": "components/crudl-controller.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Doctrine migrations comparator",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/doctrine-migrations-comparator",
+                            "file": "components/doctrine-migrations-comparator.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Doctrine paginator",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/doctrine-paginator",
+                            "file": "components/doctrine-paginator.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Doctrine query filters",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/doctrine-query-filters",
+                            "file": "components/doctrine-query-filters.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Doctrine target entity resolver",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/doctrine-target-entity-resolver",
+                            "file": "components/doctrine-target-entity-resolver.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Doctrine templates",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/doctrine-templates",
+                            "file": "components/doctrine-templates.md"
                         }
                     ]
                 },
@@ -382,9 +456,99 @@
                     "text": "Dynamic form type",
                     "children": [
                         {
-                            "text": "Install",
-                            "slug": "components/dynamic-form-type/install",
-                            "file": "components/dynamic-form-type/install.md"
+                            "text": "Guide",
+                            "slug": "components/dynamic-form-type",
+                            "file": "components/dynamic-form-type.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Events",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/events",
+                            "file": "components/events.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Google Cloud trace",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/google-cloud-trace",
+                            "file": "components/google-cloud-trace.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "HTTP cache store bundle",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/http-cache-store-bundle",
+                            "file": "components/http-cache-store-bundle.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Mime translatable",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/mime-translatable",
+                            "file": "components/mime-translatable.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Polymorphic form type",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/polymorphic-form-type",
+                            "file": "components/polymorphic-form-type.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Response headers",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/response-headers",
+                            "file": "components/response-headers.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Time ago bundle",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/time-ago-bundle",
+                            "file": "components/time-ago-bundle.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Translatable bundle",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/translatable-bundle",
+                            "file": "components/translatable-bundle.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Twig extra bundle",
+                    "children": [
+                        {
+                            "text": "Guide",
+                            "slug": "components/twig-extra-bundle",
+                            "file": "components/twig-extra-bundle.md"
                         }
                     ]
                 }
