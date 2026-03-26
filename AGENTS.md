@@ -14,6 +14,9 @@ Working rules for documentation changes in this repository.
 - Prefer a single documentation file for each bundle or component.
 - For bundles and components, use a single file such as `bundles/media-bundle.md` or `components/foo.md`.
 - Do not use `index.md` inside bundle or component directories.
+- Classify pages in `bundles/` or `components/` by the kind of functionality they expose, not only by the package technical type.
+- Reserve `bundles/` mainly for user-facing packages with controllers, screens, or application-facing flows.
+- Place infrastructure or technical integration packages in `components/` even if they are implemented as Symfony bundles.
 - Organize the page in titled sections, similar to Symfony documentation.
 - Keep English simple and direct.
 - Follow the communication guidelines from `VOZ_DE_MARCA.md` while keeping the result as technical documentation.
