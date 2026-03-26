@@ -49,8 +49,6 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 
 ### Configure caches {#configure-caches}
 
-## Troubleshooting {#troubleshooting}
-
 ## Bundles {#bundles}
 
 ### account-bundle {#account-bundle}
@@ -126,3 +124,5 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 ### dynamic-form-type {#dynamic-form-type}
 
 - [Install](components/dynamic-form-type/install.md)
+
+## Troubleshooting {#troubleshooting}

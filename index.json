@@ -140,9 +140,6 @@
             ]
         },
         {
-            "text": "Troubleshooting"
-        },
-        {
             "text": "Bundles",
             "children": [
                 {
@@ -393,6 +390,9 @@
                     ]
                 }
             ]
+        },
+        {
+            "text": "Troubleshooting"
         }
     ]
 }

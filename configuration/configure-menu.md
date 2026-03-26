@@ -19,6 +19,7 @@ menu:
 ```
 
 Only `revision` is required. The rest is optional and has defaults.
+If you clear the cache, you’ll be able to see the menu in the drop-down menu of the ‘New menu’ button.
 
 ## Practical Example
 
