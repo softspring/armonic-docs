@@ -28,7 +28,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Create a new page](user-manual/create-a-new-page.md)
 - [Adding modules or blocks to a page](user-manual/adding-modules-or-blocks.md)
 - [Preview and publish a page](user-manual/preview-and-publish-a-page.md)
-- Create a new block
+- [Create a new block](user-manual/create-a-new-block.md)
 - Create a new menu
 - [Create a new media](user-manual/create-a-new-media.md)
 - Configure routes

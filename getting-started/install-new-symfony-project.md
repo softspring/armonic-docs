@@ -17,13 +17,13 @@ You can create a new Symfony project using the Symfony CLI or Composer as shown 
 Let's create a new Symfony project using the Symfony CLI:
 
 ```bash
-$ symfony new cms-new-project --webapp
+symfony new cms-new-project --webapp
 ```
 
-By default, Symfony 7.0 version will be used, but you can specify the version of Symfony to use:
+By default, Symfony 8.0 version will be used, but you can specify the version of Symfony to use:
 
 ```bash
-$ symfony new cms-new-project --version="6.4.*" --webapp
+symfony new cms-new-project --version="8.0.*" --webapp
 ```
 
 * If it's your first time running symfony-cli, it might complain that you lack some needed packages (ie: ext-xml). You can install them with
@@ -32,11 +32,11 @@ and try again, but you will need to delete the project folder "cms-new-project" 
 After creating the project, you can start the Symfony local web server:
 
 ```bash
-$ cd cms-new-project
-$ symfony server:start -d
+cd cms-new-project
+symfony server:start -d
 ```
 
-![welcome-to-symfony7.png](.files/welcome-to-symfony7.png){.img-fluid}
+![welcome-to-symfony8.png](.files/welcome-to-symfony8.png){.img-fluid}
 
 ## 2.Configure database {#configure-database}
 
@@ -89,11 +89,10 @@ services:
 Then you can start the database using Docker Compose:
 
 ```bash
-$ docker-compose up -d
+docker-compose up -d
 ```
 >[!NOTE]
 > If you restart your computer at some point, you will need to start the database again with `docker-compose up -d`.
-
 
 You will need to modify the .env file to configure the database connection:
 
@@ -109,15 +108,17 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&cha
 We will use Symfony Flex to install Armonic in the new Symfony project. 
 
 >[!NOTE]
-> By the moment, configure recipes manually
+> For now, configure recipes manually:
 > ```bash
-> $ composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
+> composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
+> composer config minimum-stability dev
+> composer config prefer-stable true
 > ```
 
 Install **armonic** package with composer (say Yes or Yes for all packages to install the recipes):
 
 ```bash
-$ composer require softspring/armonic:^5.2
+composer require softspring/armonic:6.0.x-dev -W
 
  Do you want to execute this recipe?
     [y] Yes
@@ -127,18 +128,42 @@ $ composer require softspring/armonic:^5.2
     (defaults to n): a
 ```
 
-This will currently install Armonic 6.0, the latest version available.
+This will install Armonic from the `6.0.x-dev` development branch.
 
 >[!NOTE]
 > Also, you can configure the preferred install type for softspring packages as source:
 > ```bash
-> $ composer config 'preferred-install.softspring/*' source
+> composer config 'preferred-install.softspring/*' source
 > ```
+
+>[!NOTE]
+> If you get an error like:
+> `Cannot autowire service "...DynamicTypesExtension"... TypeResolverInterface ... no such service exists`
+> add this service definition to `config/services.yaml`:
+> ```yaml
+> services:
+>     Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface:
+>         class: Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver
+>         arguments:
+>             $resolvers:
+>                 - '@Softspring\CmsBundle\Form\Resolver\AppTypeResolver'
+>                 - '@Softspring\CmsBundle\Form\Resolver\CmsTypeResolver'
+> ```
+> and then try again to install the package.
 
 After installing the package, you must run the Doctrine migrations to create the database schema:
 
+>[!NOTE]
+> To avoid inconsistent migration state errors on first install, start with an empty database:
+> ```bash
+> bin/console doctrine:database:drop --if-exists --force
+> bin/console doctrine:database:create
+> bin/console doctrine:migrations:sync-metadata-storage -n
+> ```
+> If you use Docker for MySQL, make sure the database volume is also fresh between attempts.
+
 ```bash
-$ bin/console doctrine:migrations:migrate -n
+bin/console doctrine:migrations:migrate -n
 ```
 
 Now you can see the start page of the Armonic project:
@@ -156,7 +181,7 @@ You can use any Symfony <a href="https://symfony.com/doc/current/security.html">
 Install the Softspring User Bundle with composer:
 
 ```bash
-$ composer require softspring/user-bundle:^5.2
+composer require softspring/user-bundle:^6.0@dev -W
 ```
 
 We recommend to use the Symfony flex recipes to configure the bundle:
@@ -180,38 +205,58 @@ But still some manual steps are needed to configure the security.
 Run the following commands to configure the security and routes:
 
 ```bash
-$ mv config/packages/security.yaml.dist config/packages/security.yaml
+mv config/packages/security.yaml.dist config/packages/security.yaml
 ```
 
 For older versions of Armonic you might also need to do:
 
 ```bash
-$ cat config/routes.yaml.dist >> config/routes.yaml
-$ rm config/routes.yaml.dist 
+cat config/routes.yaml.dist >> config/routes.yaml
+rm config/routes.yaml.dist 
 ```
 
 Create the database schema with a new Doctrine migration:
 
+>[!NOTE]
+> If `bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"` fails with
+> `Unknown column type "sfs_translation" requested`, check that these bundles are enabled in `config/bundles.php`:
+> ```php
+> Softspring\TranslatableBundle\SfsTranslatableBundle::class => ['all' => true],
+> Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle::class => ['all' => true],
+> ```
+> and ensure the DBAL type is registered in `config/packages/doctrine.yaml`:
+> ```yaml
+> doctrine:
+>     dbal:
+>         types:
+>             sfs_translation: Softspring\TranslatableBundle\Doctrine\Type\TranslationType
+> ```
+> then run:
+> ```bash
+> bin/console cache:clear
+> ```
+
 ```bash
-$ bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"
-$ bin/console doctrine:migrations:migrate -n
+bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"
+bin/console doctrine:migrations:migrate -n
 ```
 
 Before entering the admin area, you need to create a user and promote it to the admin role.
 
 ```bash
-$ bin/console sfs:user:create username user@example.com 123456
-$ bin/console sfs:user:promote user@example.com
+bin/console sfs:user:create username user@example.com 123456
+bin/console sfs:user:promote user@example.com
 ```
 
 ## 6. Done! {#enter-admin-area}
 
 Now you can go to admin area and login with the user you just created:
+https://127.0.0.1:8002/app/login
 
 For the admin area, any URL starting with `/admin` should redirect you there.
 
 You can try with the pages list in the CMS: 
 
-`/admin/cms/pages/`
+https://127.0.0.1:8002/admin/cms/pages/
 
 ![armonic-create-page.png](.files/armonic-create-page.png){.img-fluid}
