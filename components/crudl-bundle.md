@@ -1,0 +1,426 @@
+---
+title: "Crudl Bundle"
+description: "Configure CRUDL controllers as Symfony services with default forms, templates, routes, and action events for backoffice screens."
+---
+
+# Crudl Bundle {#crudl-bundle}
+
+`softspring/crudl-bundle` is the Symfony bundle layer for `softspring/crudl-controller`.
+
+Use `crudl-controller` when you want the lower-level action flow and you are happy wiring controllers and helpers yourself.
+
+Use `crudl-bundle` when you want to declare those controllers in Symfony configuration and get a working admin-style CRUDL setup faster.
+
+## What This Package Adds {#what-this-package-adds}
+
+The bundle adds four practical things on top of `crudl-controller`:
+
+- controller services generated from configuration
+- default forms for simple create, update, delete, and list screens
+- default Twig templates for CRUDL screens
+- a dynamic controller argument resolver so config-based action names work like normal controller methods
+
+That makes it useful for internal backoffices, admin panels, and repeated CRUDL sections where the flow is similar and the project wants less boilerplate.
+
+## When To Use It {#when-to-use-it}
+
+This bundle is a good fit when:
+
+- the application has many admin sections with the same CRUDL pattern
+- each section needs small variations, not a totally different controller architecture
+- you want fast setup with the option to override forms, templates, and events later
+
+Typical examples:
+
+- products
+- customers
+- orders
+- invoices
+- CMS blocks
+- media or user administration
+
+## Installation {#installation}
+
+```bash
+composer require softspring/crudl-bundle:^6.0
+```
+
+Enable the bundle if your application does not use Symfony Flex automatic registration.
+
+## Main Idea {#main-idea}
+
+You declare controllers under `sfs_crudl.controllers`.
+
+Each configured controller:
+
+- points to a manager or an entity class
+- defines one or more actions
+- can use the built-in defaults or override them
+
+The bundle then registers a Symfony controller service for that section and routes can call it in different ways.
+
+## Quick Start {#quick-start}
+
+Minimal example:
+
+```yaml
+# config/packages/sfs_crudl.yaml
+sfs_crudl:
+    controllers:
+        products:
+            entity_manager: App\Manager\ProductManager
+            default_view_path: 'admin/product'
+            default_entity_attribute: 'product'
+            actions:
+                list_products:
+                    action: list
+                    is_granted: 'PRODUCT_LIST'
+                    filter_form: App\Form\Admin\ProductListFilterForm
+
+                create_product:
+                    action: create
+                    is_granted: 'PRODUCT_CREATE'
+
+                read_product:
+                    action: read
+                    param_converter_key: 'id'
+
+                update_product:
+                    action: update
+                    param_converter_key: 'id'
+                    is_granted: 'PRODUCT_UPDATE'
+
+                delete_product:
+                    action: delete
+                    param_converter_key: 'id'
+                    is_granted: 'PRODUCT_DELETE'
+```
+
+With that configuration the bundle can generate the controller service and the missing default event names and templates.
+
+## Define The Manager {#define-the-manager}
+
+You can define a CRUDL controller in two main ways.
+
+### Option 1: Use A Manager Service {#option-1-use-a-manager-service}
+
+This is the most flexible and the most common approach.
+
+```yaml
+sfs_crudl:
+    controllers:
+        products:
+            entity_manager: App\Manager\ProductManager
+            actions:
+                list_products:
+                    action: list
+```
+
+Use this when:
+
+- the application already has a custom manager
+- entity loading or persistence needs custom logic
+- the package works with interfaces or reusable model contracts
+
+### Option 2: Use An Entity Class {#option-2-use-an-entity-class}
+
+For simple Doctrine screens you can let the bundle create the default manager for you.
+
+```yaml
+sfs_crudl:
+    controllers:
+        products:
+            entity_class: App\Entity\Product
+            actions:
+                list_products:
+                    action: list
+```
+
+Use this when:
+
+- the screen is straightforward
+- the default Doctrine manager behavior is enough
+- you want the shortest possible setup
+
+## Route Patterns {#route-patterns}
+
+The bundle supports three route styles for the same configured action.
+
+### 1. Generic Controller Entry Point {#generic-controller-entry-point}
+
+```yaml
+admin_products_list:
+    controller: sfs_crudl.controller.products
+    path: /admin/products
+    defaults:
+        configKey: 'list_products'
+```
+
+### 2. Specific Action Method {#specific-action-method}
+
+```yaml
+admin_products_list:
+    controller: sfs_crudl.controller.products::list
+    path: /admin/products
+    defaults:
+        configKey: 'list_products'
+```
+
+### 3. Dynamic Action Name {#dynamic-action-name}
+
+```yaml
+admin_products_list:
+    controller: sfs_crudl.controller.products::list_products
+    path: /admin/products
+```
+
+The third form is the most convenient when route names map directly to configured action names. The bundle argument resolver exists mainly to make this pattern work cleanly with Symfony.
+
+## Defaults The Bundle Adds {#defaults-the-bundle-adds}
+
+The main value of the bundle is not only service registration. It also fills in useful defaults.
+
+### Default Event Names {#default-event-names}
+
+If you do not configure an event name, the bundle creates one automatically with this pattern:
+
+```text
+sfs_crudl.<controller>.<action>.<event>
+```
+
+Example:
+
+```text
+sfs_crudl.products.list_products.view
+```
+
+That gives you a stable naming scheme for listeners without writing every event name by hand.
+
+### Default Templates {#default-templates}
+
+If an action supports a view and you do not configure `view`, the bundle tries this order:
+
+1. `<default_view_path>/<action-name>.html.twig`
+2. the built-in template from `@SfsCrudl/crudl/...`
+
+For list actions it also sets a default `view_page`:
+
+```twig
+@SfsCrudl/crudl/list-page.html.twig
+```
+
+This is useful when you want:
+
+- one common admin layout
+- one per-entity page partial for rows
+- very little boilerplate at the beginning
+
+### Default Forms {#default-forms}
+
+If you do not configure forms explicitly:
+
+- `create` and `update` use `DefaultEntityForm`
+- `delete` uses the default delete form from `crudl-controller`
+- `list` uses `DefaultFilterForm`
+
+That makes the bundle useful for quick admin prototypes and simple internal tools.
+
+## Action Types {#action-types}
+
+The bundle supports the same main action types as the underlying controller package, but with Symfony config defaults.
+
+### List {#list}
+
+Use `list` for paginated result pages with a filter form.
+
+Interesting options:
+
+- `filter_form`
+- `view`
+- `view_page`
+- `read_route`
+- `is_granted`
+- `filter_event_name`
+
+Good fit for:
+
+- admin tables
+- dashboards with filters
+- management lists with sortable columns
+
+### Create And Update {#create-and-update}
+
+Use `create` and `update` when the screen is mainly form-driven.
+
+Interesting options:
+
+- `form`
+- `view`
+- `entity_attribute`
+- `success_redirect_to`
+- `form_prepare_event_name`
+- `apply_event_name`
+
+Good fit for:
+
+- standard backoffice edit screens
+- content editing
+- simple onboarding flows
+
+### Read {#read}
+
+Use `read` for detail pages.
+
+Interesting options:
+
+- `entity_attribute`
+- `param_converter_key`
+- `view`
+- `found_event_name`
+
+### Delete {#delete}
+
+Use `delete` when the application wants an explicit confirmation form and the normal CRUDL delete flow.
+
+### Apply {#apply}
+
+Use `apply` when the action changes an entity but is not a classic edit form.
+
+Examples:
+
+- mark as reviewed
+- duplicate a record
+- trigger a sync
+- confirm a pending state
+
+### Transition {#transition}
+
+Use `transition` when the application already uses Symfony Workflow and the admin action should execute one named transition.
+
+Interesting options:
+
+- `workflow_name`
+- `transition_attribute`
+- `param_converter_key`
+- `view`
+- `success_redirect_to`
+
+This is one of the places where the bundle saves the most repetitive wiring compared to using `crudl-controller` directly.
+
+## Default Forms In Practice {#default-forms-in-practice}
+
+The default forms are useful, but they are intentionally simple.
+
+### DefaultEntityForm {#defaultentityform}
+
+`DefaultEntityForm` builds a form from Doctrine field and association metadata.
+
+It is useful when:
+
+- the entity is simple
+- the admin form is internal
+- you want a quick first screen before replacing it with a custom form
+
+Replace it with your own form when:
+
+- labels, widgets, or validation need more control
+- associations need custom query logic
+- the form should not expose every editable field
+
+### DefaultFilterForm {#defaultfilterform}
+
+`DefaultFilterForm` extends the paginator form and builds filters from entity properties.
+
+It is useful when:
+
+- you want a basic list filter fast
+- string properties should behave like simple search inputs
+- you are happy with a generic admin filter UI
+
+Replace it when:
+
+- your filters need domain language
+- you want custom operators
+- joins or complex filtering matter
+
+## Templates And UI Integration {#templates-and-ui-integration}
+
+The built-in templates are intentionally thin. They are there to give a working screen, not to define a final product UI.
+
+The default list template expects:
+
+- a paginated collection
+- a filter form
+- `table_columns`
+- a page partial referenced by `view_page`
+
+The default create, update, and delete templates render the form with a simple layout. That is enough for internal tools, but most real applications will override them.
+
+## Case 1: Fast Internal Admin Screen {#case-1-fast-internal-admin-screen}
+
+Imagine an internal admin for `Product`.
+
+You can start with:
+
+- `entity_class: App\Entity\Product`
+- default forms
+- default templates
+- a custom `default_view_path`
+
+That gives you a working CRUDL section quickly.
+
+Later you can replace only the parts that need more control:
+
+- a custom list filter form
+- a custom update form
+- a custom page partial for the list rows
+- listeners for success and failure events
+
+This is the common “start simple, specialize later” workflow the bundle is built for.
+
+## Case 2: Reusable Bundle Admin Area {#case-2-reusable-bundle-admin-area}
+
+In reusable bundles, `crudl-bundle` becomes more interesting when paired with:
+
+- a manager service
+- `doctrine-target-entity-resolver`
+- `permissions-bundle`
+- `crudl-controller` events
+
+The package can expose a configurable admin section without forcing the final entity class to live inside the bundle itself.
+
+## Extending Safely {#extending-safely}
+
+The safest extension points are:
+
+- your own manager service
+- custom forms
+- custom templates
+- custom event listeners
+- explicit action configuration overrides
+
+That is usually better than forking the bundle defaults, because the project keeps the common action flow while changing only the parts that matter.
+
+## Relationship With Crudl Controller {#relationship-with-crudl-controller}
+
+`crudl-controller` is still the core engine.
+
+`crudl-bundle` should be seen as:
+
+- the Symfony config and DX layer
+- the shortcut for default forms and templates
+- the faster option when you want many similar backoffice sections
+
+If a project needs very custom flow control, the answer is often:
+
+1. keep `crudl-controller`
+2. stop relying on some `crudl-bundle` defaults
+3. wire the advanced parts manually
+
+## Limits {#limits}
+
+This bundle is most useful when the CRUDL shape is still recognizable.
+
+Once the screen becomes too custom, the bundle still helps with events and base flow, but the default forms and templates stop being the main value.
+
+That is normal. The bundle is meant to reduce boilerplate, not to replace deliberate controller and UI design when the domain becomes more specific.

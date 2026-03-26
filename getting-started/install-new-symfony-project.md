@@ -196,7 +196,7 @@ Do you want to execute this recipe?
 ```
 
 >[!NOTE]
-> Also you can do it manually, see the [installation instructions](../bundles/user-bundle/install.md).
+> Also you can do it manually, see the [User Bundle guide](../bundles/user-bundle.md).
 
 Then a new User entity has been created, and routes to login, register, and reset password have been added.
 

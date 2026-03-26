@@ -113,16 +113,25 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 
 ## Components {#components}
 
-### components {#components-2}
-
-- [Install](components/components/install.md)
-- [Concepts](components/components/concepts.md)
-- [Base templates](components/components/base-template.md)
-- Layouts
-- Components
-
-### dynamic-form-type {#dynamic-form-type}
-
-- [Install](components/dynamic-form-type/install.md)
+- [Components](components/components.md)
+- [Collection form type](components/collection-form-type.md)
+- [Command controller](components/command-controller.md)
+- [Crudl bundle](components/crudl-bundle.md)
+- [Crudl controller](components/crudl-controller.md)
+- [Doctrine migrations comparator](components/doctrine-migrations-comparator.md)
+- [Doctrine paginator](components/doctrine-paginator.md)
+- [Doctrine query filters](components/doctrine-query-filters.md)
+- [Doctrine target entity resolver](components/doctrine-target-entity-resolver.md)
+- [Doctrine templates](components/doctrine-templates.md)
+- [Dynamic form type](components/dynamic-form-type.md)
+- [Events](components/events.md)
+- [Google Cloud trace](components/google-cloud-trace.md)
+- [HTTP cache store bundle](components/http-cache-store-bundle.md)
+- [Mime translatable](components/mime-translatable.md)
+- [Polymorphic form type](components/polymorphic-form-type.md)
+- [Response headers](components/response-headers.md)
+- [Time ago bundle](components/time-ago-bundle.md)
+- [Translatable bundle](components/translatable-bundle.md)
+- [Twig extra bundle](components/twig-extra-bundle.md)
 
 ## Troubleshooting {#troubleshooting}
