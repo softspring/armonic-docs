@@ -19,6 +19,7 @@ block:
 ```
 
 This is the only required key. Everything else has defaults.
+If you clear the cache, you’ll be able to see the block in the drop-down menu of the ‘New block’ button.
 
 ## Practical Examples
 
