@@ -305,6 +305,8 @@
                 },
                 {
                     "text": "User bundle",
+                    "slug": "bundles/user-bundle",
+                    "file": "bundles/user-bundle.md",
                     "children": [
                         {
                             "text": "Install",
@@ -312,39 +314,39 @@
                             "file": "bundles/user-bundle/install.md"
                         },
                         {
-                            "text": "Configure model"
+                            "text": "Login and security",
+                            "slug": "bundles/user-bundle/login-and-security",
+                            "file": "bundles/user-bundle/login-and-security.md"
                         },
                         {
-                            "text": "Security"
+                            "text": "Register and reset password",
+                            "slug": "bundles/user-bundle/register-and-reset-password",
+                            "file": "bundles/user-bundle/register-and-reset-password.md"
                         },
                         {
-                            "text": "Register"
+                            "text": "User settings pages",
+                            "slug": "bundles/user-bundle/settings-pages",
+                            "file": "bundles/user-bundle/settings-pages.md"
                         },
                         {
-                            "text": "Confirmation"
+                            "text": "Admin area",
+                            "slug": "bundles/user-bundle/admin-area",
+                            "file": "bundles/user-bundle/admin-area.md"
                         },
                         {
-                            "text": "User settings"
+                            "text": "Invitations and access history",
+                            "slug": "bundles/user-bundle/invitations-and-access-history",
+                            "file": "bundles/user-bundle/invitations-and-access-history.md"
                         },
                         {
-                            "text": "Admin users"
-                        },
-                        {
-                            "text": "Admin administrators"
-                        },
-                        {
-                            "text": "Invitations"
-                        },
-                        {
-                            "text": "Access history"
-                        },
-                        {
-                            "text": "Commands"
-                        },
-                        {
-                            "text": "OAuth",
+                            "text": "OAuth login",
                             "slug": "bundles/user-bundle/oauth",
                             "file": "bundles/user-bundle/oauth.md"
+                        },
+                        {
+                            "text": "Extend and customize",
+                            "slug": "bundles/user-bundle/extend-and-customize",
+                            "file": "bundles/user-bundle/extend-and-customize.md"
                         }
                     ]
                 }
