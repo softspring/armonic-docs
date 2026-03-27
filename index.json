@@ -84,7 +84,11 @@
                     "slug": "create-a-new-block",
                     "file": "user-manual/create-a-new-block.md"
                 },
-                { "text": "Create a new menu" },
+                {
+                    "text": "Create a new menu",
+                    "slug": "create-a-new-menu",
+                    "file": "user-manual/create-a-new-menu.md"
+                },
                 {
                     "text": "Create a new media",
                     "slug": "create-a-new-media",
@@ -134,9 +138,6 @@
             "children": [
                 { "text": "Configure caches" }
             ]
-        },
-        {
-            "text": "Troubleshooting"
         },
         {
             "text": "Bundles",
@@ -553,6 +554,9 @@
                     ]
                 }
             ]
+        },
+        {
+            "text": "Troubleshooting"
         }
     ]
 }

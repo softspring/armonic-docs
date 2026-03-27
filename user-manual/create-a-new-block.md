@@ -14,7 +14,7 @@ In the **left sidebar**, locate the **CMS/Blocks** section.
 ![armonic-blocks-section.png](.files/armonic-blocks-section.png){.img-fluid}
 
 First, you can see that you don't have any blocks configured yet.
-To configure block types, see the [Block Configuration (`cms/blocks`)](../configuration/configure-blocks.md#block-configuration-cmsblocks) section.
+To configure block types, see the [Block Configuration (cms blocks)](../configuration/configure-blocks.md) section.
 
 Once you have configured a block (in our example, the ‘example’ block), look for the **‘New block’ button** in the top-right corner of the ‘Blocks’ section.
 
