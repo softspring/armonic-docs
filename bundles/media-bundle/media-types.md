@@ -1,197 +1,138 @@
 ---
-title: "Media Bundle Media Types"
-description: "Define media types, upload rules, and image validation settings for files managed by the Softspring Media Bundle."
+title: "Configure Media Types"
+description: "Define media types, upload requirements, generated versions, pictures, and video sets in Media Bundle."
 ---
 
-# Media types
+# Configure Media Types {#configure-media-types}
 
-As shown in [Concepts](concepts.md), media types are the definition of files are wanted to store.
+The most important part of `media-bundle` is `sfs_media.types`. Media behavior is not hard-coded in PHP classes. It is driven by type configuration.
 
-Types are defined in a config file, and must have and **id**, **name** and **description**.
+## What A Media Type Defines {#what-a-media-type-defines}
 
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-    types:
-        type_id:
-            name: 'My type id'
-```
+A media type decides:
 
-## Upload requirements {#upload-requirements}
+- whether the media is image or video
+- whether it is private
+- which uploads are allowed
+- which versions exist
+- how pictures are rendered
+- how video sets are rendered
+- which name generator to use
 
-For the file uploading, *Symfony\Component\Form\Extension\Core\Type\FileType* field type is used.
-
-For the uploaded file validation Symfony standard constraints are used.
-
-### Image validation {#image-validation}
-
-The *upload_requirements* allowed options are the *Symfony\Component\Validator\Constraints\Image* accepted ones,
- see [Image constraint options in Symfony documentation page](https://symfony.com/doc/current/reference/constraints/Image.html).
-
-- **mimeTypes**: array with the mime types (default: 'images/*')
-- **minWidth**: minimum image width
-- **maxWidth**: maximum image width
-- **maxHeight**: minimum image height
-- **minHeight**: maximum image height
-- **minRatio**: minimum image ratio
-- **maxRatio**: maximum image ratio
-- **minPixels**: minimum image pixels
-- **maxPixels**: maximum image pixels
-- **allowSquare**: (default: true) if square images are allowed
-- **allowLandscape**: (default: true) if landscape images are allowed
-- **allowPortrait**: (default: true) if portrait images are allowed
-- **detectCorrupted**: (default: false) if detect corrupted images
-
-As well, because of inheritance, *Symfony\Component\Validator\Constraints\File* options are allowed,
- see [File constraint options in Symfony documentation page](https://symfony.com/doc/current/reference/constraints/File.html).
-
-- **maxSize**: maximum file size
-- **binaryFormat**: if binary format is allowed
-
-**Configuration example**
-
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-    types:
-        type_id:
-            name: 'My type id'
-            upload_requirements: 
-                maxSize: 10M
-                minWidth: 5.4
-                maxWidth: 2000
-                minHeight: 5.4
-                maxHeight: 2000
-                allowLandscape: true
-                allowSquare: true
-                allowPortrait: false
-                mimeTypes: ['image/png', 'image/jpeg'] 
-```
-
-### Other file validation {#other-file-validation}
-
-*TODO: implement other file validations*
-
-## Versions {#versions}
-
-Every version is wanted to be generated (or uploaded, see below) needs to be configured. 
-
-Versions are identified by a key name, and it's recommended to be related with its size or purpose.
-
-### Generating versions {#generating-versions}
-
-[Imagine library](https://imagine.readthedocs.io/en/stable/) is used for this automatic generation, so take a look to its configuration options.
-
-The main configuration field is the *type* option. It will decide the format for the target file:
-
-- **type**: its mandatory to be jpeg, png, gif or webm
-
-**Scaling images**
-
-- *scale_width*: target image width
-- *scale_height*: target image height
-
-If one of *scale_width* or *scale_height* are configured, the generated image will have this value as resizing reference.
-
-If both *scale_width* and *scale_height* are configured, the generated image will be forced to scale to this size, and probably it will be deformed.
-
-**Save file options**
-
-- *png_compression_level*: value from 0 (lower quality) to 9 (higher quality) 
-- *webp_quality*: value from 0 (lower quality) to 100 (higher quality)
-- *jpeg_quality*: value from 0 (lower quality) to 100 (higher quality)
-- *resolution-units*: unit for resolution values, ppi and ppc are accepted
-- *resolution-x*: horizontal dpi for the target image
-- *resolution-y*: vertical dpi for the target image
-- *resampling-filter*: point, box, triangle, hermite, hanning, hamming, blackman, gaussian, quadratic, cubic, catrom, mitchell, lanczos, bessel, sinc, sincfast
-- *flatten*: if a multi-layer image have to flatten those layers (default: true)
-
-**Example**
+## Example Image Type {#example-image-type}
 
 ```yaml
 sfs_media:
     types:
-        type_id:
-            name: 'My type id'
+        article_image:
+            type: image
+            name: 'Article image'
+            description: 'Responsive images used inside article pages'
+            private: false
+            upload_requirements:
+                mimeTypes: ['image/jpeg', 'image/png', 'image/webp']
+                minWidth: 1200
+                minHeight: 675
             versions:
-                xs:
-                    type: 'jpeg'
-                    scale_width: 300
-                    jpeg_quality: 70
-                    resolution-x: 72
-                    resolution-y: 72
-                    resampling-filter: 'lanczos'
-```
-
-### Uploading versions {#uploading-versions}
-
-Instead of generating versions automatically you can also configure them to be uploaded on media creation.
-
-To use this behaviour just add an *upload_requirements* block for the version:
-
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-    types:
-        type_id:
-            name: 'My type id'
-            versions:
-              xs:
-                upload_requirements: 
-                    maxSize: 1M
-                    minWidth: 300
-                    maxWidth: 300
-                    minHeight: 100
-                    maxHeight: 5.4
-                    mimeTypes: ['image/png', 'image/jpeg'] 
-```
-
-### Default versions {#default-versions}
-
-Every media has a special default version called *_original*. This feature stores the original media version
- in the configured Storage.
-
-This *_original* version allows to use it for the front pages and future image processing.
-
-## Pictures {#pictures}
-
-As shown in [Concepts](concepts.md) *MediaBundle* provides a feature to work with [HTML picture tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture).
-
-The configuration has two blocks: **sources** and **img**.
-
-### Sources {#sources}
-
-The first *sources* block defines each source to be rendered:
-
-**srcset**
-
-An array with media *version* id to be used and optional suffix as descriptor.
-
-The descriptor, can be width descriptor (5.4w) or a pixel density descriptor (2x).
-
-**attrs**
-
-HTML tag attributes to be included in the source tag (media, sizes, etc).
-
-### Default image {#default-image}
-
-The *img* block contains a **src_version** attribute with the version identifier for the img html tag inside picture.
-
-### Configuration example {#configuration-example}
-
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-    types:
-        type_id:
-            name: 'My type id'
+                card:
+                    type: webp
+                    scale_width: 480
+                    webp_quality: 80
+                article:
+                    type: webp
+                    scale_width: 1280
+                    webp_quality: 85
             pictures:
-                _default:
+                default:
                     sources:
-                        - { srcset: [{ version: sm, suffix: '1x' }, { version: xs, suffix: '2x' }], attrs: { media: "(min-width: 200w)" } }
-                        - { srcset: [{ version: sm }], attrs: { media: "(min-width: 5.4w)", sizes: "100vw" } }
-                        - { srcset: [{ version: xs }], attrs: { media: "(min-width: 200w)", sizes: "50vw" } }
+                        - srcset:
+                              - { version: card, suffix: '480w' }
+                              - { version: article, suffix: '1280w' }
+                          attrs:
+                              sizes: '100vw'
                     img:
-                        src_version: xl
+                        src_version: article
 ```
 
+## Most Important Fields {#most-important-fields}
+
+- `type`
+  - `image` or `video`
+- `name`
+- `description`
+- `private`
+- `generator`
+- `upload_requirements`
+- `versions`
+- `pictures`
+- `video_sets`
+
+## Upload Requirements {#upload-requirements}
+
+Supported upload requirements include:
+
+- `minWidth`
+- `minHeight`
+- `maxWidth`
+- `maxHeight`
+- `minRatio`
+- `maxRatio`
+- `minPixels`
+- `maxPixels`
+- `allowSquare`
+- `allowLandscape`
+- `allowPortrait`
+- `detectCorrupted`
+- `mimeTypes`
+- `maxSize`
+- `binaryFormat`
+
+The configuration layer also validates whether the configured mime types and output formats are supported by the current PHP and GD environment.
+
+## Generated Versions {#generated-versions}
+
+Generated versions do not define their own `upload_requirements`.
+
+They are created from another version using options such as:
+
+- `type`
+- `from`
+- `scale_width`
+- `scale_height`
+- `png_compression_level`
+- `webp_quality`
+- `jpeg_quality`
+- `avif_quality`
+- `flatten`
+
+If `type` is omitted for image versions, the bundle normalizes it to `keep`.
+
+## Uploaded Versions {#uploaded-versions}
+
+If a version defines `upload_requirements`, it becomes a manual upload field instead of an auto-generated version.
+
+Use that for cases such as:
+
+- manually exported video encodings
+- poster images provided separately
+- externally generated files
+
+## Pictures And Video Sets {#pictures-and-video-sets}
+
+Use `pictures` for responsive image rendering and `video_sets` for multi-source video rendering.
+
+These blocks are what the Twig renderer uses to build `<picture>` and `<video>` structures.
+
+## APNG, WebP, And AVIF {#apng-webp-and-avif}
+
+The bundle has explicit support for more specialized formats such as APNG, WebP, and AVIF, but only when the current PHP environment supports them.
+
+That is why unsupported configurations fail at container compilation time instead of failing later during uploads.
+
+## Related Guides {#related-guides}
+
+- [Media Bundle Overview](../media-bundle.md)
+- [Install](./install.md)
+- [Getting Started](./getting-started.md)
+- [Using Medias](./using-medias.md)
+- [Name Generators](./name-generators.md)

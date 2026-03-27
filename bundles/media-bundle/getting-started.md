@@ -1,74 +1,98 @@
 ---
-title: "Media Bundle Getting Started"
-description: "Configure storage, define a basic media type, and enable the first steps required to use the Softspring Media Bundle."
+title: "Getting Started With Media Bundle"
+description: "Follow a practical first integration path for Media Bundle with one media type, one upload flow, and one rendered output."
 ---
 
-# Getting started
+# Getting Started {#getting-started}
 
-## Configure storage {#configure-storage}
+The fastest way to understand `media-bundle` is to wire one real media type end to end.
 
-First, you need to configure a storage option, see [Storage options](storage-options.md) section.
+## Recommended First Flow {#recommended-first-flow}
 
-This is an example:
+Use this order:
 
-```dotenv
-# .env
-MEDIA_BUCKET_NAME=example-gcloud-media-bucket
-```
+1. configure filesystem storage
+2. define one image type
+3. upload a media entry with `MediaTypeUploadType`
+4. render one configured version in Twig
+5. open the admin media library only after the basic flow works
+
+This lets you validate the real model before you add more formats, providers, or admin customization.
+
+## Example First Type {#example-first-type}
 
 ```yaml
-# config/packages/sfs_media.yaml
 sfs_media:
-  google_cloud_storage:
-    bucket: '%env(MEDIA_BUCKET_NAME)%'
+    types:
+        article_image:
+            type: image
+            name: 'Article image'
+            upload_requirements:
+                mimeTypes: ['image/jpeg', 'image/png', 'image/webp']
+                minWidth: 1200
+                minHeight: 675
+            versions:
+                card:
+                    type: webp
+                    scale_width: 480
+                    webp_quality: 80
+                article:
+                    type: webp
+                    scale_width: 1280
+                    webp_quality: 85
 ```
 
-## Configure basic media type {#configure-basic-media-type}
+This gives you:
 
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-  content:
-    name: 'Team picture'
-    upload_requirements: { minWidth: 100, minHeight: 100, mimeTypes: ['image/jpeg'],  }
+- one original upload
+- one smaller card version
+- one larger article version
+
+## Example Upload Form {#example-upload-form}
+
+```php
+use Softspring\MediaBundle\Form\MediaTypeUploadType;
+
+$builder->add('heroImage', MediaTypeUploadType::class, [
+    'media_type' => 'article_image',
+]);
 ```
 
-## Configure admin panel {#configure-admin-panel}
+The form will create the `_original` upload field and any extra upload fields required by versions that define `upload_requirements`.
 
-**Enable admin panel**
-
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-  media:
-    admin_controller: true
-```
-
-**Add admin routes**
-
-```yaml
-# config/routes/admin.yaml
-_sfs_media_admin_types_:
-  resource: "@SfsMediaBundle/config/routing/admin_media.yaml"
-  prefix: "/media"
-```
-
-**Add permissions**
-
-```yaml
-# config/packages/security.yaml
-imports:
-  - { resource: '@SfsMediaBundle/config/security/admin_role_hierarchy.yaml' }
-
-security:
-    ROLE_ADMIN:
-      - ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW
-```
-
-## Using medias {#using-medias}
-
-After uploading your first media file, you can use it:
+## Example Twig Rendering {#example-twig-rendering}
 
 ```twig
-{{ media|sfs_media_render_image }}
+{{ media|sfs_media_render_image('article') }}
 ```
+
+or, when you configure a picture set:
+
+```twig
+{{ media|sfs_media_render_picture('default') }}
+```
+
+## When To Enable Admin Early {#when-to-enable-admin-early}
+
+Enable the admin media library early when:
+
+- editors need manual upload and browse screens
+- you want a shared media library across several forms
+- you need modal media selectors in backoffice screens
+
+If the project only needs one or two controlled upload flows, start with custom forms first and add admin later.
+
+## Common First Mistakes {#common-first-mistakes}
+
+- installing the bundle but not defining any media type
+- importing admin routes but forgetting the role hierarchy import
+- expecting private media to come with signed URLs or delivery access control
+- treating video support as a transcoding system instead of a managed versioning and rendering layer
+
+## Related Guides {#related-guides}
+
+- [Media Bundle Overview](../media-bundle.md)
+- [Install](./install.md)
+- [Configure Media Types](./media-types.md)
+- [Using Medias](./using-medias.md)
+- [Storage Options](./storage-options.md)

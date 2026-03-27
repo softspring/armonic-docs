@@ -144,6 +144,8 @@
             "children": [
                 {
                     "text": "Account bundle",
+                    "slug": "bundles/account-bundle",
+                    "file": "bundles/account-bundle.md",
                     "children": [
                         {
                             "text": "Install",
@@ -151,21 +153,34 @@
                             "file": "bundles/account-bundle/install.md"
                         },
                         {
-                            "text": "Configure model"
+                            "text": "Model and entities",
+                            "slug": "bundles/account-bundle/model-and-entities",
+                            "file": "bundles/account-bundle/model-and-entities.md"
                         },
                         {
-                            "text": "Register"
+                            "text": "Current account and routes",
+                            "slug": "bundles/account-bundle/current-account-and-routes",
+                            "file": "bundles/account-bundle/current-account-and-routes.md"
                         },
                         {
-                            "text": "Account settings"
+                            "text": "Register and settings",
+                            "slug": "bundles/account-bundle/register-and-settings",
+                            "file": "bundles/account-bundle/register-and-settings.md"
                         },
                         {
-                            "text": "Admin Accounts",
-                            "slug": "bundles/account-bundle/admin-accounts",
-                            "file": "bundles/account-bundle/admin-accounts.md"
+                            "text": "Admin and security",
+                            "slug": "bundles/account-bundle/admin-and-security",
+                            "file": "bundles/account-bundle/admin-and-security.md"
                         },
                         {
-                            "text": "Account bundle"
+                            "text": "Filter and scoped data",
+                            "slug": "bundles/account-bundle/filter-and-scoped-data",
+                            "file": "bundles/account-bundle/filter-and-scoped-data.md"
+                        },
+                        {
+                            "text": "Extend and customize",
+                            "slug": "bundles/account-bundle/extend-and-customize",
+                            "file": "bundles/account-bundle/extend-and-customize.md"
                         }
                     ]
                 },
@@ -260,6 +275,8 @@
                 },
                 {
                     "text": "Media bundle",
+                    "slug": "bundles/media-bundle",
+                    "file": "bundles/media-bundle.md",
                     "children": [
                         {
                             "text": "Install",
@@ -282,13 +299,19 @@
                             "file": "bundles/media-bundle/media-types.md"
                         },
                         {
-                            "text": "Using medias"
+                            "text": "Using medias",
+                            "slug": "bundles/media-bundle/using-medias",
+                            "file": "bundles/media-bundle/using-medias.md"
                         },
                         {
-                            "text": "Admin medias"
+                            "text": "Admin medias",
+                            "slug": "bundles/media-bundle/admin-medias",
+                            "file": "bundles/media-bundle/admin-medias.md"
                         },
                         {
-                            "text": "Integrations"
+                            "text": "Integrations",
+                            "slug": "bundles/media-bundle/integrations",
+                            "file": "bundles/media-bundle/integrations.md"
                         },
                         {
                             "text": "Storage options",
@@ -296,10 +319,14 @@
                             "file": "bundles/media-bundle/storage-options.md"
                         },
                         {
-                            "text": "Name generators"
+                            "text": "Name generators",
+                            "slug": "bundles/media-bundle/name-generators",
+                            "file": "bundles/media-bundle/name-generators.md"
                         },
                         {
-                            "text": "Extending bundle"
+                            "text": "Extending bundle",
+                            "slug": "bundles/media-bundle/extending-bundle",
+                            "file": "bundles/media-bundle/extending-bundle.md"
                         }
                     ]
                 },
@@ -404,6 +431,11 @@
                     "file": "components/doctrine-templates.md"
                 },
                 {
+                    "text": "Doctrine changelog",
+                    "slug": "components/doctrine-changelog-bundle",
+                    "file": "components/doctrine-changelog-bundle.md"
+                },
+                {
                     "text": "Dynamic form type",
                     "slug": "components/dynamic-form-type",
                     "file": "components/dynamic-form-type.md"
@@ -427,6 +459,11 @@
                     "text": "Mime translatable",
                     "slug": "components/mime-translatable",
                     "file": "components/mime-translatable.md"
+                },
+                {
+                    "text": "Permissions component",
+                    "slug": "components/permissions-bundle",
+                    "file": "components/permissions-bundle.md"
                 },
                 {
                     "text": "Polymorphic form type",
