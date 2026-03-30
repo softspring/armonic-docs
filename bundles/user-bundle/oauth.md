@@ -1,83 +1,94 @@
 ---
-title: "User Bundle OAuth Providers"
-description: "Integrate OAuth providers such as Facebook with the Softspring User Bundle using HWIOAuthBundle."
+title: "User Bundle OAuth Login"
+description: "Configure the current OAuth login integration provided by the User Bundle, including the Facebook login flow."
 ---
 
-# Integrate Oauth providers {#integrate-oauth-providers}
+# User Bundle OAuth Login {#user-bundle-oauth-login}
 
-This bundle integrates with HWIOAuthBundle.
+The bundle includes optional OAuth integration points.
 
-    composer require hwi/oauth-bundle php-http/guzzle6-adapter php-http/httplug-bundle
+In the current codebase, the documented built-in path is the Facebook login integration based on `hwi/oauth-bundle`.
 
-## Facebook {#facebook}
+Use this only if your project really needs third-party authentication. Most applications can start with normal login and add OAuth later.
 
-Configure your User entity with:
+## Requirements {#requirements}
 
-    use Softspring\UserBundle\Entity\Oauth\FacebookOauthTrait;
-    use Softspring\UserBundle\Model\Oauth\FacebookOauthInterface;
-    
-    /**
-     * @ORM\Entity
-     */
-    class User extends ... implements ..., FacebookOauthInterface
-    {
-        use FacebookOauthTrait;
-    }
-    
-Configure sfs_user:
+Install the OAuth dependency:
 
-    # config/packages/sfs_user.yaml
-    
-    sfs_user:
-        oauth:
-            facebook:
-                application_id: '%env(FACEBOOK_OAUTH_APPLICATION_ID)%'
-                client_id: '%env(FACEBOOK_OAUTH_CLIENT_ID)%'
-                client_secret: '%env(FACEBOOK_OAUTH_CLIENT_SECRET)%'
-    
-Configure hwi_bundle:
+```bash
+composer require hwi/oauth-bundle:^2.0
+```
 
-    # config/packages/hwi_oauth.yaml
-    
-    hwi_oauth:
-        firewall_names: ["main"]
-        resource_owners:
-            facebook:
-                type: "facebook"
-                client_id: "%sfs_user.oauth.facebook.client_id%"
-                client_secret: "%sfs_user.oauth.facebook.client_secret%"
-                options:
-                    display: "popup"
-                    auth_type: "rerequest"
-                    csrf: "true"
+The bundle will reject OAuth configuration if `HWIOAuthBundle` is not installed.
 
-and your .env file:
+## Configure Facebook OAuth {#configure-facebook-oauth}
 
-    FACEBOOK_OAUTH_APPLICATION_ID=<facebook-application-id>
-    FACEBOOK_OAUTH_CLIENT_ID=<facebook-client-id>
-    FACEBOOK_OAUTH_CLIENT_SECRET=<facebook-client-secret>
-    
-Set the security configuration:
+Example:
 
-    # config/packages/security.yaml
-    
-    security:
-        ...
-        firewalls:
-            main:
-                pattern: ^/
-                anonymous: ~
-                form_login:
-                    ...
-                oauth:
-                    # Declare the OAuth Callback URLs for every resource owner
-                    # They will be added in the routing.yml file too later
-                    resource_owners:
-                        facebook: "/oauth/login-facebook"
-                    ## Provide the original login path of your application (sfs_user route)
-                    ## and the failure route when the authentication fails.
-                    login_path: sfs_user_login
-                    failure_path: sfs_user_login
-                    # Inject a service that will be created in the step #6
-                    oauth_user_provider:
-                        service: sfs_user.oauth_provider
+```yaml
+sfs_user:
+    oauth:
+        facebook:
+            application_id: '%env(OAUTH_FACEBOOK_APP_ID)%'
+            application_secret: '%env(OAUTH_FACEBOOK_APP_SECRET)%'
+            login_create: false
+```
+
+What these options mean:
+
+- `application_id`: Facebook application identifier
+- `application_secret`: Facebook application secret
+- `login_create`: whether a user can be created automatically from the OAuth login flow
+
+## Import OAuth Routes {#import-oauth-routes}
+
+```yaml
+_sfs_user_oauth_facebook:
+    resource: '@SfsUserBundle/config/routing/login_oauth_facebook.yaml'
+```
+
+This exposes:
+
+- `sfs_user_login_oauth_facebook`
+- `sfs_user_login_oauth_facebook_js`
+- `sfs_user_login_oauth_facebook_redirect`
+
+## Login Page Integration {#login-page-integration}
+
+When Facebook OAuth is configured, the standard login template renders:
+
+- the Facebook login button
+- the supporting integration script
+
+That means the normal login page can keep both flows:
+
+- standard username or email plus password
+- external OAuth login
+
+## Real Use Cases {#real-use-cases}
+
+### Consumer Application
+
+OAuth can reduce friction for first-time users and improve conversion.
+
+### Internal Or B2B Platform
+
+In many B2B projects, standard login is simpler and easier to audit. OAuth should only be added if it clearly matches the customer identity model.
+
+## Caution {#caution}
+
+OAuth integration adds external dependencies and third-party operational requirements.
+
+Before enabling it, decide:
+
+- whether account creation should be automatic
+- how OAuth identities map to existing users
+- whether support and audit flows remain clear
+
+If those questions are still open, start with the normal login flow first.
+
+## Related Guides {#related-guides}
+
+- [Login and security](login-and-security.md) for the standard login flow that OAuth extends rather than replaces completely.
+- [Install](install.md) for the base bundle, user entity, and route structure expected before adding OAuth.
+- [Extend and customize](extend-and-customize.md) if the project needs custom user mapping or post-login behaviour.
