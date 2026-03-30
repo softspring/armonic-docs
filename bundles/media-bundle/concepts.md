@@ -1,118 +1,109 @@
 ---
 title: "Media Bundle Concepts"
-description: "Understand the media model, generated versions, and responsive rendering concepts used by the Softspring Media Bundle."
+description: "Understand the core model, version lifecycle, processing pipeline, and migration behavior of Media Bundle."
 ---
 
-# Concepts
+# Concepts {#concepts}
 
-To begin using the *media-bundle* you must know some concepts explained next.
+The bundle revolves around three runtime concepts:
 
-First of all the main goal of the bundle.
+- the media entity
+- the media version entity
+- the media type configuration
 
-This bundle is aimed to store and manage project dynamic media files, generating automatically as many versions as required
- and making easy the html generation to be responsive with every device. 
+## Media Entity {#media-entity}
 
-## Model {#model}
+`MediaInterface` represents the logical media entry. It stores:
 
-### Media {#media}
+- type key such as `article_image`
+- normalized media category such as image or video
+- name and description
+- privacy flag
+- SHA-1
+- translated alt texts
+- all versions
 
-The *Media* entity will store every media instance that the system stores. It stores the name, description, type and versions references.
+The media entry is the stable business object. Versions are derived or uploaded files attached to it.
 
-By default, *Softspring/MediaBundle/Entity/Media* class is used (if rewrite is required see [Extending bundle]()).
+## Media Version Entity {#media-version-entity}
 
-For referencing a media file, the recommended option is to link with the *Softspring/MediaBundle/Model/MediaInterface*, it will be compatible with rewriting.
+`MediaVersionInterface` represents one stored or generated file version.
 
-This is an example witch references a media as user's photo.
+It stores metadata such as:
 
-```php
-<?php
+- URL
+- mime type
+- dimensions
+- file size
+- upload or generation timestamps
+- normalized options
+- SHA-1
 
-namespace App\Entity;
+`_original` is the special original uploaded file. Every media has one.
 
-use Doctrine\ORM\Mapping as ORM;
-use Softspring\MediaBundle\Model\MediaInterface;
+## Generated And Uploaded Versions {#generated-and-uploaded-versions}
 
-class User 
-{
-    /**
-     * @ORM\ManyToOne(targetEntity="Softspring\MediaBundle\Model\MediaInterface")
-     */
-    protected ?MediaInterface $photo;
+Configured versions are either:
 
-    public function getPhoto(): ?MediaInterface
-    {
-        return $this->photo;
-    }
-}
+- generated versions
+  - derived automatically from another version, usually `_original`
+- uploaded versions
+  - require their own upload because they define `upload_requirements`
+
+This distinction matters for migrations and admin flows.
+
+## Processing Pipeline {#processing-pipeline}
+
+The version lifecycle is driven by Doctrine listeners and tagged processors:
+
+1. `UploadedImageSizeProcessor`
+2. `VersionFileCopyProcessor`
+3. `ImagineProcessor`
+4. `StoreFileProcessor`
+
+That means version generation is part of the entity lifecycle, not a separate batch command you must call manually after every upload.
+
+## Migration When Type Config Changes {#migration-when-type-config-changes}
+
+When type definitions change, old database rows and stored files do not update automatically.
+
+Use:
+
+```bash
+php bin/console sfs:media:types-migration
 ```
 
-### Media Version {#media-version}
+The migration logic classifies versions as:
 
-A *Media* is linked to a configuration media type, witch can contain as many versions as configured.
+- `ok`
+- `new`
+- `changed`
+- `delete`
+- `manual`
 
-Every version configured will be stored in a *Media Version* entity.
+That is what lets the bundle regenerate generated files while preserving manual-upload expectations.
 
-This *Media Version* stores version name, mime type, sizes, configuration that generated it, generation date, file size
- and the URL to the public file.
+## Duplicate Detection {#duplicate-detection}
 
-By default, *Softspring/MediaBundle/Entity/MediaVersion* class is used (if rewrite is required see [10. Extending bundle]()).
+`MediaManager` also includes duplicate helpers based on:
 
-## Media types {#media-types}
+- media type
+- SHA-1 of the original version
 
-Let's see some examples to learn about media types.
+This is useful when cleaning or consolidating large media libraries.
 
-For example, we need to store a background image for our web page, so we need to configure a media type for it:
+## Important Current Limitations {#important-current-limitations}
 
-```yaml
-sfs_media:
-    types:
-        background:
-            name: 'Background image'
-            upload_requirements: { minWidth: 1280, minHeight: 450, allowLandscape: true, allowPortrait: false, mimeTypes: ['image/png', 'image/jpeg'] }
-            versions:
-                xs: { type: 'jpeg', scale_width: 360, jpeg_quality: 70, resolution-x: 72, resolution-y: 72 }
-                sm: { type: 'jpeg', scale_width: 768, jpeg_quality: 70, resolution-x: 72, resolution-y: 72 }
-                md: { type: 'jpeg', scale_width: 1024, jpeg_quality: 70, resolution-x: 72, resolution-y: 72 }
-                xl: { type: 'jpeg', scale_width: 1280, jpeg_quality: 70, resolution-x: 72, resolution-y: 72 }
-            pictures:
-                _default:
-                    sources:
-                        - { srcset: [{ version: sm, suffix: '1x' }, { version: xs, suffix: '2x' }], attrs: { media: "(min-width: 200w)" } }
-                        - { srcset: [{ version: sm }], attrs: { media: "(min-width: 5.4w)", sizes: "100vw" } }
-                        - { srcset: [{ version: xs }], attrs: { media: "(min-width: 200w)", sizes: "50vw" } }
-                    img:
-                        src_version: xl
-```
+- video support is rendering- and storage-oriented, not a transcoding pipeline
+- private media is a persisted flag, not a complete secure delivery system
+- some rendering paths still assume the default filesystem public URL behavior
 
-With this example we are able to upload a jpeg or png image, with a minimum 1280x450 resolution and landscape format.
+These are not reasons to avoid the bundle. They are integration details you should understand before depending on those behaviors.
 
-When an image is uploaded, automatically the *MediaBundle* will generate 5 versions of it, scaling to the required sizes to be responsive.
+## Related Guides {#related-guides}
 
-Now we can render the image:
-
-```twig
-{{ media|sfs_media_render_image('xs`) }}
-```
-
-will render:
-
-```html
-<img width="360" height="100" src="https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.xs.jpg" alt="My example name"/>
-```
-
-If it's configured we can also generate *picture html tags*:
-
-```twig
-{{ media|sfs_media_render_picture }}
-```
-
-will render:
-
-```html
-<picture >
-    <source media="(min-width: 200w)" srcset="https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.sm.jpg 1x, https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.xs.jpg 2x" />
-    <source media="(min-width: 5.4w)" sizes="100vw" srcset="https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.sm.jpg" />
-    <source media="(min-width: 200w)" sizes="50vw" srcset="https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.xs.jpg" />
-    <img width="1280" height="5.5" src="https://storage.googleapis.com/<my-bucket-name>/<media-id>/<media-version-id>.xl.jpg" alt="My example name" />
-</picture>
-```
+- [Media Bundle Overview](../media-bundle.md)
+- [Configure Media Types](./media-types.md)
+- [Using Medias](./using-medias.md)
+- [Storage Options](./storage-options.md)
+- [Extending Bundle](./extending-bundle.md)
