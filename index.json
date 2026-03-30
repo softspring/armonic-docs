@@ -94,7 +94,11 @@
                     "slug": "create-a-new-media",
                     "file": "user-manual/create-a-new-media.md"
                 },
-                { "text": "Configure routes" }
+                {
+                    "text": "Create routes",
+                    "slug": "create-routes",
+                    "file": "user-manual/create-routes.md"
+                }
             ]
         },
         {
@@ -129,9 +133,6 @@
                   "file": "configuration/configure-menu.md"
                 }
             ]
-        },
-        {
-            "text": "Architecture"
         },
         {
             "text": "Performance",
@@ -493,6 +494,9 @@
                     "file": "components/twig-extra-bundle.md"
                 }
             ]
+        },
+        {
+            "text": "Architecture"
         },
         {
             "text": "Troubleshooting"

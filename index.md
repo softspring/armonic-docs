@@ -31,7 +31,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Create a new block](user-manual/create-a-new-block.md)
 - [Create a new menu](user-manual/create-a-new-menu.md)
 - [Create a new media](user-manual/create-a-new-media.md)
-- Configure routes
+- [Create routes](user-manual/create-routes.md)
 
 ## CMS Configuration {#cms-configuration}
 
@@ -42,8 +42,6 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Configure medias](configuration/configure-medias.md)
 - [Configure blocks](configuration/configure-blocks.md)
 - [Configure menus](configuration/configure-menu.md)
-
-## Architecture {#architecture}
 
 ## Performance {#performance}
 
@@ -133,5 +131,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Time ago bundle](components/time-ago-bundle.md)
 - [Translatable bundle](components/translatable-bundle.md)
 - [Twig extra bundle](components/twig-extra-bundle.md)
+
+## Architecture {#architecture}
 
 ## Troubleshooting {#troubleshooting}
