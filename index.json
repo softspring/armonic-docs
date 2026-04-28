@@ -5,24 +5,9 @@
             "text": "Armonic",
             "children": [
                 {
-                    "text": "What is Armonic?",
-                    "slug": "what-is-armonic",
-                    "file": "introduction/what-is-armonic.md"
-                },
-                {
-                    "text": "Is it for me?",
-                    "slug": "is-it-for-me",
-                    "file": "introduction/is-it-for-me.md"
-                },
-                {
-                    "text": "Armonic flavours",
-                    "slug": "armonic-flavours",
-                    "file": "introduction/armonic-flavours.md"
-                },
-                {
-                    "text": "Features",
-                    "slug": "features",
-                    "file": "introduction/features.md"
+                    "text": "Why Armonic?",
+                    "slug": "why-armonic",
+                    "file": "introduction/why-armonic.md"
                 }
             ]
         },
@@ -371,6 +356,24 @@
                     ]
                 }
             ]
+        }
+    ],
+    "redirects": [
+        {
+            "source": "/what-is-armonic",
+            "destination": "/why-armonic"
+        },
+        {
+            "source": "/features",
+            "destination": "/why-armonic#why-teams-choose-armonic"
+        },
+        {
+            "source": "/is-it-for-me",
+            "destination": "/why-armonic#is-it-for-me"
+        },
+        {
+            "source": "/armonic-flavours",
+            "destination": "/why-armonic#armonic-flavours"
         }
     ]
 }
