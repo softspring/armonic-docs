@@ -5,24 +5,9 @@
             "text": "Armonic",
             "children": [
                 {
-                    "text": "What is Armonic?",
-                    "slug": "what-is-armonic",
-                    "file": "introduction/what-is-armonic.md"
-                },
-                {
-                    "text": "Is it for me?",
-                    "slug": "is-it-for-me",
-                    "file": "introduction/is-it-for-me.md"
-                },
-                {
-                    "text": "Armonic flavours",
-                    "slug": "armonic-flavours",
-                    "file": "introduction/armonic-flavours.md"
-                },
-                {
-                    "text": "Features",
-                    "slug": "features",
-                    "file": "introduction/features.md"
+                    "text": "Why Armonic?",
+                    "slug": "why-armonic",
+                    "file": "introduction/why-armonic.md"
                 }
             ]
         },
@@ -104,40 +89,49 @@
         {
             "text": "Configure",
             "children": [
-                { "text": "Configure sites" ,
-                  "slug": "configure-sites",
-                  "file": "configuration/configure-sites.md"
+                {
+                    "text": "Configure sites",
+                    "slug": "configure-sites",
+                    "file": "configuration/configure-sites.md"
                 },
-                { "text": "Configure content types",
-                  "slug": "configure-content-types",
-                  "file": "configuration/configure-content-types.md"
+                {
+                    "text": "Configure content types",
+                    "slug": "configure-content-types",
+                    "file": "configuration/configure-content-types.md"
                 },
-                { "text": "Configure layouts" ,
+                {
+                    "text": "Configure layouts",
                     "slug": "configure-layouts",
                     "file": "configuration/configure-layouts.md"
                 },
-                { "text": "Configure modules",
-                  "slug": "configure-modules",
-                  "file": "configuration/configure-modules.md"
+                {
+                    "text": "Configure modules",
+                    "slug": "configure-modules",
+                    "file": "configuration/configure-modules.md"
                 },
-                { "text": "Configure medias",
-                  "slug": "configure-medias",
-                  "file": "configuration/configure-medias.md"
+                {
+                    "text": "Configure medias",
+                    "slug": "configure-medias",
+                    "file": "configuration/configure-medias.md"
                 },
-                { "text": "Configure blocks",
-                  "slug": "configure-blocks",
-                  "file": "configuration/configure-blocks.md"
+                {
+                    "text": "Configure blocks",
+                    "slug": "configure-blocks",
+                    "file": "configuration/configure-blocks.md"
                 },
-                { "text": "Configure menus",
-                  "slug": "configure-menu",
-                  "file": "configuration/configure-menu.md"
+                {
+                    "text": "Configure menus",
+                    "slug": "configure-menu",
+                    "file": "configuration/configure-menu.md"
                 }
             ]
         },
         {
             "text": "Performance",
             "children": [
-                { "text": "Configure caches" }
+                {
+                    "text": "Configure caches"
+                }
             ]
         },
         {
@@ -185,7 +179,9 @@
                         }
                     ]
                 },
-                { "text": "Crudl bundle" },
+                {
+                    "text": "Crudl bundle"
+                },
                 {
                     "text": "Cms bundle",
                     "children": [
@@ -221,10 +217,10 @@
                             "text": "Modules",
                             "slug": "bundles/cms-bundle/modules",
                             "file": "bundles/cms-bundle/modules.md",
-                            "children" :  [
+                            "children": [
                                 {
                                     "text": "CMS Modules Form Types",
-                                    "children" : [
+                                    "children": [
                                         {
                                             "text": "Media",
                                             "slug": "bundles/cms-bundle/modules/media",
@@ -501,5 +497,11 @@
         {
             "text": "Troubleshooting"
         }
-    ]
+    ],
+    "redirects": {
+        "/what-is-armonic": "/why-armonic",
+        "/features": "/why-armonic#why-teams-choose-armonic",
+        "/is-it-for-me": "/why-armonic#is-it-for-me",
+        "/armonic-flavours": "/why-armonic#armonic-flavours"
+    }
 }
