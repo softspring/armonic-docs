@@ -17,6 +17,7 @@ It covers the common parts most projects need:
 - user settings pages
 - admin user management
 - optional invitations, access history, impersonation bar, and OAuth integration
+- optional Google Identity Platform login
 
 This bundle is not only an entity package. It also ships routes, controllers, forms, templates, events, managers, and security integration.
 
@@ -43,6 +44,7 @@ Then add the optional guides you need:
 
 - `Invitations and access history`
 - `OAuth login`
+- `Google Identity Platform login`
 - `Extend and customize`
 
 ## Common Project Shapes {#common-project-shapes}
@@ -78,8 +80,10 @@ This is the usual pattern in Armonic-based applications.
 - [Install](user-bundle/install.md) explains the base entity, bundle configuration, routes, security, and first admin user.
 - [Login and security](user-bundle/login-and-security.md) explains provider, firewall, throttling, remember me, target path, switch user, and impersonation bar.
 - [Register and reset password](user-bundle/register-and-reset-password.md) explains self-registration, confirmation emails, and password recovery.
+- [Mailer](user-bundle/mailer.md) explains the optional email integration for confirmation, invitation, and reset password messages.
 - [User settings pages](user-bundle/settings-pages.md) explains preferences, change email, change username, change password, and resend confirmation email.
 - [Admin area](user-bundle/admin-area.md) explains routes, permissions, menu integration, and the user and administrator screens.
 - [Invitations and access history](user-bundle/invitations-and-access-history.md) explains the extra entities and routes required for invitation-only or audited systems.
 - [OAuth login](user-bundle/oauth.md) explains the current Facebook integration path.
+- [Google Identity Platform login](user-bundle/google-identity-platform.md) explains how to enable Google Sign-In through Google Identity Platform.
 - [Extend and customize](user-bundle/extend-and-customize.md) explains how to replace forms, override templates, and use lifecycle events.

@@ -101,6 +101,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Security
 - Register
 - Confirmation
+- [Mailer](bundles/user-bundle/mailer.md)
 - User settings
 - Admin Users
 - Admin administrators
@@ -108,6 +109,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Access history
 - Commands
 - [OAuth](bundles/user-bundle/oauth.md)
+- [Google Identity Platform](bundles/user-bundle/google-identity-platform.md)
 
 ## Components {#components}
 

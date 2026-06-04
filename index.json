@@ -352,6 +352,11 @@
                             "file": "bundles/user-bundle/register-and-reset-password.md"
                         },
                         {
+                            "text": "Mailer",
+                            "slug": "bundles/user-bundle/mailer",
+                            "file": "bundles/user-bundle/mailer.md"
+                        },
+                        {
                             "text": "User settings pages",
                             "slug": "bundles/user-bundle/settings-pages",
                             "file": "bundles/user-bundle/settings-pages.md"
@@ -370,6 +375,11 @@
                             "text": "OAuth login",
                             "slug": "bundles/user-bundle/oauth",
                             "file": "bundles/user-bundle/oauth.md"
+                        },
+                        {
+                            "text": "Google Identity Platform login",
+                            "slug": "bundles/user-bundle/google-identity-platform",
+                            "file": "bundles/user-bundle/google-identity-platform.md"
                         },
                         {
                             "text": "Extend and customize",
