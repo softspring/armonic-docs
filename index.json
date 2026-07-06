@@ -332,6 +332,16 @@
                     ]
                 },
                 {
+                    "text": "Mailer bundle",
+                    "slug": "bundles/mailer-bundle",
+                    "file": "bundles/mailer-bundle.md"
+                },
+                {
+                    "text": "Notification bundle",
+                    "slug": "bundles/notification-bundle",
+                    "file": "bundles/notification-bundle.md"
+                },
+                {
                     "text": "User bundle",
                     "slug": "bundles/user-bundle",
                     "file": "bundles/user-bundle.md",
@@ -457,6 +467,11 @@
                     "text": "Events",
                     "slug": "components/events",
                     "file": "components/events.md"
+                },
+                {
+                    "text": "Google Cloud integration",
+                    "slug": "components/google-cloud-integration",
+                    "file": "components/google-cloud-integration.md"
                 },
                 {
                     "text": "Google Cloud trace",

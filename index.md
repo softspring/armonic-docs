@@ -94,6 +94,14 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - Name generators
 - Extending bundle
 
+### mailer-bundle {#mailer-bundle}
+
+- [Mailer Bundle](bundles/mailer-bundle.md)
+
+### notification-bundle {#notification-bundle}
+
+- [Notification Bundle](bundles/notification-bundle.md)
+
 ### user-bundle {#user-bundle}
 
 - [Install](bundles/user-bundle/install.md)
@@ -125,6 +133,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Doctrine templates](components/doctrine-templates.md)
 - [Dynamic form type](components/dynamic-form-type.md)
 - [Events](components/events.md)
+- [Google Cloud integration](components/google-cloud-integration.md)
 - [Google Cloud trace](components/google-cloud-trace.md)
 - [HTTP cache store bundle](components/http-cache-store-bundle.md)
 - [Mime translatable](components/mime-translatable.md)
