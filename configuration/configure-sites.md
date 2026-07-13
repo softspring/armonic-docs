@@ -57,7 +57,7 @@ And let's go step by step:
 
 >[!IMPORTANT] 
 > You don't need to configure all of these, only the ones needed for your site. 
-> You can see in the [Install new Symfony Project](getting-started/install-new-symfony-project.md) that you can have a site without any configuration.
+> You can see in the [Install new Symfony Project](../getting-started/install-new-symfony-project.md) that you can have a site without any configuration.
 
 ### **1️⃣ Allowed Content Types** {#allowed-content-types}
 ```yaml
