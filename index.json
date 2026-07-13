@@ -2,7 +2,7 @@
     "index": "index.md",
     "structure": [
         {
-            "text": "Armonic",
+            "text": "Introduction",
             "children": [
                 {
                     "text": "Why Armonic?",
@@ -12,7 +12,7 @@
             ]
         },
         {
-            "text": "Getting Started",
+            "text": "Getting started",
             "children": [
                 {
                     "text": "Requirements",
@@ -20,74 +20,29 @@
                     "file": "getting-started/requirements.md"
                 },
                 {
-                    "text": "Installation",
-                    "children": [
-                        {
-                            "text": "Install new Symfony project",
-                            "slug": "install-new-symfony-project",
-                            "file": "getting-started/install-new-symfony-project.md"
-                        },
-                        {
-                            "text": "Install existing Symfony project",
-                            "slug": "install-existing-symfony-project",
-                            "file": "getting-started/install-existing-symfony-project.md"
-                        },
-                        {
-                            "text": "Use Armonic standalone edition",
-                            "slug": "use-armonic-standalone-edition",
-                            "file": "standalone/install-armonic-standalone.md"
-                        },
-                        {
-                            "text": "Install in a Sylius project",
-                            "slug": "install-sylius-project",
-                            "file": "getting-started/install-sylius-project.md"
-                        }
-                    ]
+                    "text": "Install a new Symfony project",
+                    "slug": "install-new-symfony-project",
+                    "file": "getting-started/install-new-symfony-project.md"
+                },
+                {
+                    "text": "Install an existing Symfony project",
+                    "slug": "install-existing-symfony-project",
+                    "file": "getting-started/install-existing-symfony-project.md"
+                },
+                {
+                    "text": "Use Armonic standalone edition",
+                    "slug": "use-armonic-standalone-edition",
+                    "file": "standalone/install-armonic-standalone.md"
+                },
+                {
+                    "text": "Install in a Sylius project",
+                    "slug": "install-sylius-project",
+                    "file": "getting-started/install-sylius-project.md"
                 }
             ]
         },
         {
-            "text": "User manual",
-            "children": [
-                {
-                    "text": "Create a new page",
-                    "slug": "create-a-new-page",
-                    "file": "user-manual/create-a-new-page.md"
-                },
-                {
-                    "text": "Adding modules or blocks to a page",
-                    "slug": "adding-modules-or-blocks",
-                    "file": "user-manual/adding-modules-or-blocks.md"
-                },
-                {
-                    "text": "Preview and publish a page",
-                    "slug": "preview-and-publish-a-page",
-                    "file": "user-manual/preview-and-publish-a-page.md"
-                },
-                {
-                    "text": "Create a new block",
-                    "slug": "create-a-new-block",
-                    "file": "user-manual/create-a-new-block.md"
-                },
-                {
-                    "text": "Create a new menu",
-                    "slug": "create-a-new-menu",
-                    "file": "user-manual/create-a-new-menu.md"
-                },
-                {
-                    "text": "Create a new media",
-                    "slug": "create-a-new-media",
-                    "file": "user-manual/create-a-new-media.md"
-                },
-                {
-                    "text": "Create routes",
-                    "slug": "create-routes",
-                    "file": "user-manual/create-routes.md"
-                }
-            ]
-        },
-        {
-            "text": "Configure",
+            "text": "Armonic configuration",
             "children": [
                 {
                     "text": "Configure sites",
@@ -127,10 +82,42 @@
             ]
         },
         {
-            "text": "Performance",
+            "text": "User manual",
             "children": [
                 {
-                    "text": "Configure caches"
+                    "text": "Create a new page",
+                    "slug": "create-a-new-page",
+                    "file": "user-manual/create-a-new-page.md"
+                },
+                {
+                    "text": "Add modules or blocks to a page",
+                    "slug": "adding-modules-or-blocks",
+                    "file": "user-manual/adding-modules-or-blocks.md"
+                },
+                {
+                    "text": "Preview and publish a page",
+                    "slug": "preview-and-publish-a-page",
+                    "file": "user-manual/preview-and-publish-a-page.md"
+                },
+                {
+                    "text": "Create a new block",
+                    "slug": "create-a-new-block",
+                    "file": "user-manual/create-a-new-block.md"
+                },
+                {
+                    "text": "Create a new menu",
+                    "slug": "create-a-new-menu",
+                    "file": "user-manual/create-a-new-menu.md"
+                },
+                {
+                    "text": "Create a new media",
+                    "slug": "create-a-new-media",
+                    "file": "user-manual/create-a-new-media.md"
+                },
+                {
+                    "text": "Create routes",
+                    "slug": "create-routes",
+                    "file": "user-manual/create-routes.md"
                 }
             ]
         },
@@ -138,52 +125,7 @@
             "text": "Bundles",
             "children": [
                 {
-                    "text": "Account bundle",
-                    "slug": "bundles/account-bundle",
-                    "file": "bundles/account-bundle.md",
-                    "children": [
-                        {
-                            "text": "Install",
-                            "slug": "bundles/account-bundle/install",
-                            "file": "bundles/account-bundle/install.md"
-                        },
-                        {
-                            "text": "Model and entities",
-                            "slug": "bundles/account-bundle/model-and-entities",
-                            "file": "bundles/account-bundle/model-and-entities.md"
-                        },
-                        {
-                            "text": "Current account and routes",
-                            "slug": "bundles/account-bundle/current-account-and-routes",
-                            "file": "bundles/account-bundle/current-account-and-routes.md"
-                        },
-                        {
-                            "text": "Register and settings",
-                            "slug": "bundles/account-bundle/register-and-settings",
-                            "file": "bundles/account-bundle/register-and-settings.md"
-                        },
-                        {
-                            "text": "Admin and security",
-                            "slug": "bundles/account-bundle/admin-and-security",
-                            "file": "bundles/account-bundle/admin-and-security.md"
-                        },
-                        {
-                            "text": "Filter and scoped data",
-                            "slug": "bundles/account-bundle/filter-and-scoped-data",
-                            "file": "bundles/account-bundle/filter-and-scoped-data.md"
-                        },
-                        {
-                            "text": "Extend and customize",
-                            "slug": "bundles/account-bundle/extend-and-customize",
-                            "file": "bundles/account-bundle/extend-and-customize.md"
-                        }
-                    ]
-                },
-                {
-                    "text": "Crudl bundle"
-                },
-                {
-                    "text": "Cms bundle",
+                    "text": "CMS bundle",
                     "children": [
                         {
                             "text": "Install",
@@ -211,15 +153,17 @@
                             "file": "bundles/cms-bundle/sites.md"
                         },
                         {
-                            "text": "Layouts"
-                        },
-                        {
                             "text": "Modules",
                             "slug": "bundles/cms-bundle/modules",
                             "file": "bundles/cms-bundle/modules.md",
                             "children": [
                                 {
-                                    "text": "CMS Modules Form Types",
+                                    "text": "Preview texts",
+                                    "slug": "bundles/cms-bundle/module/preview-texts",
+                                    "file": "bundles/cms-bundle/module/preview-texts.md"
+                                },
+                                {
+                                    "text": "Form types",
                                     "children": [
                                         {
                                             "text": "Media",
@@ -227,12 +171,12 @@
                                             "file": "bundles/cms-bundle/module/form-types/media.md"
                                         },
                                         {
-                                            "text": "Media Modal",
+                                            "text": "Media modal",
                                             "slug": "bundles/cms-bundle/modules/media-modal",
                                             "file": "bundles/cms-bundle/module/form-types/media-modal.md"
                                         },
                                         {
-                                            "text": "Symfony Route",
+                                            "text": "Symfony route",
                                             "slug": "bundles/cms-bundle/modules/symfony-route",
                                             "file": "bundles/cms-bundle/module/form-types/symfony-route.md"
                                         },
@@ -246,27 +190,14 @@
                             ]
                         },
                         {
-                            "text": "Menus"
-                        },
-                        {
-                            "text": "Blocks"
-                        },
-                        {
-                            "text": "Dynamic forms"
-                        },
-                        {
-                            "text": "Using medias"
-                        },
-                        {
-                            "text": "Caching"
-                        },
-                        {
-                            "text": "Logging"
-                        },
-                        {
                             "text": "Extend with collections",
                             "slug": "bundles/cms-bundle/collections",
                             "file": "bundles/cms-bundle/collections.md"
+                        },
+                        {
+                            "text": "Troubleshooting",
+                            "slug": "bundles/cms-bundle/troubleshooting",
+                            "file": "bundles/cms-bundle/troubleshooting.md"
                         }
                     ]
                 },
@@ -328,16 +259,6 @@
                     ]
                 },
                 {
-                    "text": "Mailer bundle",
-                    "slug": "bundles/mailer-bundle",
-                    "file": "bundles/mailer-bundle.md"
-                },
-                {
-                    "text": "Notification bundle",
-                    "slug": "bundles/notification-bundle",
-                    "file": "bundles/notification-bundle.md"
-                },
-                {
                     "text": "User bundle",
                     "slug": "bundles/user-bundle",
                     "file": "bundles/user-bundle.md",
@@ -393,6 +314,58 @@
                             "file": "bundles/user-bundle/extend-and-customize.md"
                         }
                     ]
+                },
+                {
+                    "text": "Account bundle",
+                    "slug": "bundles/account-bundle",
+                    "file": "bundles/account-bundle.md",
+                    "children": [
+                        {
+                            "text": "Install",
+                            "slug": "bundles/account-bundle/install",
+                            "file": "bundles/account-bundle/install.md"
+                        },
+                        {
+                            "text": "Model and entities",
+                            "slug": "bundles/account-bundle/model-and-entities",
+                            "file": "bundles/account-bundle/model-and-entities.md"
+                        },
+                        {
+                            "text": "Current account and routes",
+                            "slug": "bundles/account-bundle/current-account-and-routes",
+                            "file": "bundles/account-bundle/current-account-and-routes.md"
+                        },
+                        {
+                            "text": "Register and settings",
+                            "slug": "bundles/account-bundle/register-and-settings",
+                            "file": "bundles/account-bundle/register-and-settings.md"
+                        },
+                        {
+                            "text": "Admin and security",
+                            "slug": "bundles/account-bundle/admin-and-security",
+                            "file": "bundles/account-bundle/admin-and-security.md"
+                        },
+                        {
+                            "text": "Filter and scoped data",
+                            "slug": "bundles/account-bundle/filter-and-scoped-data",
+                            "file": "bundles/account-bundle/filter-and-scoped-data.md"
+                        },
+                        {
+                            "text": "Extend and customize",
+                            "slug": "bundles/account-bundle/extend-and-customize",
+                            "file": "bundles/account-bundle/extend-and-customize.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Mailer bundle",
+                    "slug": "bundles/mailer-bundle",
+                    "file": "bundles/mailer-bundle.md"
+                },
+                {
+                    "text": "Notification bundle",
+                    "slug": "bundles/notification-bundle",
+                    "file": "bundles/notification-bundle.md"
                 }
             ]
         },
@@ -400,127 +373,161 @@
             "text": "Components",
             "children": [
                 {
-                    "text": "Components",
+                    "text": "Overview",
                     "slug": "components/components",
                     "file": "components/components.md"
                 },
                 {
-                    "text": "Collection form type",
-                    "slug": "components/collection-form-type",
-                    "file": "components/collection-form-type.md"
+                    "text": "Forms",
+                    "children": [
+                        {
+                            "text": "Collection form type",
+                            "slug": "components/collection-form-type",
+                            "file": "components/collection-form-type.md"
+                        },
+                        {
+                            "text": "Dynamic form type",
+                            "slug": "components/dynamic-form-type",
+                            "file": "components/dynamic-form-type.md"
+                        },
+                        {
+                            "text": "Polymorphic form type",
+                            "slug": "components/polymorphic-form-type",
+                            "file": "components/polymorphic-form-type.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Command controller",
-                    "slug": "components/command-controller",
-                    "file": "components/command-controller.md"
+                    "text": "Doctrine",
+                    "children": [
+                        {
+                            "text": "Doctrine paginator",
+                            "slug": "components/doctrine-paginator",
+                            "file": "components/doctrine-paginator.md"
+                        },
+                        {
+                            "text": "Doctrine query filters",
+                            "slug": "components/doctrine-query-filters",
+                            "file": "components/doctrine-query-filters.md"
+                        },
+                        {
+                            "text": "Doctrine target entity resolver",
+                            "slug": "components/doctrine-target-entity-resolver",
+                            "file": "components/doctrine-target-entity-resolver.md"
+                        },
+                        {
+                            "text": "Doctrine migrations comparator",
+                            "slug": "components/doctrine-migrations-comparator",
+                            "file": "components/doctrine-migrations-comparator.md"
+                        },
+                        {
+                            "text": "Doctrine templates",
+                            "slug": "components/doctrine-templates",
+                            "file": "components/doctrine-templates.md"
+                        },
+                        {
+                            "text": "Doctrine changelog",
+                            "slug": "components/doctrine-changelog-bundle",
+                            "file": "components/doctrine-changelog-bundle.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Crudl bundle",
-                    "slug": "components/crudl-bundle",
-                    "file": "components/crudl-bundle.md"
+                    "text": "HTTP and runtime",
+                    "children": [
+                        {
+                            "text": "Command controller",
+                            "slug": "components/command-controller",
+                            "file": "components/command-controller.md"
+                        },
+                        {
+                            "text": "Crudl controller",
+                            "slug": "components/crudl-controller",
+                            "file": "components/crudl-controller.md"
+                        },
+                        {
+                            "text": "Response headers",
+                            "slug": "components/response-headers",
+                            "file": "components/response-headers.md"
+                        },
+                        {
+                            "text": "HTTP cache store bundle",
+                            "slug": "components/http-cache-store-bundle",
+                            "file": "components/http-cache-store-bundle.md"
+                        },
+                        {
+                            "text": "Events",
+                            "slug": "components/events",
+                            "file": "components/events.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Crudl controller",
-                    "slug": "components/crudl-controller",
-                    "file": "components/crudl-controller.md"
+                    "text": "Translations and content",
+                    "children": [
+                        {
+                            "text": "Mime translatable",
+                            "slug": "components/mime-translatable",
+                            "file": "components/mime-translatable.md"
+                        },
+                        {
+                            "text": "Translatable bundle",
+                            "slug": "components/translatable-bundle",
+                            "file": "components/translatable-bundle.md"
+                        },
+                        {
+                            "text": "Twig extra bundle",
+                            "slug": "components/twig-extra-bundle",
+                            "file": "components/twig-extra-bundle.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Doctrine migrations comparator",
-                    "slug": "components/doctrine-migrations-comparator",
-                    "file": "components/doctrine-migrations-comparator.md"
+                    "text": "Security and permissions",
+                    "children": [
+                        {
+                            "text": "Permissions bundle",
+                            "slug": "components/permissions-bundle",
+                            "file": "components/permissions-bundle.md"
+                        },
+                        {
+                            "text": "Filter attack vectors",
+                            "slug": "components/filter-attack-vectors",
+                            "file": "components/filter-attack-vectors.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Doctrine paginator",
-                    "slug": "components/doctrine-paginator",
-                    "file": "components/doctrine-paginator.md"
+                    "text": "Google Cloud",
+                    "children": [
+                        {
+                            "text": "Google Cloud integration",
+                            "slug": "components/google-cloud-integration",
+                            "file": "components/google-cloud-integration.md"
+                        },
+                        {
+                            "text": "Google Cloud trace",
+                            "slug": "components/google-cloud-trace",
+                            "file": "components/google-cloud-trace.md"
+                        }
+                    ]
                 },
                 {
-                    "text": "Doctrine query filters",
-                    "slug": "components/doctrine-query-filters",
-                    "file": "components/doctrine-query-filters.md"
-                },
-                {
-                    "text": "Doctrine target entity resolver",
-                    "slug": "components/doctrine-target-entity-resolver",
-                    "file": "components/doctrine-target-entity-resolver.md"
-                },
-                {
-                    "text": "Doctrine templates",
-                    "slug": "components/doctrine-templates",
-                    "file": "components/doctrine-templates.md"
-                },
-                {
-                    "text": "Doctrine changelog",
-                    "slug": "components/doctrine-changelog-bundle",
-                    "file": "components/doctrine-changelog-bundle.md"
-                },
-                {
-                    "text": "Dynamic form type",
-                    "slug": "components/dynamic-form-type",
-                    "file": "components/dynamic-form-type.md"
-                },
-                {
-                    "text": "Events",
-                    "slug": "components/events",
-                    "file": "components/events.md"
-                },
-                {
-                    "text": "Google Cloud integration",
-                    "slug": "components/google-cloud-integration",
-                    "file": "components/google-cloud-integration.md"
-                },
-                {
-                    "text": "Google Cloud trace",
-                    "slug": "components/google-cloud-trace",
-                    "file": "components/google-cloud-trace.md"
-                },
-                {
-                    "text": "HTTP cache store bundle",
-                    "slug": "components/http-cache-store-bundle",
-                    "file": "components/http-cache-store-bundle.md"
-                },
-                {
-                    "text": "Mime translatable",
-                    "slug": "components/mime-translatable",
-                    "file": "components/mime-translatable.md"
-                },
-                {
-                    "text": "Permissions component",
-                    "slug": "components/permissions-bundle",
-                    "file": "components/permissions-bundle.md"
-                },
-                {
-                    "text": "Polymorphic form type",
-                    "slug": "components/polymorphic-form-type",
-                    "file": "components/polymorphic-form-type.md"
-                },
-                {
-                    "text": "Response headers",
-                    "slug": "components/response-headers",
-                    "file": "components/response-headers.md"
-                },
-                {
-                    "text": "Time ago bundle",
-                    "slug": "components/time-ago-bundle",
-                    "file": "components/time-ago-bundle.md"
-                },
-                {
-                    "text": "Translatable bundle",
-                    "slug": "components/translatable-bundle",
-                    "file": "components/translatable-bundle.md"
-                },
-                {
-                    "text": "Twig extra bundle",
-                    "slug": "components/twig-extra-bundle",
-                    "file": "components/twig-extra-bundle.md"
+                    "text": "Other packages",
+                    "children": [
+                        {
+                            "text": "Crudl bundle",
+                            "slug": "components/crudl-bundle",
+                            "file": "components/crudl-bundle.md"
+                        },
+                        {
+                            "text": "Time ago bundle",
+                            "slug": "components/time-ago-bundle",
+                            "file": "components/time-ago-bundle.md"
+                        }
+                    ]
                 }
             ]
-        },
-        {
-            "text": "Architecture"
-        },
-        {
-            "text": "Troubleshooting"
         }
     ],
     "redirects": {

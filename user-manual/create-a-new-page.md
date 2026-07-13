@@ -42,6 +42,6 @@ Once you click on New page, a form will appear to define the page details. You n
 
 Once you have completed the basic information and desired options, click on the Create page button to create the page on your website.
 
->Saving a new page will take you to the page content edition, where you can add modules or blocks, which we will see in the [next section](user-manual/adding-modules-or-blocks.md) of this user manual.
+>Saving a new page will take you to the page content edition, where you can add modules or blocks, which we will see in the [next section](adding-modules-or-blocks.md) of this user manual.
 
 >The page is not yet published so it is not accessible from the public web site.
