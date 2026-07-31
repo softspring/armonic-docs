@@ -113,6 +113,12 @@ sfs_cms:
 
 That module is what editors use to insert an existing section into a page or content type. The module itself comes from the plugin; the section records are created in the admin area.
 
+## Routing Provider Compatibility {#routing-provider-compatibility}
+
+The `sfs_cms_sections` block does not register routes or routing providers. It only configures section storage and compilation behavior.
+
+Some plugin versions declare an internal admin route type named `sfs_cms_plugin_admin_section`. If Symfony cannot load that route type, register a small application routing provider tagged with `sfs_cms.routing_provider`. See the routing provider note in [CMS Bundle Sections](../bundles/cms-bundle/sections.md#register-the-admin-routing-provider).
+
 ## What To Configure First {#what-to-configure-first}
 
 - Start with `sfs_cms_sections: ~`.

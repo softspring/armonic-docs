@@ -80,6 +80,56 @@ _sfs_cms_sections_:
 
 These routes add the section list, create, update, delete, preview, content edition, version list, publish, unpublish, recompile, clear compiled content, and cleanup actions.
 
+### Register the admin routing provider {#register-the-admin-routing-provider}
+
+The admin route file includes an internal plugin route type named `sfs_cms_plugin_admin_section`. If your installed plugin version does not register a routing provider for this type, Symfony fails while loading routes with this error:
+
+```text
+Cannot load resource ".". Make sure there is a loader supporting the "sfs_cms_plugin_admin_section" type.
+```
+
+In that case, register a small routing provider in the application:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Cms\Infrastructure\Routing;
+
+use Softspring\CmsBundle\Routing\Provider\RoutingProviderInterface;
+use Symfony\Component\Routing\RouteCollection;
+
+final class SectionsAdminRoutingProvider implements RoutingProviderInterface
+{
+    public function supportedTypes(): array
+    {
+        return ['sfs_cms_plugin_admin_section'];
+    }
+
+    public function supports(string $type): bool
+    {
+        return in_array($type, $this->supportedTypes(), true);
+    }
+
+    public function getAdminRoutes(string $type): RouteCollection
+    {
+        return new RouteCollection();
+    }
+}
+```
+
+Register it with the CMS routing provider tag:
+
+```yaml
+# config/services.yaml
+services:
+    App\Cms\Infrastructure\Routing\SectionsAdminRoutingProvider:
+        tags: [ 'sfs_cms.routing_provider' ]
+```
+
+This provider only makes Symfony accept the plugin route type. It does not add routes, because the section routes are already declared explicitly by the plugin route file.
+
 ## Add security roles {#add-security-roles}
 
 Import the role hierarchy shipped by the plugin:
