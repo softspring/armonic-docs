@@ -65,6 +65,11 @@
                     "file": "configuration/configure-modules.md"
                 },
                 {
+                    "text": "Configure sections",
+                    "slug": "configure-sections",
+                    "file": "configuration/configure-sections.md"
+                },
+                {
                     "text": "Configure medias",
                     "slug": "configure-medias",
                     "file": "configuration/configure-medias.md"

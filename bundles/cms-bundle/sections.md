@@ -136,42 +136,11 @@ yarn add "file:vendor/softspring/cms-sections-plugin/assets" --dev
 import '@softspring/cms-sections-plugin/scripts/admin-cms';
 ```
 
-## Configure sections {#configure-sections}
+## Configuration reference {#configuration-reference}
 
-The plugin works with defaults, so an empty configuration is enough:
+The plugin works with defaults, but projects can tune the section entity classes, compiled output, automatic compilation, and recompile behavior.
 
-```yaml
-# config/packages/sfs_cms_sections.yaml
-sfs_cms_sections: ~
-```
-
-You can override the section entity classes and compilation behavior:
-
-```yaml
-sfs_cms_sections:
-    section:
-        class: App\Entity\Cms\Section
-        version_class: App\Entity\Cms\SectionVersion
-        find_field_name: id
-        save_compiled: true
-        autocompile_on_save: false
-        autocompile_on_publish: true
-        prefix_compiled: ''
-        recompile: true
-```
-
-Configuration options:
-
-- `class` is the Doctrine entity used for sections. It must implement `Softspring\CmsSectionsPlugin\Model\SectionInterface`.
-- `version_class` is the Doctrine entity used for section versions. It must implement `Softspring\CmsSectionsPlugin\Model\SectionVersionInterface`.
-- `find_field_name` is the configured lookup field for section managers and related admin services. The built-in frontend render route receives the section id.
-- `save_compiled` stores compiled section output in the CMS compiled data storage.
-- `autocompile_on_save` compiles a version when it is saved. It only runs when there is an active request and `save_compiled` is enabled.
-- `autocompile_on_publish` compiles all site and locale variants before publishing. If compilation has errors, the version is not published.
-- `prefix_compiled` adds a prefix to compiled keys.
-- `recompile` enables the admin recompile action.
-
-By default, compiled output is saved, versions are compiled on publish, and versions are not compiled on every save.
+For the option reference, see [Configure CMS Sections](../../configuration/configure-sections.md).
 
 ## Create a section {#create-a-section}
 
