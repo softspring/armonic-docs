@@ -153,6 +153,11 @@
                             "file": "bundles/cms-bundle/sites.md"
                         },
                         {
+                            "text": "Sections",
+                            "slug": "bundles/cms-bundle/sections",
+                            "file": "bundles/cms-bundle/sections.md"
+                        },
+                        {
                             "text": "Modules",
                             "slug": "bundles/cms-bundle/modules",
                             "file": "bundles/cms-bundle/modules.md",
