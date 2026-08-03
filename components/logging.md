@@ -25,75 +25,126 @@ These concerns overlap in production, but they are not the same thing and Armoni
 
 ## Generic Project Configuration {#generic-project-configuration}
 
-For a normal Armonic project, the generic logging baseline should stay close to standard Symfony and Monolog conventions.
+A practical Armonic project can keep the Monolog configuration in one file and change the handlers for each Symfony environment.
 
-Start with:
+Its baseline is:
 
-- one default application log
-- one channel for deprecations
-- one dedicated channel only for subsystems that need separate operational visibility
+- write development logs to `stderr`
+- keep console output useful by excluding noisy channels
+- buffer test logs and write them only when an error occurs
+- write production logs to `stderr` for collection by the hosting platform
+- declare application channels separately from their handlers
 
-In many projects, that means:
-
-- `app` or the default unnamed application log
-- `deprecation`
-- `http_cache`
-- `operations` for command-controller or sensitive admin actions
-
-### Minimal Monolog Baseline {#minimal-monolog-baseline}
+### Configuration By Environment {#configuration-by-environment}
 
 ```yaml
 # config/packages/monolog.yaml
 monolog:
-    channels: ['deprecation', 'http_cache', 'operations']
+    channels:
+        - deprecation
+        - cms
 
-    handlers:
-        main:
-            type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.log'
-            level: info
-            channels: ['!event', '!deprecation']
+when@dev:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: 'php://stderr'
+                level: debug
+                channels: ['!event', '!doctrine']
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ['!event', '!doctrine', '!console']
 
-        deprecation:
-            type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.deprecations.log'
-            level: notice
-            channels: ['deprecation']
+when@test:
+    monolog:
+        handlers:
+            main:
+                type: fingers_crossed
+                action_level: error
+                handler: nested
+                excluded_http_codes: [404, 405]
+                channels: ['!event']
+            nested:
+                type: stream
+                path: '%kernel.logs_dir%/%kernel.environment%.log'
+                level: debug
 
-        http_cache:
-            type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.http_cache.log'
-            level: info
-            channels: ['http_cache']
-
-        operations:
-            type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.operations.log'
-            level: info
-            channels: ['operations']
+when@prod:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: 'php://stderr'
+                level: info
+                channels: ['!deprecation']
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ['!event', '!doctrine']
 ```
 
-This structure is simple on purpose:
+This configuration follows a container-oriented deployment model:
 
-- normal application logs stay together
-- noisy or operationally important subsystems get their own files
-- Armonic-specific integrations can target a named logger cleanly
+- containers collect development logs from `stderr`
+- tests keep normal output quiet but preserve the complete log when an error triggers the `fingers_crossed` handler
+- expected `404` and `405` responses do not trigger test log files
+- production entries at `info` level or above are written to `stderr` for collection by the hosting platform
+- production deprecations are excluded from the main handler
 
-### Development vs Production {#development-vs-production}
+Replace the production `stream` handler only when the hosting platform requires a specific Monolog handler or transport.
 
-In development, `debug` level can be acceptable for temporary diagnosis.
+### Optional Browser Logging In Development {#optional-browser-logging-in-development}
 
-In production, start with `info` or `notice` for most handlers and only widen to `debug` for a specific channel when you are investigating a real issue.
+You can also add `firephp` and `chromephp` handlers as development options:
 
-That keeps log volume under control and makes the useful entries easier to find.
+```yaml
+when@dev:
+    monolog:
+        handlers:
+            firephp:
+                type: firephp
+                level: info
+            chromephp:
+                type: chromephp
+                level: info
+```
+
+Enable them only when browser-based inspection is useful. These handlers add log data to response headers, so the web server may need a larger header-size limit.
+
+### Channels And Handlers {#channels-and-handlers}
+
+Declaring a channel creates a named logger such as `monolog.logger.cms`. It does not create a separate destination by itself. The environment handlers still decide where records from that channel are sent.
+
+Add channels only when a component needs a named logger. For example, the HttpCache channel can be declared next to the component configuration:
+
+```yaml
+# config/packages/http_cache.yaml
+monolog:
+    channels: ['http_cache']
+
+sfs_http_cache_store:
+    logger: 'monolog.logger.http_cache'
+```
+
+This keeps optional component configuration together while the main Monolog handlers continue to control the destination in each environment.
 
 ### How To Connect Armonic Components {#how-to-connect-armonic-components}
 
-Once those channels exist, the Armonic-side wiring is straightforward.
+When a component accepts a logger service id, point it to a declared channel.
 
-Use the `operations` channel for command-controller endpoints:
+For example, declare an `operations` channel only if command-controller output needs its own logger service:
 
 ```yaml
+# config/packages/monolog.yaml
+monolog:
+    channels:
+        - deprecation
+        - cms
+        - operations
+
+# config/routes/admin_tools.yaml
 admin_tools_run_import:
     path: /admin/tools/run-import/{source}
     controller: Softspring\Component\CommandController\Controller\CommandController
@@ -104,14 +155,7 @@ admin_tools_run_import:
         loggerOutputService: 'monolog.logger.operations'
 ```
 
-Use the `http_cache` channel for HttpCache storage logging:
-
-```yaml
-sfs_http_cache_store:
-    logger: 'monolog.logger.http_cache'
-```
-
-This gives you a generic project-level setup without tying every log concern to one global file.
+The named channel makes routing and filtering possible, but it still reaches the normal `main` handler unless you explicitly add a more specific handler.
 
 ## Choose The Right Package {#choose-the-right-package}
 
