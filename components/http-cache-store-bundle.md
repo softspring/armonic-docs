@@ -16,6 +16,8 @@ Use it when you want your HttpCache data to live in:
 
 This is mainly a practical infrastructure bundle. Its value is not adding new HTTP cache rules, but making storage easier to control, isolate, and operate.
 
+For the complete project-level setup, including Symfony, Doctrine, CMS, and deployment-specific cache choices, see [Cache configuration](cache.md).
+
 ## When To Use It {#when-to-use-it}
 
 This bundle is a good fit when:
@@ -86,7 +88,7 @@ sfs_http_cache_store:
 
 ## Use A Dedicated Cache Pool {#use-a-dedicated-cache-pool}
 
-For real projects, a dedicated cache pool is usually the better setup.
+Use a dedicated persistent pool when Symfony HttpCache is responsible for shared response storage.
 
 Example:
 
@@ -151,14 +153,14 @@ This helps when you want to understand:
 
 ## Typical Usage Pattern {#typical-usage-pattern}
 
-For production projects, the usual recommendation is:
+Choose the store from the deployment topology:
 
-1. enable Symfony HttpCache
-2. use a dedicated Redis or Memcached-backed pool
-3. configure a dedicated logger channel
-4. clear only that pool when you want to reset HttpCache data
+1. enable Symfony HttpCache when the application needs HTTP caching or ESI processing
+2. use a dedicated Redis or Memcached-backed pool when Symfony owns shared response storage
+3. use a non-persistent array adapter when an upstream CDN owns shared caching and Symfony only processes ESI
+4. configure a dedicated logger channel when cache activity needs to be inspected
 
-That keeps reverse proxy cache storage separate from the rest of the application.
+This avoids adding shared cache infrastructure where it is not needed while keeping persistent storage available when Symfony is responsible for it.
 
 ## Clear The Cache Store {#clear-the-cache-store}
 
@@ -199,13 +201,19 @@ You do not need special configuration beyond enabling a logger.
 
 If you are deciding how to use the bundle, these are the choices that matter most:
 
-### Best default for serious projects {#best-default-for-serious-projects}
+### Symfony Owns Shared Response Storage {#symfony-owns-shared-response-storage}
 
 - dedicated cache pool
 - dedicated logger channel
 - backend suited for shared cache traffic
 
-### Best default for small projects {#best-default-for-small-projects}
+### An Upstream CDN Owns Shared Response Storage {#an-upstream-cdn-owns-shared-response-storage}
+
+- non-persistent array adapter for ESI processing
+- dedicated logger channel when cache diagnostics are useful
+- no duplicated persistent response cache inside the application
+
+### Small Or Single-Instance Projects {#small-or-single-instance-projects}
 
 - keep `cache.app`
 - skip custom logger until needed
@@ -221,7 +229,7 @@ The most important practical limits are:
 
 - the bundle only applies when Symfony HttpCache is enabled
 - it changes storage, not the caching strategy itself
-- a dedicated pool is recommended if you want clean operations
+- the adapter must match whether Symfony or an upstream proxy owns shared response storage
 - purging one URL removes the main cached entry for that URL, but storage cleanup is still driven by the cache backend and TTLs
 
 ## Good Fit Summary {#good-fit-summary}

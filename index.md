@@ -125,6 +125,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 
 ### HTTP and runtime {#http-and-runtime}
 
+- [Cache configuration](components/cache.md)
 - [Command controller](components/command-controller.md)
 - [Crudl controller](components/crudl-controller.md)
 - [Response headers](components/response-headers.md)
