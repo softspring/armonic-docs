@@ -451,6 +451,11 @@
                             "file": "components/cache.md"
                         },
                         {
+                            "text": "Logging",
+                            "slug": "components/logging",
+                            "file": "components/logging.md"
+                        },
+                        {
                             "text": "Command controller",
                             "slug": "components/command-controller",
                             "file": "components/command-controller.md"
