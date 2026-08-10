@@ -27,6 +27,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Configure content types](configuration/configure-content-types.md)
 - [Configure layouts](configuration/configure-layouts.md)
 - [Configure modules](configuration/configure-modules.md)
+- [Configure sections](configuration/configure-sections.md)
 - [Configure medias](configuration/configure-medias.md)
 - [Configure blocks](configuration/configure-blocks.md)
 - [Configure menus](configuration/configure-menu.md)
@@ -50,6 +51,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Concepts](bundles/cms-bundle/concepts.md)
 - [Configuration](bundles/cms-bundle/configuration.md)
 - [Sites](bundles/cms-bundle/sites.md)
+- [Sections](bundles/cms-bundle/sections.md)
 - [Modules](bundles/cms-bundle/modules.md)
 - [Module preview texts](bundles/cms-bundle/module/preview-texts.md)
 - CMS module form types
@@ -125,6 +127,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 
 ### HTTP and runtime {#http-and-runtime}
 
+- [Cache configuration](components/cache.md)
 - [Logging](components/logging.md)
 - [Command controller](components/command-controller.md)
 - [Crudl controller](components/crudl-controller.md)

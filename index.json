@@ -65,6 +65,11 @@
                     "file": "configuration/configure-modules.md"
                 },
                 {
+                    "text": "Configure sections",
+                    "slug": "configure-sections",
+                    "file": "configuration/configure-sections.md"
+                },
+                {
                     "text": "Configure medias",
                     "slug": "configure-medias",
                     "file": "configuration/configure-medias.md"
@@ -151,6 +156,11 @@
                             "text": "Sites",
                             "slug": "bundles/cms-bundle/sites",
                             "file": "bundles/cms-bundle/sites.md"
+                        },
+                        {
+                            "text": "Sections",
+                            "slug": "bundles/cms-bundle/sections",
+                            "file": "bundles/cms-bundle/sections.md"
                         },
                         {
                             "text": "Modules",
@@ -435,6 +445,11 @@
                 {
                     "text": "HTTP and runtime",
                     "children": [
+                        {
+                            "text": "Cache configuration",
+                            "slug": "components/cache",
+                            "file": "components/cache.md"
+                        },
                         {
                             "text": "Logging",
                             "slug": "components/logging",
