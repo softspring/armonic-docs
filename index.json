@@ -446,6 +446,11 @@
                     "text": "HTTP and runtime",
                     "children": [
                         {
+                            "text": "Cache configuration",
+                            "slug": "components/cache",
+                            "file": "components/cache.md"
+                        },
+                        {
                             "text": "Command controller",
                             "slug": "components/command-controller",
                             "file": "components/command-controller.md"
