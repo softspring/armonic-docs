@@ -123,6 +123,11 @@
                     "text": "Create routes",
                     "slug": "create-routes",
                     "file": "user-manual/create-routes.md"
+                },
+                {
+                    "text": "Build and publish a small website",
+                    "slug": "build-a-small-website",
+                    "file": "user-manual/build-a-small-website.md"
                 }
             ]
         },

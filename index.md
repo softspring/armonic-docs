@@ -41,6 +41,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 - [Create a new menu](user-manual/create-a-new-menu.md)
 - [Create a new media](user-manual/create-a-new-media.md)
 - [Create routes](user-manual/create-routes.md)
+- [Build and publish a small website](user-manual/build-a-small-website.md)
 
 ## Bundles {#bundles}
 
