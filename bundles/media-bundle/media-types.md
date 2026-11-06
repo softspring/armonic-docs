@@ -87,7 +87,7 @@ Supported upload requirements include:
 - `maxSize`
 - `binaryFormat`
 
-The configuration layer also validates whether the configured mime types and output formats are supported by the current PHP and GD environment.
+The configuration layer also validates whether the configured mime types and output formats are supported by the selected image driver and installed codecs.
 
 ## Generated Versions {#generated-versions}
 
@@ -125,7 +125,7 @@ These blocks are what the Twig renderer uses to build `<picture>` and `<video>` 
 
 ## APNG, WebP, And AVIF {#apng-webp-and-avif}
 
-The bundle has explicit support for more specialized formats such as APNG, WebP, and AVIF, but only when the current PHP environment supports them.
+Static image support for APNG, WebP, and AVIF depends on the selected Imagine driver and its installed codecs. Animated images use FFmpeg and FFprobe; animated WebP input also requires Imagick. See [Animated image versions](../media-bundle.md#animated-image-versions) for upload policies and processing options.
 
 That is why unsupported configurations fail at container compilation time instead of failing later during uploads.
 

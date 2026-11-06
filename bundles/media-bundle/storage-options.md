@@ -64,11 +64,11 @@ That is important because regeneration and migration may need to download the or
 
 It does not provide a signed-URL delivery layer or a full secure asset access system by itself.
 
-## Current Filesystem URL Caveat {#current-filesystem-url-caveat}
+## Configured Public URLs {#current-filesystem-url-caveat}
 
-In the current implementation, some rendering paths still assume `/media/...` for filesystem URLs.
+Rendering resolves stored URLs through the configured storage driver. A custom `filesystem.url` or Google Cloud Storage public base URL applies to images, responsive sources and fallbacks, videos, and posters.
 
-So a custom `filesystem.url` is not reflected uniformly in every code path yet. Keep that in mind if your project needs a different public prefix.
+For delayed deletion and the required bucket lifecycle rule, see [Delayed Google Cloud Storage deletion](../media-bundle.md#delayed-google-cloud-storage-deletion).
 
 ## Related Guides {#related-guides}
 

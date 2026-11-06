@@ -15,7 +15,7 @@ This is mainly an integration component. Its value is not a user-facing feature.
 
 Without this bundle, trace data usually has to be added by hand in controllers and services.
 
-With this bundle, you get tracing around common Symfony layers with almost no application code:
+The bundle traces the kernel by default. You can enable additional instrumentation around these Symfony layers:
 
 - request handling in the kernel
 - kernel termination
@@ -50,6 +50,23 @@ The normal setup is:
 
 There is no custom bundle configuration to add in the common case.
 
+## Configuration {#configuration}
+
+```yaml
+sfs_google_cloud_trace:
+    enabled: true
+    instrumentation:
+        kernel: true
+        event_dispatcher: false
+        twig: false
+        doctrine: false
+        http_cache: false
+    doctrine:
+        include_sql: false
+```
+
+Enable `twig`, `event_dispatcher`, `doctrine`, or `http_cache` only when that detail is useful for the application. Keep `doctrine.include_sql` disabled unless query text is needed and safe to send to Google Cloud Trace.
+
 ## Important Requirement: Trace Context {#important-requirement-trace-context}
 
 The bundle only creates spans when an incoming trace context exists.
@@ -62,9 +79,9 @@ This is important for adoption:
 - if your reverse proxy or platform strips that header, no trace will be created
 - if your application already receives distributed tracing context from Google Cloud infrastructure, the bundle can attach its spans to that request flow
 
-## What Gets Traced Automatically {#what-gets-traced-automatically}
+## Available Instrumentation {#what-gets-traced-automatically}
 
-The bundle hooks into the container at compile time and instruments the services that are present in the application.
+The bundle hooks into the container at compile time. Kernel instrumentation is enabled by default; other areas require their corresponding `instrumentation` flag and the relevant services in the application. Set `enabled: false` to disable the service instrumentation.
 
 ### Kernel Handling {#kernel-handling}
 
@@ -78,13 +95,13 @@ This gives you the main application flow for each traced request.
 
 ### Event Dispatching {#event-dispatching}
 
-The Symfony event dispatcher is decorated so each dispatched event can create its own span.
+With `instrumentation.event_dispatcher: true`, the Symfony event dispatcher is decorated so each dispatched event can create its own span.
 
 This is useful when your application or Symfony itself relies heavily on events. It helps reveal whether request time is spent in event-driven workflows instead of controllers alone.
 
 ### Twig Rendering {#twig-rendering}
 
-If Twig is enabled, the bundle replaces the Twig environment class with a traced one.
+With `instrumentation.twig: true` and Twig installed, the bundle replaces the Twig environment class with a traced one.
 
 That means calls to `render()` create a span named after the template being rendered.
 
@@ -96,7 +113,7 @@ This is useful when:
 
 ### HttpCache {#httpcache}
 
-If Symfony HttpCache is enabled, the bundle replaces the HttpCache class with a traced one.
+With `instrumentation.http_cache: true` and Symfony HttpCache enabled, the bundle replaces the HttpCache class with a traced one.
 
 This helps when you need visibility into:
 
@@ -106,7 +123,7 @@ This helps when you need visibility into:
 
 ### Doctrine DBAL {#doctrine-dbal}
 
-If Doctrine is present, the bundle instruments DBAL activity.
+With `instrumentation.doctrine: true` and Doctrine present, the bundle instruments DBAL activity. SQL text is omitted unless `doctrine.include_sql` is enabled.
 
 It supports two styles depending on the DBAL version in use:
 

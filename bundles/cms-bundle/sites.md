@@ -255,3 +255,16 @@ site:
     sitemaps_index:
       url: false 
 ```
+
+## Site context in fragments {#site-context-in-fragments}
+
+Internal and signed ESI fragments carry their site in the `_site` request
+attribute. Site resolution restores the enabled site object and the host/path
+configuration for the fragment's locale before rendering. Query parameters on
+normal pages do not override their site. An explicit unknown or disabled
+fragment site fails instead of selecting another site.
+
+Menu rendering respects an explicitly supplied site; otherwise it uses the
+current resolved site. Standalone ESI fragments have a site and locale, but no
+originating page request. Invalidate cached fragments and pages after deploying
+changes to site-context resolution.

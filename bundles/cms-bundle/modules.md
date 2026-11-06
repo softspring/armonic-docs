@@ -554,3 +554,25 @@ button:
             button_classes:
                 label: "Custom butom styles (CSS classes)"
 ```
+
+## Configured media selection migrations {#configured-media-selection-migrations}
+
+Module migration scripts can receive optional fourth and fifth arguments:
+`CmsConfig $cmsConfig` and `MediaTypesCollection $mediaTypesCollection`. Older
+scripts remain valid. Both editor data mapping and module rendering supply this
+context.
+
+`MediaSelectionMigrator::migrate($data, $formFields, $mediaTypesCollection)`
+repairs restricted `mediaVersion` fields, including translations and dynamic
+collections, using the first available choice in configuration order. Valid
+selections and unrelated data remain untouched. A configured picture name is
+never replaced with a hard-coded `_default`; unresolved references or empty
+allow-lists are preserved for editorial resolution.
+
+Use a matching Media Bundle version that provides `MediaSelectionChoices` alongside these migrations.
+
+## Module site filters {#module-site-filters}
+
+Module site filters accept persisted site entities as well as site identifiers
+and boolean maps. Saving a module through a site selection field therefore
+keeps the same rendering behaviour when its data is hydrated again.

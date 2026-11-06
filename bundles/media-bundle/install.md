@@ -34,6 +34,8 @@ The current package requires:
 - `imagine/imagine`
 - `google/cloud-storage`
 
+The default static image driver also needs `ext-imagick` and the codecs used by your sources and outputs. To use GD instead, set `sfs_media.imagine.driver: gd`. Animated processing needs FFmpeg and FFprobe; animated WebP decoding also needs Imagick. See [Static image processing driver](../media-bundle.md#static-image-processing-driver) and [Animated image versions](../media-bundle.md#animated-image-versions).
+
 Even if you use filesystem storage only, `google/cloud-storage` is still a direct package dependency in the current line.
 
 ## Add Base Configuration {#add-base-configuration}

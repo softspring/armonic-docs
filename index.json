@@ -396,6 +396,11 @@
                     "text": "Forms",
                     "children": [
                         {
+                            "text": "Form schema",
+                            "slug": "components/form-schema",
+                            "file": "components/form-schema.md"
+                        },
+                        {
                             "text": "Collection form type",
                             "slug": "components/collection-form-type",
                             "file": "components/collection-form-type.md"
