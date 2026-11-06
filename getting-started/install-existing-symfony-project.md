@@ -1,15 +1,38 @@
 ---
 title: "Install Armonic in an Existing Symfony Project"
 description: "Quick start for adding Armonic to an existing Symfony application instead of starting from a fresh project."
+next: "configuration"
+related:
+    - "configure-database"
+    - "bundles/user-bundle/install"
+    - "build-a-small-website"
 ---
 
-# Install Armonic in an existing Symfony project
+# Install Armonic in an existing Symfony project {#install-armonic-in-an-existing-symfony-project}
 
 >[!IMPORTANT]
 > This guide assumes your Symfony project already works and has a configured database connection.
 > Before running migrations on a production database, make a backup.
 
 ## 1. Prepare your project {#prepare-project}
+
+Keep the database engine already used by your application. Armonic can connect through Doctrine to MySQL or PostgreSQL. Check the matching PHP driver and `DATABASE_URL` in [Configure MySQL or PostgreSQL](../getting-started/configure-database.md).
+
+For example, choose one connection in `.env.local`, adjusting the database and credentials to your project:
+
+**MySQL:**
+
+```dotenv
+DATABASE_URL="mysql://app:app_password@127.0.0.1:33061/app?serverVersion=8.4&charset=utf8mb4"
+```
+
+**PostgreSQL:**
+
+```dotenv
+DATABASE_URL="postgresql://app:app_password@127.0.0.1:54321/app?serverVersion=17&charset=utf8"
+```
+
+Changing the URL does not migrate existing application data between engines. Keep your existing migrations and verify their platform compatibility.
 
 Move to your existing project root:
 
@@ -46,43 +69,89 @@ composer require softspring/armonic:6.0.x-dev -W
 
 ## 3. Troubleshooting after install {#troubleshooting-after-install}
 
->[!NOTE]
-> If you get an error like:
-> `Cannot autowire service "...DynamicTypesExtension"... TypeResolverInterface ... no such service exists`
-> add this service definition to `config/services.yaml`:
-> ```yaml
-> services:
->     Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface:
->         class: Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver
->         arguments:
->             $resolvers:
->                 - '@Softspring\CmsBundle\Form\Resolver\AppTypeResolver'
->                 - '@Softspring\CmsBundle\Form\Resolver\CmsTypeResolver'
-> ```
-> and then run:
-> ```bash
-> bin/console cache:clear
-> composer dump-autoload
-> ```
+Check that `Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle` is enabled first: it registers the default resolver services. If custom service wiring still produces an error like:
+`Cannot autowire service "...DynamicTypesExtension"... TypeResolverInterface ... no such service exists`
+add this service definition to `config/services.yaml`:
 
->[!NOTE]
-> If `bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"` fails with
-> `Unknown column type "sfs_translation" requested`, check that these bundles are enabled in `config/bundles.php`:
-> ```php
-> Softspring\TranslatableBundle\SfsTranslatableBundle::class => ['all' => true],
-> Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle::class => ['all' => true],
-> ```
-> and ensure the DBAL type is registered in `config/packages/doctrine.yaml`:
-> ```yaml
-> doctrine:
->     dbal:
->         types:
->             sfs_translation: Softspring\TranslatableBundle\Doctrine\Type\TranslationType
-> ```
-> then run:
-> ```bash
-> bin/console cache:clear
-> ```
+<!-- config-tabs:start -->
+
+```yaml
+services:
+    Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface:
+        class: Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver
+        arguments:
+            $resolvers:
+                - '@Softspring\CmsBundle\Form\Resolver\AppTypeResolver'
+                - '@Softspring\CmsBundle\Form\Resolver\CmsTypeResolver'
+                - '@Softspring\Component\DynamicFormType\Form\Resolver\DefaultTypeResolver'
+```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface::class, \Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver::class)
+        ->args([
+            '$resolvers' => [
+                service(\Softspring\CmsBundle\Form\Resolver\AppTypeResolver::class),
+                service(\Softspring\CmsBundle\Form\Resolver\CmsTypeResolver::class),
+                service(\Softspring\Component\DynamicFormType\Form\Resolver\DefaultTypeResolver::class),
+            ],
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+and then run:
+```bash
+bin/console cache:clear
+composer dump-autoload
+```
+
+If `bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"` fails with
+`Unknown column type "sfs_translation" requested`, check that these bundles are enabled in `config/bundles.php`:
+```php
+Softspring\TranslatableBundle\SfsTranslatableBundle::class => ['all' => true],
+Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle::class => ['all' => true],
+```
+and ensure the DBAL type is registered in `config/packages/doctrine.yaml`:
+
+<!-- config-tabs:start -->
+
+```yaml
+doctrine:
+    dbal:
+        types:
+            sfs_translation: Softspring\TranslatableBundle\Doctrine\Type\TranslationType
+```
+
+```php
+<?php
+
+// config/packages/doctrine.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('doctrine', [
+        'dbal' => [
+            'types' => ['sfs_translation' => \Softspring\TranslatableBundle\Doctrine\Type\TranslationType::class],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+then run:
+```bash
+bin/console cache:clear
+```
 
 ## 4. Run migrations {#run-migrations}
 
@@ -93,20 +162,10 @@ bin/console doctrine:migrations:sync-metadata-storage -n
 bin/console doctrine:migrations:migrate -n
 ```
 
->[!NOTE]
-> If this is a fresh integration environment and migrations are inconsistent, you can reset the database:
-> ```bash
-> bin/console doctrine:database:drop --if-exists --force
-> bin/console doctrine:database:create
-> bin/console doctrine:migrations:sync-metadata-storage -n
-> bin/console doctrine:migrations:migrate -n
-> ```
-> Do not do this on environments with data you need to preserve.
+If a migration fails, inspect `doctrine:migrations:status`, the failed SQL, and the active database platform. Test the integration against a copy of the application's schema and retain its migration history. Resetting a database is not a recovery step for an existing application.
 
 ## 5. Next steps {#next-steps}
 
-Once installed:
+Connect the CMS to the application's existing authentication and admin role hierarchy. If using User Bundle, follow its [installation guide](../bundles/user-bundle/install.md), then generate the application entity migration after the bundle migrations have been applied.
 
-1. Configure security for `/admin` access.
-2. Create an admin user.
-3. Open `/admin/cms/pages/` and start creating content.
+Check that the admin route import exists, the required form themes and assets load, and the user has the CMS permissions. Open `/admin/cms/pages/`, create a draft, and preview it before publishing. Continue with [CMS configuration](../configuration/overview.md) to define the site's content model.

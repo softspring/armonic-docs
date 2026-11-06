@@ -93,6 +93,7 @@ The current implementation supports:
 
 - equality by default
 - `like`
+- `ilike` (case-insensitive matching through `LOWER`)
 - `in`
 - `notIn`
 - `between`
@@ -178,6 +179,8 @@ You can filter joined properties by using dot notation:
 The component will add a left join automatically when needed.
 
 That makes it practical for admin screens that need small joined filters without custom join boilerplate in every controller.
+
+Field names and operators are part of the query structure. Build filter definitions from an application-owned allowlist; do not pass arbitrary request keys directly to `Filters::apply()` or `Filters::sortBy()`.
 
 ## Sorting Results {#sorting-results}
 
@@ -275,7 +278,3 @@ Keep these limits in mind:
 - complex nested logic still belongs in custom query code
 - the package is good for repeatable filtering rules, not for every possible query shape
 - some older form-integration ideas are still visible in the codebase, but the stable public value today is the query-builder helper and the base form type
-
-## Summary {#summary}
-
-Choose `doctrine-query-filters` when you want small, repeatable Doctrine filtering and sorting rules driven by arrays or GET forms, especially for admin and backoffice listing screens.

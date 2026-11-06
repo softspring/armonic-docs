@@ -25,6 +25,8 @@ The bundle will reject OAuth configuration if `HWIOAuthBundle` is not installed.
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     oauth:
@@ -34,6 +36,27 @@ sfs_user:
             login_create: false
 ```
 
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', [
+        'oauth' => [
+            'facebook' => [
+                'application_id' => '%env(OAUTH_FACEBOOK_APP_ID)%',
+                'application_secret' => '%env(OAUTH_FACEBOOK_APP_SECRET)%',
+                'login_create' => false,
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 What these options mean:
 
 - `application_id`: Facebook application identifier
@@ -42,10 +65,25 @@ What these options mean:
 
 ## Import OAuth Routes {#import-oauth-routes}
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_user_oauth_facebook:
     resource: '@SfsUserBundle/config/routing/login_oauth_facebook.yaml'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/login_oauth_facebook.yaml');
+};
+```
+
+<!-- config-tabs:end -->
 
 This exposes:
 
@@ -67,11 +105,11 @@ That means the normal login page can keep both flows:
 
 ## Real Use Cases {#real-use-cases}
 
-### Consumer Application
+### Consumer Application {#consumer-application}
 
 OAuth can reduce friction for first-time users and improve conversion.
 
-### Internal Or B2B Platform
+### Internal Or B2B Platform {#internal-or-b2b-platform}
 
 In many B2B projects, standard login is simpler and easier to audit. OAuth should only be added if it clearly matches the customer identity model.
 

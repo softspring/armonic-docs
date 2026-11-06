@@ -3,13 +3,13 @@ title: "CMS Module Translatable Field Type"
 description: "Use the translatable form type to store locale-aware values for texts and other fields in CMS modules."
 ---
 
-# Translatable type
+# Translatable type {#translatable-type}
 
 This **translatable** type makes reference to *Softspring\CmsBundle\Form\Type\TranslatableType* form type.
 
 This form type provides multiple language values for any field and type.
 
-It uses the de *%kernel.enabled_locales%* and *%kernel.default_locale%* values to configure languages, as default.
+The CMS translation context supplies the languages and default language. It starts from the Symfony enabled locales and can be narrowed to the content currently being edited.
 
 ## Translate texts {#translate-texts}
 
@@ -41,7 +41,7 @@ The values are stored as a json object with locale as key:
 
 ## Render values {#render-values}
 
-The way to render translated values is using it as an array, accessing it throw the locale:
+The way to render translated values is using it as an array, accessing it by the locale:
 
 ```twig
 {{ description|sfs_cms_trans }}
@@ -52,7 +52,7 @@ The way to render translated values is using it as an array, accessing it throw 
 
 ## Preview values {#preview-values}
 
-Preview values works similiar as contained type does, but accesing it throw the locale:
+Preview values works in the same way as contained type does, but accessing it by the locale:
 
 ```yaml
 module:
@@ -69,13 +69,36 @@ module:
 
 ```twig
 {% for locale,localeField in form.description.vars.localeFields %}
-    <p data-edit-content-target="description.{{ locale }}" data-lang="{{ locale }}" contenteditable="true">{{ localeField.vars.data|default('description')|raw }}</p>
+    <p data-edit-content-target="description.{{ locale }}" data-lang="{{ locale }}" contenteditable="true">{{ localeField.vars.data|default('') }}</p>
 {% endfor %}
 ```
 
 ## Translate medias {#translate-medias}
 
-> *This documentation page is not yet written*
+Wrap a `mediaVersion` field in `translatable` when each language needs a different image:
+
+```yaml
+module:
+    module_options:
+        form_fields:
+            image:
+                type: translatable
+                type_options:
+                    type: mediaVersion
+                    type_options:
+                        media_types:
+                            background:
+                                image: [sm]
+```
+
+The media type and version must already exist. Resolve the translated selection before rendering:
+
+```twig
+{% set selection = image|sfs_cms_trans %}
+{% if selection.media|default(false) %}
+    {{ selection.media|sfs_media_render(selection.version) }}
+{% endif %}
+```
 
 ## Options {#options}
 
@@ -99,13 +122,13 @@ module:
 
 Keep in mind that it translates this type names as follows (this preference order):
 
-1. *App\Form\Type\<cappitalized-type-name>Type*
-2. *Softspring\CmsBundle\Form\Type\<cappitalized-type-name>Type*
-3. *Symfony\Component\Form\Extension\Core\Type\<cappitalized-type-name>Type*
+1. *App\Form\Type\<capitalized-type-name>Type*
+2. *Softspring\CmsBundle\Form\Type\<capitalized-type-name>Type*
+3. *Symfony\Component\Form\Extension\Core\Type\<capitalized-type-name>Type*
 
-**Using fully qualified domain names**
+**Using fully qualified class names**
 
-You can specify a fully qualified domain name to use an specific form type,
+You can specify a fully qualified class name to use an specific form type,
 
 ```yaml
 module:
@@ -114,7 +137,7 @@ module:
             description:
                 type: "translatable"
                 type_options:
-                    type: "Symfony\Component\Form\Extension\Core\Type\ColorType"
+                    type: 'Symfony\Component\Form\Extension\Core\Type\ColorType'
 ```
 
 or other namespace type:
@@ -126,7 +149,7 @@ module:
             description:
                 type: "translatable"
                 type_options:
-                    type: "Vendor\FeatureBundle\Type\ExampleType"
+                    type: 'Vendor\FeatureBundle\Type\ExampleType'
 ```
 
 ### type_options {#typeoptions}

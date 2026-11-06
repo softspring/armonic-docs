@@ -1,559 +1,178 @@
 ---
 title: "CMS Bundle Modules"
-description: "Overview of CMS modules and the built-in form field types available when modeling editable module content."
+description: "Build editable CMS modules with Symfony forms, Twig templates, and versioned data migrations."
 ---
 
-# Modules
+# Modules {#modules}
 
-> *This documentation page is not yet written*
- 
-## Form types {#form-types}
+A module is an editable element inside a content layout: a heading, a picture, a call to action, or a more specialized component. Each instance stores its own values in the content version. The module definition provides the form and the templates that interpret those values.
 
-### CMS provided types {#cms-provided-types}
+Start with [Configure modules](../../configuration/configure-modules.md) for a minimal hero. This guide adds a reusable rating module and explains how to extend its form and evolve its stored data.
 
-- block
-- class
-- color
-- css
-- dynamicFormCollection
-- dynamicForm
-- html
-- id
-- layout
-- mediaAlt
-- [mediaModal](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/media-modal)
-- [media](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/media)
-- route
-- [symfonyRoute](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/symfony-route)
-- tinymce
-- [translatable](https://armonic.softspring.es/latest/bundles/cms-bundle/modules/translatable)
-- user
+## Create a rating module {#create}
 
-### Basic symfony types {#basic-symfony-types}
+Create this directory in the application's CMS collection:
 
-#### Text Fields {#text-fields}
-
-- [text](https://symfony.com/doc/current/reference/forms/types/text.html)
-- [textarea](https://symfony.com/doc/current/reference/forms/types/textarea.html)
-- [email](https://symfony.com/doc/current/reference/forms/types/email.html)
-- [integer](https://symfony.com/doc/current/reference/forms/types/integer.html)
-- [money](https://symfony.com/doc/current/reference/forms/types/money.html)
-- [number](https://symfony.com/doc/current/reference/forms/types/number.html)
-- [password](https://symfony.com/doc/current/reference/forms/types/password.html)
-- [percent](https://symfony.com/doc/current/reference/forms/types/percent.html)
-- [search](https://symfony.com/doc/current/reference/forms/types/search.html)
-- [url](https://symfony.com/doc/current/reference/forms/types/url.html)
-- [range](https://symfony.com/doc/current/reference/forms/types/range.html)
-- [tel](https://symfony.com/doc/current/reference/forms/types/tel.html)
-- ~~[color](https://symfony.com/doc/current/reference/forms/types/color.html)~~ (this color widget is overriden by CMS color field)
-
-#### Choice Fields {#choice-fields}
-
-- [choice](https://symfony.com/doc/current/reference/forms/types/choice.html)
-- [enum](https://symfony.com/doc/current/reference/forms/types/enum.html)
-- [entity](https://symfony.com/doc/current/reference/forms/types/entity.html)
-- [country](https://symfony.com/doc/current/reference/forms/types/country.html)
-- [language](https://symfony.com/doc/current/reference/forms/types/language.html)
-- [locale](https://symfony.com/doc/current/reference/forms/types/locale.html)
-- [timezone](https://symfony.com/doc/current/reference/forms/types/timezone.html)
-- [currency](https://symfony.com/doc/current/reference/forms/types/currency.html)
-
-#### Date and Time Fields {#date-and-time-fields}
-
-- [date](https://symfony.com/doc/current/reference/forms/types/date.html)
-- [dateInterval](https://symfony.com/doc/current/reference/forms/types/dateinterval.html)
-- [dateTime](https://symfony.com/doc/current/reference/forms/types/datetime.html)
-- [time](https://symfony.com/doc/current/reference/forms/types/time.html)
-- [birthday](https://symfony.com/doc/current/reference/forms/types/birthday.html)
-- [week](https://symfony.com/doc/current/reference/forms/types/week.html)
-
-#### Other Fields {#other-fields}
-
-- [checkbox](https://symfony.com/doc/current/reference/forms/types/checkbox.html)
-- [file](https://symfony.com/doc/current/reference/forms/types/file.html)
-- [radio](https://symfony.com/doc/current/reference/forms/types/radio.html)
-
-#### Symfony UX Fields {#symfony-ux-fields}
-
-
-#### UID Fields {#uid-fields}
-
-- [uuid](https://symfony.com/doc/current/reference/forms/types/uuid.html)
-- [ulid](https://symfony.com/doc/current/reference/forms/types/ulid.html)
-
-#### Field Groups {#field-groups}
-
-- [collection](https://symfony.com/doc/current/reference/forms/types/collection.html)
-- [repeated](https://symfony.com/doc/current/reference/forms/types/repeated.html)
-
-#### Hidden Fields {#hidden-fields}
-
-- [hidden](https://symfony.com/doc/current/reference/forms/types/hidden.html)
-
-#### Buttons {#buttons}
-
-- [button](https://symfony.com/doc/current/reference/forms/types/button.html)
-- [reset](https://symfony.com/doc/current/reference/forms/types/reset.html)
-- [submit](https://symfony.com/doc/current/reference/forms/types/submit.html)
-
-#### Base Fields {#base-fields}
-
-- [form](https://symfony.com/doc/current/reference/forms/types/form.html)
-
-### Use another form types {#use-another-form-types}
-
-> *This is not yet written*
-
-### Build your own form types for modules {#build-your-own-form-types-for-modules}
-
-> *This is not yet written*
-
-
-### How to create or overwrite a module {#how-to-create-or-overwrite-a-module}
-
-A module consists of four files and translations:
-- **config.yaml**: Definition of the module, version, file path for editing and its form, and the fields required by the module.
-- **form.html.twig**: Form for editing, here you can order how you want the fields to be displayed.
-- **edit.html.twig**: Layout for the module edition, which should show how the module will look like. With a series of data attributes you can link the form fields defined in the config.yaml and how they will look like.
-- **render.html.twig**: Final rendering of the module, used in the preview action and in the final rendering of the page.
-
-#### Create {#create}
-You can create new modules to suit your project design needs.
-
-In the folder your-project/cms/modules, add a folder with the name of the module you want to create, e.g. **rating**.
-
-To see in detail how the creation of modules works, let's create the **rating module**, which will display an image, a title, a description, score and a button to see more.
-
-It will also have other fields that will allow us to give more flexibility, Id of the module, CSS classes of the module, CSS classes for the title, classes for the button and background color of the module.
-
-Add the following files inside the folder:
-
+```text
+cms/modules/rating/
+├── config.yaml
+├── form.html.twig
+├── render.html.twig
+└── translations/
+    └── sfs_cms_modules.en.yaml
 ```
- - rating
-    - translations #The languages your project needs
-        - sfs_cms_modules.en.yaml
-        - sfs_cms_modules.es.yaml
-    - config.yaml
-    - form.html.twig
-    - edit.html.twig
-    - render.html.twig
-```
-##### config.yaml {#configyaml}
 
-```
+The example uses a plain title and a score from one to five. It deliberately keeps the heading level fixed, so editors can change the content without changing the page's heading hierarchy.
+
+```yaml
+# cms/modules/rating/config.yaml
 module:
     revision: 1
-    group: 'block' #Group in which will be included in the modal for module selection
-    edit_template: '@module/rating/edit.html.twig' #Edit layout
-    form_template: '@module/rating/form.html.twig' #Form layout
-  
-    module_options:
-        form_fields: #Module field definition
-            id:
-                type: 'id' #Field type
-                type_options:
-                    attr:
-                        data-edit-id-input: 'ratingId' #This data attribute allows the ID to be previewed during editing.
-      
-            class:
-                type: 'class' #Field type
-                type_options:
-                    attr:
-                        data-edit-class-input: 'ratingClasses' #This data attribute allows the CSS classes to be previewed during editing.
-      
-            media:
-                type: 'translatable' #Images can be translatable or not
-                type_options:
-                      type: 'mediaVersion' #Field type
-                      type_options:
-                          media_attr:
-                              class: 'img-fluid' #Defaul class
-                          attr:
-                              data-media-preview-input: 'media' #This data attribute allows the image to be previewed during editing.
-      
-            bg_color:
-                type: 'color' #Field type
-                type_options:
-                    attr:
-                        data-edit-bgcolor-input: 'ratingBgColor' #This data attribute allows the background color  to be previewed during editing.
-      
-      
-            title:
-                type: 'translatable' #Texts can be translatables or not
-                type_options:
-                    type: 'text' #Field type
-                    type_options:
-                        attr:
-                            data-edit-content-input: 'title' #This data attribute allows the title text to be previewed during editing.
-                    
-            title_type:
-                type: 'choice'
-                type_options:
-                    default_value: h2 #Default select value
-                    choices:
-                        "title.form.type.values.h1": h1
-                        "title.form.type.values.h2": h2
-                        "title.form.type.values.h3": h3
-                        "title.form.type.values.h4": h4
-                        "title.form.type.values.h5": h5
-                        "title.form.type.values.h6": h6
-                    attr:
-                        data-cms-module-title-type-field: ''
-                    
-            title_class:
-                type: 'class' #Field type
-                type_options:
-                    attr:
-                        data-edit-class-input: 'titleClass' #This data attribute allows the title CSS classes to be previewed during editing.
-      
-            description:
-                type: 'translatable'
-                type_options:
-                    type: 'html' #Field type
-                    type_options:
-                        attr:
-                            data-edit-content-input: 'description' #This data attribute allows the description to be previewed during editing.
-                            data-wysiwyg: '' #With this attribute opens the wysiwyg modal
-        
-            read_more_button_text:
-                type: 'translatable'
-                type_options:
-                    type: 'text' #Field type
-                    type_options:
-                        attr:
-                                data-edit-content-input: 'readMoreButtonText' #This data attribute allows the button text to be previewed during editing.
-      
-            read_more_button_link:
-                type: 'symfonyRoute' #Field type: Symfony route selector
-                type_options:
-      
-            read_more_button_class:
-                type: 'class' #Field type
-                type_options:
-                    attr:
-                        data-edit-class-input: 'readMoreButtonClass' #This data attribute allows the button CSS classes to be previewed during editing.
-      
-             score:
-                type: 'choice' #Field type
-                type_options:
-                    choices:
-                        "rating.form.score.values.one": 1
-                        "rating.form.score.values.two": 2
-                        "rating.form.score.values.three": 3
-                        "rating.form.score.values.four": 4
-                        "rating.form.score.values.five": 5
-                    attr:
-                        data-edit-class-input: 'scoreClass'
-
-
-```
-
-##### translations/sfs_cms_modules.en.yaml {#translationssfscmsmodulesenyaml}
-
-```
-rating:
-    label: "Rating"
-    prototype_button: "Rating"
-    prototype_button_icon: '<i class="bi bi-star"></i>' #Icon in module selector modal
-    form:
-        locale_filter.label: "Locales" #If your application has languages, a language selector will appear to control the display of the module by language.
-        site_filter.label: "Sites"
-        background.label: "Background image"
-        media.label: "Image"
-        id.label: "Id"
-        class.label: "Classes"
-        title_class.label: "Title classes"
-        title:
-            label: "Title"
-            placeholder: "Rating title"
-        description:
-            label: "Description"
-            placeholder: "Rating description"
-        read_more_button_text.label: "Button text"
-        read_more_button_link:
-            route_name.label: "Button link"
-            route_params.label: "Link parameters"
-        bg_color.label: "Background color"
-        read_more_button_class.label: "Button classes"
-        score.label: "Score"
-        score.values:
-            one: "1 star"
-            two: "2 stars"
-            three: "3 stars"
-            four: "4 stars"
-            five: "5 stars"
-            
-```
-##### form.yaml {#formyaml}
-
-```
-<<div class="row">
-    <div class="col-12">
-        {{ form_row(form.id) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.class) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.media) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.title) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.title_type }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.title_class) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.score) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.read_more_button_text) }}
-    </div>
-    <div class="col-12">
-        {{ form_widget(form.read_more_button_link) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.read_more_button_class) }}
-    </div>
-    <div class="col-12">
-        {{ form_row(form.bg_color) }}
-    </div>
-</div>
-{{ form_rest(form) }}
-
-```
-
-##### edit.yaml {#edityaml}
-
-```
-{% set defaultRatingClass = 'sfs-rating' %}
-{% set titleType = form.title_type.vars.data|default('h2') %}
-<div
-        id="{{ form.id.vars.data|default('') }}"
-        data-edit-id-target="ratingId"
-
-        class="{{ defaultRatingClass }} {{ form.class.vars.data|default('') }}"
-        data-edit-class-target="ratingClasses"
-        data-edit-class-default="{{ defaultRatingClass }}"
-
-        data-edit-bgcolor-target="ratingBgColor"
-        style="{{ form.bg_color.vars.data ? 'background-color:'~form.bg_color.vars.data : '' }}"
->
-    <div class="sfs-rating__content">
-        {% for locale,localeField in form.media.vars.localeFields %}
-            <div class="sfs-rating__media" data-media-preview-target="media.{{ locale }}" data-lang="{{ locale }}">
-                {% if localeField.media.vars.data %}
-                    {{ localeField.media.vars.data|sfs_media_render(localeField.version.vars.data, localeField.media.vars.image_attr) }}
-                {% endif %}
-            </div>
-        {% endfor %}
-
-        {% for locale,localeField in form.title.vars.localeFields %}
-            {% set titleClassDefault = 'sfs-rating__title' %}
-            <{{ titleType }}
-            class="{{ titleClassDefault }} {{ form.title_class.vars.data|default('') }}"
-
-            data-cms-module-title-type=""
-
-            data-edit-class-target="titleClass"
-            data-edit-class-default="{{ titleClassDefault }}"
-
-            data-lang="{{ locale }}"
-            data-edit-content-target="title.{{ locale }}"
-            data-edit-content-placeholder="{{ 'rating.form.title.placeholder'|trans({}, 'sfs_cms_modules', locale) }}"
-            contenteditable="true"
-            >{{ localeField.vars.data|default('')|raw }}</{{ titleType }}>
-        {% endfor %}
-
-        <span class="sfs-rating__stars sfs-rating__stars--{{ form.score.vars.value|default('') }}"
-              data-edit-class-target="scoreClass"
-              data-edit-class-default="sfs-rating__stars">
-                {% for i in 1..5 %}
-                    {% if i <= form.score.vars.value|default(1) %}
-                        <i class="bi bi-star-fill"></i>
-                    {% else %}
-                        <i class="bi bi-star"></i>
-                    {% endif %}
-                {% endfor %}
-        </span>
-
-        {% for locale,localeField in form.description.vars.localeFields %}
-            <div class="sfs-rating__desc mb-4 wysiwyg-preview"
-
-                 data-lang="{{ locale }}"
-                 data-edit-content-target="description.{{ locale }}"
-                 data-edit-content-placeholder="{{ 'rating.form.description.placeholder'|trans({}, 'sfs_cms_modules', locale) }}"
-
-                 data-bs-toggle="modal"
-                 data-bs-target="#{{ id }}Modal"
-            >{{ localeField.vars.data|default('')|raw }}</div>
-        {% endfor %}
-
-        <div class="sfs-rating__cta">
-            {% for locale,localeField in form.read_more_button_text.vars.localeFields %}
-                {% set defaultReadMoreButtonClass = 'btn btn-primary' %}
-
-                <a href="#" data-edit-content-hide-if-empty="true"
-                   class="{{ form.read_more_button_class.vars.data|default(defaultReadMoreButtonClass) }}"
-                   data-edit-class-target="readMoreButtonClass"
-                   data-edit-class-default="{{ defaultReadMoreButtonClass }}"
-                   data-lang="{{ locale }}" data-edit-content-target="readMoreButtonText.{{ locale }}" contenteditable="true">{{ localeField.vars.data|default('') }}</a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- WYSIWYG Modal -->
-    <div class="modal fade" id="{{ id }}Modal" data-wysiwyg-modal data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}ModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Card description</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {% for locale,localeField in form.description.vars.localeFields %}
-                        <div data-edit-content-target="description.{{ locale }}" data-lang="{{ locale }}">
-                            {{ form_row(localeField,{'attr':{'data-initial-value' : form.description.children[locale].vars.value }}) }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-```
-
-##### render.yaml {#renderyaml}
-
-```
-<div id="{{ id|default('') }}" class="sfs-rating {{ class|default('') }}" style="{{ bg_color|default(false) ? 'background-color:'~bg_color : '' }}">
-    <div class="sfs-rating__content">
-        {% if media[app.request.locale]|default(false) %}
-            <div class="sfs-rating__media">
-                {{ media[app.request.locale].media|sfs_media_render(media[app.request.locale].version, {'class':'img-fluid'}) }}
-            </div>
-        {% endif %}
-        <{{ title_type }} class="sfs-rating__title {{ title_class|default('') }}">{{ title|sfs_cms_trans|raw }}</{{ title_type }}>
-        <span class="sfs-rating__stars">
-            {% for i in 1..5 %}
-            {% if i <= score|default(1) %}
-                <i class="bi bi-star-fill"></i>
-            {% else %}
-                <i class="bi bi-star"></i>
-            {% endif %}
-            {% endfor %}
-        </span>
-        {% if description|default(false) %}<div class="sfs-rating__desc">{{ description|sfs_cms_trans|raw }}</div>{% endif %}
-        <div class="sfs-rating__cta">
-            {% if read_more_button_text|default(false) and read_more_button_text|sfs_cms_trans is not empty %}
-                <a href="{{ sfs_cms_url(read_more_button_link) }}" {{ sfs_cms_route_attr(read_more_button_link)}} class="{{ read_more_button_class|default('btn btn-primary') }}">{{ read_more_button_text|sfs_cms_trans|raw }}</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-```
-> The module styles can be created in your project with the rest of the assets. 
-
-> IMPORTANT: Clear cache when adding a new module. (php bin/console cache:clear --env=dev)
-
-##### Final result {#final-result}
-![Rating](https://storage.googleapis.com/mailingimg/softspring/cms/module-rating.png)
-
-
-#### Overwrite {#overwrite}
-
-In the folder your-project/cms/modules, add a folder with the same name as the module you want to overwrite, for example, card.
-
-You can add fields by overwriting config.yaml, if you need to layout the edit form, overwrite form.html.twig. For the editing layout, edit edit.html.twig. And for the rendering of the module to paint the new field, overwrite render.html.twig.
-
-As an example we are going to change the button field, so that the CSS classes are not the bootstrap ones but some custom classes.
-
-```
- - button
-    - translations #The languages your project needs
-        - sfs_cms_modules.en.yaml
-    - config.yaml
-```
-
-##### config.yaml {#configyaml-2}
-
-```
-module:
-    revision: 3
-    group: 'basic'
-    edit_template: '@module/button/edit.html.twig'
-    form_template: '@module/button/form.html.twig'
-
+    group: content
+    compatible_contents: [page]
+    form_template: '@module/rating/form.html.twig'
     module_options:
         form_fields:
-            id:
-                type: 'id'
+            title:
+                type: text
                 type_options:
-                    attr:
-                        data-edit-id-input: 'buttonId'
-
-            button_style:
-                type: 'choice'
+                    required: true
+            score:
+                type: choice
                 type_options:
-                    choices: #Change choices with the custom classes
-                        "button.form.button_style.values.read_more": 'btn-read-more'
-                        "button.form.button_style.values.continue": 'btn-continue'
-                        "button.form.button_style.values.save": 'btn-save'
-                        "button.form.button_style.values.none": ''
-                    attr:
-                        data-edit-class-input: 'buttonClass'
-
-            button_classes:
-                type: 'class'
-                type_options:
-                    attr:
-                        data-edit-class-input: 'buttonClass'
-
-            button_text:
-                type: 'translatableText'
-                type_options:
-                    children_attr:
-                        data-edit-content-input: 'buttonText'
-
-            button_link:
-                type: 'symfonyRoute'
-                type_options:
-
+                    choices:
+                        '1 star': 1
+                        '2 stars': 2
+                        '3 stars': 3
+                        '4 stars': 4
+                        '5 stars': 5
 ```
 
-##### translations/sfs_cms_modules.en.yaml {#translationssfscmsmodulesenyaml-2}
+`render_template` defaults to `@module/rating/render.html.twig`. The dynamic module form resolves `text` and `choice` to Symfony form types and passes `type_options` to them.
 
+```twig
+{# cms/modules/rating/form.html.twig #}
+{{ form_row(form.title) }}
+{{ form_row(form.score) }}
+{{ form_rest(form) }}
 ```
-button:
-    label: "Button"
-    prototype_button: "Button"
-    prototype_button_icon: '<i class="bi bi-link"></i>'
+
+```twig
+{# cms/modules/rating/render.html.twig #}
+<section class="rating">
+    <h2>{{ title|default('') }}</h2>
+    {% if score|default(false) %}
+        <p class="rating__score">{{ score }} / 5</p>
+    {% endif %}
+</section>
+```
+
+Normal Twig escaping applies to the title. Add the rating styles to your application frontend build.
+
+```yaml
+# cms/modules/rating/translations/sfs_cms_modules.en.yaml
+rating:
+    label: Rating
+    prototype_button: Rating
+    prototype_button_icon: '<i class="bi bi-star"></i>'
     form:
-        locale_filter.label: "Locales"
-        site_filter.label: "Sites"
-        id.label: "Id"
-        class.label: "Classes"
-        button_text.label: "Button text"
-        button_link:
-            route_name.label: "Button link"
-            route_params.label: "Link parameters"
-        button_style:
-            label: "Button style"
-            values:
-                read_more: "Read more"
-                continue: "Continue"
-                save: "Save"
-                none: "None"
-            button_classes:
-                label: "Custom butom styles (CSS classes)"
+        title.label: Title
+        score.label: Score
 ```
+
+Clear the Symfony cache, open a page with a container that permits the module, insert **Rating**, and save a draft. Preview the page before publishing. If the module is absent from the picker, check the content's `allowed_modules` and the module's `compatible_contents`.
+
+## Choose field types {#form-types}
+
+Use Symfony field names such as `text`, `textarea`, `choice`, `checkbox`, `integer`, `url`, `collection`, and `entity`. Their usual Symfony options apply. An entity field also needs its entity `class`; a collection needs its `entry_type`.
+
+CMS-specific fields provide editing and reference tracking:
+
+| Field | Purpose |
+| --- | --- |
+| `id`, `class`, `color`, `css` | HTML presentation values |
+| `html` | Rich editorial content |
+| `blockInstance`, `blockStatic` | Select an editable block record or a static block type |
+| `media`, `mediaVersion` | Select a media object, version, or picture |
+| `symfonyRoute` | Select a Symfony route and its parameters |
+| `translatable` | Wrap a field with values for each enabled locale |
+| `dynamicForm`, `dynamicFormCollection` | Define nested data structures |
+
+See the dedicated guides for [media](module/form-types/media.md), [media modal](module/form-types/media-modal.md), [Symfony routes](module/form-types/symfony-route.md), [links](module/form-types/link.md), and [translatable fields](module/form-types/translatable.md). Their stored values differ from plain strings; use their rendering helpers rather than concatenating database identifiers into URLs.
+
+## Use a custom Symfony form type {#build-your-own-form-types-for-modules}
+
+A form type in `App\Form\Type` can be selected by its short name. For example, `ratingScore` resolves to `App\Form\Type\RatingScoreType`:
+
+```php
+<?php
+// src/Form/Type/RatingScoreType.php
+namespace App\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+final class RatingScoreType extends AbstractType
+{
+    public function getParent(): string
+    {
+        return ChoiceType::class;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'choices' => array_combine(range(1, 5), range(1, 5)),
+        ]);
+    }
+}
+```
+
+Register the type through Symfony's normal `App\` service discovery with autoconfiguration enabled. Then replace the `score` field definition with:
+
+```yaml
+module:
+    module_options:
+        form_fields:
+            score:
+                type: ratingScore
+```
+
+This is an override fragment of the existing module configuration. For custom namespaces or an entirely custom module form, see [Dynamic Form Type](../../components/dynamic-form-type.md). Use `module_type` and `module_options` when the whole module needs a dedicated form type.
+
+## Customize the editor preview {#editor-preview}
+
+Set `edit_template` to a Twig template when the generic editing form is insufficient. The editor template receives a Symfony form view. Render values from `form.<field>.vars.data`; keep form field rendering in `form_template`.
+
+CMS editor assets can synchronize fields with a preview through paired attributes such as `data-edit-content-input` and `data-edit-content-target`. Use the same identifier on both sides. Rich text, translated fields, and media have additional widgets; inspect a bundled module with the same field type before extending their inline behavior.
+
+An editor preview is separate from the public `render_template`. Check both the editing screen and the public preview when changing the module's design.
+
+## Override a bundled module {#overwrite}
+
+Add a directory with the same module identifier to the application's later-loaded CMS collection. Override only the files and configuration values that need to change. For example, a custom `render.html.twig` can change a button's markup without replacing its form.
+
+Collection order matters: later collections override earlier ones. Clear the Symfony cache after changing definitions. Recompile already published content when the public render template changes; clearing the Symfony cache alone does not replace stored compiled HTML.
+
+## Migrate stored values {#migrate-stored-values}
+
+Increase `revision` when changing the saved data shape and add `migrate.php`. The script returns a callable that receives the stored data, its previous revision, and the target revision:
+
+```php
+<?php
+// cms/modules/rating/migrate.php
+return static function (array $data, int $fromRevision, int $toRevision): array {
+    if ($fromRevision < 2 && array_key_exists('label', $data)) {
+        $data['title'] = $data['label'];
+        unset($data['label']);
+    }
+
+    return $data;
+};
+```
+
+Set `revision: 2` for this change. The CMS sets `_revision` after running migration scripts. Preserve unrelated keys, make conversions repeatable, and test data from every revision still present in your database. Increasing the number alone does not convert an old `label` field into `title`.
 
 ## Configured media selection migrations {#configured-media-selection-migrations}
 

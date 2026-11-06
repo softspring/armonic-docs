@@ -20,6 +20,8 @@ Do not use a local cache for mutable data that must be immediately consistent ac
 
 Start with explicit adapters for `cache.app` and `cache.system`:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/cache.yaml
 framework:
@@ -29,6 +31,25 @@ framework:
         system: cache.adapter.apcu
 ```
 
+```php
+<?php
+
+// config/packages/cache.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'cache' => [
+            'prefix_seed' => 'app_%env(APP_VERSION)%',
+            'app' => 'cache.adapter.filesystem',
+            'system' => 'cache.adapter.apcu',
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 This setup gives each cache a clear role:
 
 - `cache.app` stores application data on the local filesystem
@@ -36,6 +57,8 @@ This setup gives each cache a clear role:
 - `prefix_seed` creates stable namespaces and separates cache keys between application versions
 
 `APP_VERSION` is a project environment variable. Set it to a value that changes with each deployment when cached data must not be reused by the new version.
+
+The APCu adapter requires `ext-apcu`; enable it for CLI processes when using it during console cache warmups. Use `cache.adapter.filesystem` instead if that runtime does not provide APCu. Set the example deployment variables before clearing the cache, for example `APP_VERSION=local` and `ENVIRONMENT=dev` in a local environment.
 
 Changing the prefix prevents the application from reading entries created by an older version. It does not necessarily delete those entries from the backend, so long-lived cache storage may still need pruning.
 
@@ -56,6 +79,8 @@ Use the database or a shared cache backend for those cases.
 
 Doctrine metadata and parsed queries can reuse Symfony's system cache:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/doctrine_cache.yaml
 framework:
@@ -74,6 +99,26 @@ doctrine:
             pool: doctrine.system_cache_pool
 ```
 
+```php
+<?php
+
+// config/packages/doctrine_cache.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', ['cache' => ['pools' => ['doctrine.system_cache_pool' => ['adapter' => 'cache.system']]]]);
+
+    $container->extension('doctrine', [
+        'orm' => [
+            'query_cache_driver' => ['type' => 'pool', 'pool' => 'doctrine.system_cache_pool'],
+            'metadata_cache_driver' => ['type' => 'pool', 'pool' => 'doctrine.system_cache_pool'],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 This avoids creating a separate backend for data that is derived from code and mapping configuration.
 
 The pool above stores query parsing and metadata information. It does not cache query results or Doctrine entities.
@@ -81,6 +126,8 @@ The pool above stores query parsing and metadata information. It does not cache 
 ## HTTP Cache And ESI {#http-cache-and-esi}
 
 When a CDN or another reverse proxy is the shared HTTP cache, Symfony HttpCache can remain enabled only for ESI processing. In that deployment model, an in-memory store is enough:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/packages/http_cache.yaml
@@ -92,7 +139,7 @@ services:
 framework:
     http_cache:
         enabled: true
-        private_headers: ['Authorization']
+        private_headers: ['Authorization', 'Cookie']
         trace_level: none
 
 monolog:
@@ -102,6 +149,29 @@ sfs_http_cache_store:
     adapter: 'http_cache.store.adapter'
     logger: 'monolog.logger.http_cache'
 ```
+
+```php
+<?php
+
+// config/packages/http_cache.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set('http_cache.store.adapter')->parent('cache.adapter.array')->public(true);
+
+    $container->extension('framework', [
+        'http_cache' => ['enabled' => true, 'private_headers' => ['Authorization', 'Cookie'], 'trace_level' => 'none'],
+    ]);
+
+    $container->extension('monolog', ['channels' => ['http_cache']]);
+
+    $container->extension('sfs_http_cache_store', ['adapter' => 'http_cache.store.adapter', 'logger' => 'monolog.logger.http_cache']);
+};
+```
+
+<!-- config-tabs:end -->
 
 This configuration has deliberate limits:
 
@@ -115,9 +185,7 @@ Use this model only when persistent HTTP response storage already exists outside
 
 ### Cookie And Authorization Safety {#cookie-and-authorization-safety}
 
-Setting `private_headers` to only `Authorization` means that a request containing cookies is not automatically treated as private by that rule.
-
-Use this configuration only when cookie-bearing responses are safe to cache and the application sets `Cache-Control`, `Vary`, and private response rules correctly. Personalized responses must never enter a shared public cache.
+The example keeps both `Authorization` and `Cookie` as private request headers. Personalized responses also need correct `Cache-Control` and `Vary` handling. Do not remove `Cookie` from this protection without auditing the application and its upstream cache rules.
 
 ### When Symfony Is The Shared HTTP Cache {#when-symfony-is-the-shared-http-cache}
 
@@ -128,6 +196,8 @@ See [HTTP cache store bundle](http-cache-store-bundle.md) for filesystem, Redis,
 ## CMS Cache Strategy {#cms-cache-strategy}
 
 The CMS can use TTL-based HTTP caching and versioned compiled content:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/packages/sfs_cms.yaml
@@ -140,6 +210,26 @@ sfs_cms:
         recompile: false
         prefix_compiled: '%env(ENVIRONMENT)%/%env(APP_VERSION)%/'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms', [
+        'cache' => ['type' => 'ttl'],
+        'content' => [
+            'save_compiled' => true,
+            'recompile' => false,
+            'prefix_compiled' => '%env(ENVIRONMENT)%/%env(APP_VERSION)%/',
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The options solve two different problems:
 

@@ -25,10 +25,9 @@ It is not the full permission model inside the account. Finer rules such as who 
 
 - the authenticated user is a platform admin through `RolesAdminInterface`
 - the account implements `OwnerInterface` and the user is the owner
-- the account implements `MultiAccountedAccountInterface` and the user belongs to the account users
-- the account implements `SingleAccountedAccountInterface` and the user belongs to the account users
+- the account implements `AccountMembershipsInterface` and a membership references the authenticated user
 
-This is a practical starting point, but the bundled voter still reflects some legacy interfaces. Many real applications will add more precise rules on top.
+Membership roles do not limit this base entry check. Add voters for actions such as billing or project editing. With several voters, choose an access-decision strategy that preserves the denials your policy depends on.
 
 ## Admin Role Hierarchy {#admin-role-hierarchy}
 
@@ -86,7 +85,7 @@ Useful groups are:
 - update
 - delete
 
-`AdminAccountListener` adds default behavior such as redirecting to the details page after create or update success, and optionally deleting related single-account users during delete flows.
+`AdminAccountListener` adds default behavior such as redirecting to the details page after create or update success, and optionally deleting users selected in `deleteUsersWithoutOtherAccounts`. This field is offered for users whose only account is the one being deleted; review the confirmation carefully.
 
 ## Security In Real Projects {#security-in-real-projects}
 

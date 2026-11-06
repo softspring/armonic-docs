@@ -241,9 +241,3 @@ Use the smallest event that fits the extension point:
 - use a `GetResponse*` event when listeners may short-circuit the flow
 
 This keeps extension points easy to understand for package users.
-
-## Summary {#summary}
-
-Choose `softspring/events` when you want small, reusable, Symfony-oriented event objects and helper traits instead of redefining the same patterns in each package.
-
-Its main value is consistency: the same event shapes, the same response-aware shortcut pattern, and the same dispatch helper style across multiple bundles and applications.

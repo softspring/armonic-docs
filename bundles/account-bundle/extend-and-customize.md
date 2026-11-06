@@ -13,11 +13,28 @@ The cleanest extension point is usually the form service interfaces.
 
 For example, you can replace the register form:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     Softspring\AccountBundle\Form\RegisterFormInterface:
         class: App\Form\Account\RegisterForm
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\Softspring\AccountBundle\Form\RegisterFormInterface::class, \App\Form\Account\RegisterForm::class);
+};
+```
+
+<!-- config-tabs:end -->
 
 The same pattern exists for:
 
@@ -66,8 +83,8 @@ Keep in mind that several bundled templates assume fields such as:
 
 - `account.owner`
 - `account.owner.displayName`
-- `relation.user.username`
-- `app.user.relations`
+- `membership.user.username`
+- `app.user.accountMemberships`
 
 So the default templates are convenient, but not schema-agnostic.
 
@@ -85,7 +102,7 @@ That keeps your project close to the supported bundle behavior without forcing y
 The bundle also ships:
 
 - `AccountManagerInterface`
-- `RelationManagerInterface`
+- `AccountMembershipManagerInterface`
 - fixture support through `AccountFixtures` when Doctrine fixtures are installed
 
 These pieces are useful for admin UI development, seeded test data, and project-specific manager replacement.

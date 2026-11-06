@@ -112,13 +112,35 @@ class ProductManager extends DefaultCrudlEntityManager
 
 Service example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
-    App\Manager\ProductManagerInterface:
+    App\Manager\ProductManager:
         class: App\Manager\ProductManager
         arguments:
             $targetClass: App\Entity\Product
+            $em: '@doctrine.orm.entity_manager'
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Manager\ProductManager::class, \App\Manager\ProductManager::class)
+        ->args([
+            '$targetClass' => \App\Entity\Product::class,
+            '$em' => service('doctrine.orm.entity_manager'),
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Use Doctrine Target Entities {#use-doctrine-target-entities}
 
@@ -139,6 +161,8 @@ This is one of the reasons `crudl-controller` is useful in reusable bundles, not
 
 Typical service wiring:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     _defaults:
@@ -149,7 +173,7 @@ services:
         public: true
         tags: [ 'controller.service_arguments' ]
         arguments:
-            $manager: '@App\Manager\ProductManagerInterface'
+            $manager: '@App\Manager\ProductManager'
             $configs:
                 create:
                     entity_attribute: 'product'
@@ -180,11 +204,65 @@ services:
                     read_route: 'app_admin_product_read'
 ```
 
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->defaults()->autowire(true);
+
+    $services->set('product.controller', \Softspring\Component\CrudlController\Controller\CrudlController::class)
+        ->public(true)
+        ->tag('controller.service_arguments')
+        ->args([
+            '$manager' => service(\App\Manager\ProductManager::class),
+            '$configs' => [
+                'create' => [
+                    'entity_attribute' => 'product',
+                    'form' => \App\Form\Admin\ProductCreateForm::class,
+                    'view' => 'admin/products/create.html.twig',
+                ],
+                'read' => [
+                    'entity_attribute' => 'product',
+                    'param_converter_key' => 'id',
+                    'view' => 'admin/products/read.html.twig',
+                ],
+                'update' => [
+                    'entity_attribute' => 'product',
+                    'param_converter_key' => 'id',
+                    'form' => \App\Form\Admin\ProductUpdateForm::class,
+                    'view' => 'admin/products/update.html.twig',
+                ],
+                'delete' => [
+                    'entity_attribute' => 'product',
+                    'param_converter_key' => 'id',
+                    'form' => \App\Form\Admin\ProductDeleteForm::class,
+                    'view' => 'admin/products/delete.html.twig',
+                ],
+                'list' => [
+                    'entities_attribute' => 'products',
+                    'filter_form' => \App\Form\Admin\ProductListFilterForm::class,
+                    'view' => 'admin/products/list.html.twig',
+                    'read_route' => 'app_admin_product_read',
+                ],
+            ],
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 In practice, most projects use one controller service per backoffice section.
 
 ## Add Routes {#add-routes}
 
 Once the service is registered, routes are straightforward:
+
+<!-- config-tabs:start -->
 
 ```yaml
 app_admin_product_list:
@@ -208,13 +286,49 @@ app_admin_product_read:
     path: /{id}
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('app_admin_product_list', '/')->controller('product.controller::list');
+
+    $routes->add('app_admin_product_create', '/create')->controller('product.controller::create');
+
+    $routes->add('app_admin_product_update', '/{id}/update')->controller('product.controller::update');
+
+    $routes->add('app_admin_product_delete', '/{id}/delete')->controller('product.controller::delete');
+
+    $routes->add('app_admin_product_read', '/{id}')->controller('product.controller::read');
+};
+```
+
+<!-- config-tabs:end -->
+
 Then import them under a common prefix if needed:
+
+<!-- config-tabs:start -->
 
 ```yaml
 app_admin_product_routes:
     resource: 'routes/admin_product.yaml'
     prefix: '/admin/product'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('routes/admin_product.php')->prefix('/admin/product');
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Action Overview {#action-overview}
 
@@ -473,7 +587,7 @@ The controller service owns the generic flow.
 
 Events inject project-specific rules where needed.
 
-That is the sweet spot of this package.
+Use custom controllers when a workflow needs substantially different behavior.
 
 ## Recommended Usage Style {#recommended-usage-style}
 
@@ -499,6 +613,6 @@ Keep these limits in mind:
 - transition action assumes Symfony Workflow is already modeled in the application
 - this is a controller workflow component, not a full admin bundle with templates included
 
-## Summary {#summary}
+## Choosing a different controller {#choosing-a-different-controller}
 
 Choose `crudl-controller` when your Symfony project needs many backoffice CRUD and list screens with a consistent structure, but still wants enough hooks to adapt each action to real business rules.

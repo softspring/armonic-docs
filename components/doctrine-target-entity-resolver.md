@@ -7,7 +7,7 @@ description: "Register Doctrine target entity resolution from reusable Symfony b
 
 `softspring/doctrine-target-entity-resolver` is a very small helper for reusable Symfony bundles.
 
-Its job is simple: let a bundle work with interfaces such as `UserInterface` or `AccountInterface`, while the real Doctrine entity class is provided by the application.
+It lets a bundle work with interfaces such as `UserInterface` or `AccountInterface`, while the real Doctrine entity class is provided by the application.
 
 This is useful when a bundle wants to stay reusable and does not want to hardcode a concrete entity class.
 
@@ -173,7 +173,3 @@ Keep these limits in mind:
 - the package assumes Doctrine resolve target entity support is already available in the host application
 - it is a compile-time helper, not a runtime lookup service
 - it helps only with target entity registration, not with repository, form, or controller integration
-
-## Summary {#summary}
-
-Choose `doctrine-target-entity-resolver` when your bundle wants to stay interface-based, but Doctrine still needs concrete entity classes from the application.

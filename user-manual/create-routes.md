@@ -1,34 +1,47 @@
 ---
 title: "Create Routes in Armonic CMS"
-description: "Learn how to create routes in Armonic CMS, define their paths, and associate them with controllers to manage your website's navigation and content delivery."
+description: "Create URL paths for your content or redirect visitors to another route or URL."
 ---
 
-# Create Routes in Armonic CMS
+# Create routes {#create-routes-in-armonic-cms}
 
-In Armonic CMS, routes are essential for defining how your website's URLs are structured and how they connect to the content and controllers that manage the display of your pages. This section will guide you through the process of creating routes in Armonic CMS.
+A CMS route connects a public path to content or a redirect. It has an internal identifier, site associations, and locale-specific paths.
 
-## Accessing the Routes Section {#accessing-routes-section}
+Creating a page through **CMS / Pages** normally creates its route too. Use **CMS / Routes** when adding another path, setting up a redirect, or organizing a route hierarchy. Avoid creating a second route for a path already in use.
 
-Navigate to the Armonic CMS administration panel.
-In the **left sidebar**, locate the **CMS/Routes** section.
+## Open the route creator {#accessing-routes-section}
 
-![armonic-routes-button.png](.files/armonic-routes-button.png){.img-fluid}
+Open **CMS / Routes** and choose **New route**.
 
-## Creating a New Route {#creating-new-route}
+![Routes section in the CMS sidebar](.files/armonic-routes-button.png){.img-fluid}
 
-To create a new route, click on the **‘New Route’ button** located in the top right corner of the Routes section.
+![Routes list with the New route action](.files/armonic-routes-section.png){.img-fluid}
 
-![armonic-routes-section.png](.files/armonic-routes-section.png){.img-fluid}
+## Configure the destination {#filling-route-information}
 
-## Filling Route Information {#filling-route-information}
+Choose a unique **Identifier**, such as `welcome`, and select the sites where the route applies. Identifiers begin with a letter and use letters, digits, or underscores; use at least four characters.
 
-Once you click on the New Route button, a form will appear to define the route details.
+Select its **Type**:
 
-![armonic-new-route-button.png](.files/armonic-new-route-button.png){.img-fluid}
+| Type | Use it to |
+| --- | --- |
+| Content | Render a CMS content record. The content must belong to the selected sites. |
+| Redirect to route | Redirect to an existing route, with its required parameters. |
+| Redirect to URL | Redirect to a URL entered in the form. |
+| Parent | Group nested routes without selecting a content record. |
 
-## Save, view and edit the route {#save-view-edit-route}
+For a content route, choose the page or content record. Add the public path for each required locale. For example, `/welcome` under a site's English `/en/` prefix produces `/en/welcome`.
 
-After filling in the necessary information, click the **‘Save’ button** to create the route.
-Once saved, you can view the route details, edit its content, or delete it if needed.
+![Route creation form with site, content, and path fields](.files/armonic-new-route-button.png){.img-fluid}
 
-![armonic-new-route-list.png](.files/armonic-new-route-list.png){.img-fluid}
+For a redirect, choose temporary or permanent behavior deliberately. A permanent redirect can be cached by browsers and search engines, making it less convenient while testing a destination.
+
+## Save and test {#save-view-edit-route}
+
+Choose **Create route**, then open the route from its list:
+
+![Routes list after saving the new route](.files/armonic-new-route-list.png){.img-fluid}
+
+Visit the public path on the matching host and locale. For content routes, verify that the target has a published version. For redirects, check the destination and ensure it does not redirect back to the same URL.
+
+Changing a route affects menu items and links that refer to it. Review those links after changing or removing a route.

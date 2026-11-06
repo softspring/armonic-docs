@@ -3,42 +3,36 @@ title: "Create a New Block in Armonic CMS"
 description: "Learn how to create a block in Armonic CMS, define its content and settings, and prepare it for use in your pages."
 ---
 
-# Creating a New Block in Armonic CMS
+# Create a block {#creating-a-new-block-in-armonic-cms}
 
-This user manual will guide you step by step through the process of creating a new block in the Armonic CMS administration panel.
+A block stores reusable content such as a contact invitation. When several pages use the same block record, editors can update that shared content once.
 
-## Accessing the Block Creator {#accessing-the-block-creator}
-Navigate to the Armonic CMS administration panel.
-In the **left sidebar**, locate the **CMS/Blocks** section.
+A developer must first define the available block types. If the creation menu has no suitable type, see [Configure blocks](../configuration/configure-blocks.md).
 
-![armonic-blocks-section.png](.files/armonic-blocks-section.png){.img-fluid}
+## Choose a block type {#accessing-the-block-creator}
 
-First, you can see that you don't have any blocks configured yet.
-To configure block types, see the [Block Configuration (cms blocks)](../configuration/configure-blocks.md) section.
+Open **CMS / Blocks**, then **New block** and choose a type. The screenshots use the contact call to action from [Build a small website](build-a-small-website.md).
 
-Once you have configured a block (in our example, the ‘example’ block), look for the **‘New block’ button** in the top-right corner of the ‘Blocks’ section.
+![Blocks section in the CMS sidebar](.files/armonic-blocks-section.png){.img-fluid}
 
-![armonic-new-block-button.png](.files/armonic-new-block-button.png){.img-fluid}
+![New block menu with the configured block types](.files/armonic-new-block-button.png){.img-fluid}
 
-Choose the type of block you want to create from the dropdown menu. The available block types will depend on the modules installed in your Armonic CMS instance.
+The list is defined by your application. A singleton type allows one record; a reusable type can allow several records with different data.
 
-## Filling Basic Information {#filling-block-basic-information}
+## Fill in the content {#filling-block-basic-information}
 
-Complete the basic fields or the custom fields for the block type you selected. 
+Give the block a recognizable internal name, such as **Contact invitation**, and complete the fields supplied by its type. For the example call to action, enter a heading, message, and contact email.
 
-![armonic-new-block-form.png](.files/armonic-new-block-form.png){.img-fluid}
+![New block form with editable call-to-action fields](.files/armonic-new-block-form.png){.img-fluid}
 
-## Save, view and edit the block {#save-view-edit-block}
+Choose **Create**. Confirm that the new record appears in the list:
 
-After filling in the necessary information, click the **‘Save’ button** to create the block.
-Once saved, you can view the block details, edit its content, or delete it if needed.
+![Blocks list after creating the shared record](.files/armonic-new-block-list.png){.img-fluid}
 
-![armonic-new-block-list.png](.files/armonic-new-block-list.png){.img-fluid}
+## Use it in a page {#using-block-in-pages}
 
+Open the page's content editor, insert **Block instance**, and select the record you created. Save, preview, and publish the page version.
 
-## Using the Block in Pages {#using-block-in-pages}
+Creating the record alone does not place it on a page. A developer can also render it directly from a Twig template.
 
-Creating a block does not automatically place it in a page layout.
-To render it in a page, add it in a module/block slot from the page editor.
-
-See [Adding modules or blocks](adding-modules-or-blocks.md) for the full workflow.
+When changing a shared block later, check every important page that uses it. Its edits are independent of page version history, so republishing an older page version does not restore an older block record.

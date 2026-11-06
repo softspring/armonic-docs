@@ -46,6 +46,7 @@ You pass the field definition through the `form_fields` option:
 <?php
 
 use Softspring\Component\DynamicFormType\Form\Type\DynamicFormType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ContactPayloadForm extends AbstractType
@@ -72,7 +73,7 @@ final class ContactPayloadForm extends AbstractType
 }
 ```
 
-Each entry in `form_fields` becomes a normal Symfony field.
+Each entry in `form_fields` becomes a normal Symfony field. The bundle registers the dynamic form extensions; merely instantiating `DynamicFormType` in a standalone form factory does not register the `form_fields` option. Outside Symfony, add `DynamicFormExtension` with its type and constraint resolvers, alongside Symfony's `ValidatorExtension`.
 
 ## The `form_fields` Structure {#the-form-fields-structure}
 
@@ -203,8 +204,6 @@ This makes it useful for repeated dynamic blocks, rows, or configurable lists in
 
 ## Extending Type Resolution {#extending-type-resolution}
 
-This is one of the most valuable parts of the component.
-
 The package does not only resolve Symfony core types. It also supports a chain of custom resolvers.
 
 That lets your application map short names such as `media`, `translation`, `link`, or `color` to your own form types.
@@ -238,12 +237,30 @@ final class AppTypeResolver implements TypeResolverInterface
 
 Then tag it:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     App\Form\Resolver\AppTypeResolver:
         tags:
             - { name: 'softspring.dynamic_form_type.type_resolver', priority: 100 }
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Form\Resolver\AppTypeResolver::class)
+        ->tag('softspring.dynamic_form_type.type_resolver', ['priority' => 100]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The higher-priority resolvers run first.
 
@@ -259,8 +276,6 @@ If you do not add your own resolver, the built-in resolver looks in these namesp
 That is enough for many projects, but real applications often add one or more custom resolvers.
 
 ## Real Usage In Softspring Packages {#real-usage-in-softspring-packages}
-
-This component is not only theoretical in the Softspring ecosystem.
 
 `cms-bundle` uses it to build configurable admin forms from package and module configuration. For example, content forms and module forms pass `extra_fields`, `indexing`, or `module_options.form_fields` directly into `DynamicFormType`.
 
@@ -314,7 +329,3 @@ Keep these limits in mind:
 - advanced behavior still depends on the form types and constraints available in the application
 
 In other words, it is a strong building block for dynamic forms, not a no-code form platform.
-
-## Summary {#summary}
-
-Choose `dynamic-form-type` when you want Symfony forms driven by configuration instead of one fixed PHP class, and especially when your application benefits from custom type aliases resolved through tagged resolvers.

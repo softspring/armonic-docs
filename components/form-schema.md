@@ -34,9 +34,31 @@ return [
 
 ## Basic Usage {#basic-usage}
 
-Inject `SchemaExtractor` and extract a schema from a form type:
+Create a Symfony form type to describe the payload:
 
 ```php
+<?php
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+final class ExampleFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add('name', TextType::class)
+            ->add('age', IntegerType::class, ['required' => false]);
+    }
+}
+```
+
+Inject `SchemaExtractor` and extract its metadata:
+
+```php
+use App\Form\ExampleFormType;
 use Softspring\Component\FormSchema\Schema\SchemaExtractor;
 
 final class ExampleService
@@ -51,6 +73,8 @@ final class ExampleService
     }
 }
 ```
+
+The resulting object schema includes a string `name`, integer `age`, and `required: [name]`. This describes the form; it does not replace submitting and validating the payload through Symfony.
 
 You can also pass a resolved `FormInterface` when the form must be created with application-specific options.
 

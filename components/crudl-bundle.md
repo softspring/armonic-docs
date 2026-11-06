@@ -63,6 +63,8 @@ The bundle then registers a Symfony controller service for that section and rout
 
 Minimal example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_crudl.yaml
 sfs_crudl:
@@ -96,6 +98,46 @@ sfs_crudl:
                     is_granted: 'PRODUCT_DELETE'
 ```
 
+```php
+<?php
+
+// config/packages/sfs_crudl.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_crudl', [
+        'controllers' => [
+            'products' => [
+                'entity_manager' => \App\Manager\ProductManager::class,
+                'default_view_path' => 'admin/product',
+                'default_entity_attribute' => 'product',
+                'actions' => [
+                    'list_products' => [
+                        'action' => 'list',
+                        'is_granted' => 'PRODUCT_LIST',
+                        'filter_form' => \App\Form\Admin\ProductListFilterForm::class,
+                    ],
+                    'create_product' => ['action' => 'create', 'is_granted' => 'PRODUCT_CREATE'],
+                    'read_product' => ['action' => 'read', 'param_converter_key' => 'id'],
+                    'update_product' => [
+                        'action' => 'update',
+                        'param_converter_key' => 'id',
+                        'is_granted' => 'PRODUCT_UPDATE',
+                    ],
+                    'delete_product' => [
+                        'action' => 'delete',
+                        'param_converter_key' => 'id',
+                        'is_granted' => 'PRODUCT_DELETE',
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 With that configuration the bundle can generate the controller service and the missing default event names and templates.
 
 ## Define The Manager {#define-the-manager}
@@ -105,6 +147,8 @@ You can define a CRUDL controller in two main ways.
 ### Option 1: Use A Manager Service {#option-1-use-a-manager-service}
 
 This is the most flexible and the most common approach.
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_crudl:
@@ -116,6 +160,26 @@ sfs_crudl:
                     action: list
 ```
 
+```php
+<?php
+
+// config/packages/sfs_crudl.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_crudl', [
+        'controllers' => [
+            'products' => [
+                'entity_manager' => \App\Manager\ProductManager::class,
+                'actions' => ['list_products' => ['action' => 'list']],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Use this when:
 
 - the application already has a custom manager
@@ -126,6 +190,8 @@ Use this when:
 
 For simple Doctrine screens you can let the bundle create the default manager for you.
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_crudl:
     controllers:
@@ -135,6 +201,26 @@ sfs_crudl:
                 list_products:
                     action: list
 ```
+
+```php
+<?php
+
+// config/packages/sfs_crudl.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_crudl', [
+        'controllers' => [
+            'products' => [
+                'entity_class' => \App\Entity\Product::class,
+                'actions' => ['list_products' => ['action' => 'list']],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Use this when:
 
@@ -148,6 +234,8 @@ The bundle supports three route styles for the same configured action.
 
 ### 1. Generic Controller Entry Point {#generic-controller-entry-point}
 
+<!-- config-tabs:start -->
+
 ```yaml
 admin_products_list:
     controller: sfs_crudl.controller.products
@@ -156,7 +244,24 @@ admin_products_list:
         configKey: 'list_products'
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_products_list', '/admin/products')
+        ->controller('sfs_crudl.controller.products')
+        ->defaults(['configKey' => 'list_products']);
+};
+```
+
+<!-- config-tabs:end -->
+
 ### 2. Specific Action Method {#specific-action-method}
+
+<!-- config-tabs:start -->
 
 ```yaml
 admin_products_list:
@@ -166,13 +271,44 @@ admin_products_list:
         configKey: 'list_products'
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_products_list', '/admin/products')
+        ->controller('sfs_crudl.controller.products::list')
+        ->defaults(['configKey' => 'list_products']);
+};
+```
+
+<!-- config-tabs:end -->
+
 ### 3. Dynamic Action Name {#dynamic-action-name}
+
+<!-- config-tabs:start -->
 
 ```yaml
 admin_products_list:
     controller: sfs_crudl.controller.products::list_products
     path: /admin/products
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_products_list', '/admin/products')
+        ->controller('sfs_crudl.controller.products::list_products');
+};
+```
+
+<!-- config-tabs:end -->
 
 The third form is the most convenient when route names map directly to configured action names. The bundle argument resolver exists mainly to make this pattern work cleanly with Symfony.
 

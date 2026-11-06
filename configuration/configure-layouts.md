@@ -3,111 +3,101 @@ title: "Configure CMS Layouts"
 description: "Define page layouts in Armonic with layout config, editable containers, render templates, and translation files."
 ---
 
-## Layout Configuration (`layout` section) {#layout-configuration-layout-section}
+# Configure layouts {#configure-layouts}
 
-This configuration defines the layout structure of a page or content type.  
-You can use it to control which types of modules can be inserted into different parts of the page.
+A layout defines the editable areas of a page and the HTML used to render them. For example, a landing page can have a header area for CSS or metadata and a main area for editorial content.
 
-There are several areas to configure: 
-- Config file: `app/cms/layouts/my_layout/config.yaml` where "my_layout" is the name of the layout.
-- edit.html.twig: The template that renders the layout when editing in the admin panel.
-- render.html.twig: The template that displays the layout on the frontend.
-- translations: Folder with translations for strings of text that might appear in the layout.
+Create these files under `cms/layouts/landing/`:
 
-The config file can be very brief, as the one we use for articles:
+```text
+cms/layouts/landing/
+├── config.yaml
+├── edit.html.twig
+└── render.html.twig
+```
+
+The directory name is the layout identifier. Use the same container names in the configuration and both templates.
+
+## Define the containers {#define-containers}
 
 ```yaml
+# cms/layouts/landing/config.yaml
 layout:
     revision: 1
     containers:
-        main: ~
-        header: ~
-```
-
-or can have some definition of allowed modules in the containers, like this:
-
-```yaml
         headers:
-            allowed_modules:
-                - html_headers
-                - css
+            allowed_modules: ['html_headers', 'css']
+        main: ~
 ```
-see that in the first example we call the container "header" and in the second example we call it "headers", this is completely flexible, up to you. 
-The important thing is that, afterwards, in the templates, you use the same name to render the container.
 
-## Config reference: {#config-reference}
+`headers` accepts only the two named module types. `main: ~` leaves that container unrestricted. Restricting the available modules helps editors choose elements appropriate to each part of the page.
 
----
-## Field Reference {#field-reference}
+You can add other container names, such as `sidebar`. Each container can define `required` and `allowed_modules`. Module identifiers must match definitions available in your CMS collections.
 
-### `layout` {#layout}
+## Render the published page {#render-page}
 
-- **`revision`**  
-  Used to force cache or layout rebuilds when the layout structure changes.
+The default frontend template is `@layout/landing/render.html.twig`, which resolves to `cms/layouts/landing/render.html.twig`:
 
-- **`containers`**  
-  Defines named layout areas where content modules can be placed.
-
----
-
-### `containers` {#containers}
-
-Each key under `containers` defines a named area in the layout.  
-These areas correspond to sections in the HTML output (e.g. `headers`, `main`, `sidebar`, etc.).
-
-For each container, you can specify:
-
-- **`allowed_modules`**: list of module types that can be added to this container.  
-  If you want to allow any type of module, set this to `~` (YAML null), as seen above.
-
----
-
-## Template files {#template-files}
-
-The twig layout files can be as complex as you like, but in general you will be adding some seo information in the header
-and then rendering the containers in the body of the page, like this:
-
-```
-{% extends '@SfsComponents/base.html.twig' %}
-{% block stylesheets %}
-    {{ encore_entry_link_tags('sfs24') }}
-{% endblock %}
-
-{% block extra_headers %}
-    {{ parent() }}
+```twig
+{# cms/layouts/landing/render.html.twig #}
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ version.seo.metaTitle|default('')|sfs_cms_trans }}</title>
+    <meta name="description" content="{{ version.seo.metaDescription|default('')|sfs_cms_trans }}">
     {{ containers.headers|default('')|raw }}
-{% endblock %}
-
-{% block title %}{{ version.seo.metaTitle|default([])|sfs_cms_trans }}{% endblock %}
-
-{% block seo %}
-    {{ parent() }}
-    <meta name="description" content="{{ version.seo.metaDescription|default([])|sfs_cms_trans }}"/>
-    <meta name="keywords" content="{{ version.seo.metaKeywords|default([])|sfs_cms_trans }}"/>
-    <meta name="robots" content="{{ version.seo.noIndex|default(false) ? 'noindex' : 'index' }}" />
-...
-{% endblock seo %}
-```
-
-This is a simplified version of one of our layouts, but includes some containers as extra_headers, stylesheets, and SEO metadata.
-
-Then, in the body of the page, you can render the containers like this:
-
-```
-{% block body %}
-
-    {% include 'partials/sfs24-header.html.twig' %}
-    <main id="main" role="main">
-        {% block container %}
-            {{ containers.main|raw }}
-        {% endblock container %}
+</head>
+<body>
+    <main>
+        {{ containers.main|default('')|raw }}
     </main>
-    {% include 'partials/sfs24-footer.html.twig' %}
-
-{% endblock body %}
+</body>
+</html>
 ```
 
-Here we include templates for the header and footer, and then we render the `main` container in the body of the page.
+`containers` contains the rendered HTML for each area. Use `raw` for this CMS-generated HTML; keep Twig's escaping enabled for ordinary text fields. Only trusted editors should have access to modules that accept arbitrary HTML or JavaScript.
 
+In an application with an existing design, extend your own base template and place the containers in its blocks. Load your site's CSS and JavaScript through the asset system used by that application.
 
+## Provide the editor template {#editor-template}
 
+The editor needs form rows for the same containers:
+
+```twig
+{# cms/layouts/landing/edit.html.twig #}
+{% block body %}
+    <section aria-label="Page headers">
+        {{ form_row(form.data.headers) }}
+    </section>
+    <main>
+        {{ form_row(form.data.main) }}
+    </main>
+{% endblock %}
+```
+
+These fields let editors insert, reorder, and configure modules. Keep the editor structure close to the frontend structure so the available areas are recognizable.
+
+## Make the layout available to pages {#make-layout-available}
+
+Add the layout identifier to the relevant content type's `allowed_layouts`, and set `default_layout` if new content should use it. See [Configure content types](configure-content-types.md).
+
+Clear the application cache after adding the files:
+
+```bash
+php bin/console cache:clear
+```
+
+Open a page in the CMS, select the layout, add a module to `main`, and preview it. If you change a template used by published content, recompile and verify the published output; clearing Symfony's cache alone does not replace stored compiled HTML.
+
+## Layout options {#layout-options}
+
+| Option | Purpose |
+| --- | --- |
+| `revision` | Required integer identifying the layout configuration revision. |
+| `enabled` | Makes the layout available; defaults to `true`. |
+| `render_template` | Frontend Twig template; defaults to `@layout/<id>/render.html.twig`. |
+| `edit_template` | Editor Twig template; defaults to `@layout/<id>/edit.html.twig`. |
+| `compatible_contents` | Restricts the content types that can use this layout. |
+| `save_compiled` | Controls storage of compiled layout output; defaults to `true`. |
+| `containers` | Named editable areas, with optional module restrictions. |

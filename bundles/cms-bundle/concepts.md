@@ -3,99 +3,56 @@ title: "CMS Bundle Concepts"
 description: "Learn the core concepts behind the Softspring CMS Bundle, including sites, layouts, contents, routes, and modules."
 ---
 
-# Concepts
+# CMS concepts {#concepts}
 
-To begin using the SfsCms you must know some concepts explained next.
+Armonic separates developer-defined structures from editor-managed records. Developers configure which elements exist; editors combine those elements into content and choose when it becomes public.
 
-## Elements {#elements}
+## Sites {#sites}
 
-### Sites {#sites}
+A site defines public hosts or paths, locales, and allowed content types. An application can have one site or several. Content and routes are associated with the sites where they are available.
 
-A site defines a *webspace* or application that needs to serve contents on it. 
+For example, one application can serve a main website and a separate campaign site, with different languages and page types. A site definition does not automatically create its pages or translate their text.
 
-Every project using SfsCms has at least the **default** site.
+## Content and versions {#contents}
 
-For example, a project can define a web page, blog, faqs. Also, every content can be hosted in the same site. 
+A content record holds its identity and metadata. A content version holds the editable page composition and the layout used to render it. Publishing selects the version shown publicly, while drafts can continue to be edited separately.
 
-Sites are distinguished by host or paths.
+The built-in `page` type covers ordinary website pages. A custom content type supplies a concrete Doctrine entity when content needs domain-specific relations or behavior, such as an article linked to an author.
 
-Sites can configure different languages, different sitemaps, and some special behaviours.
+See [Configure content types](../../configuration/configure-content-types.md) and [Preview and publish](../../user-manual/preview-and-publish-a-page.md).
 
-Contents and routes will be site dependant.
+## Layouts and containers {#layout}
 
-### Layout {#layout}
+A layout defines the page structure and its editable areas, called containers. For example, a landing layout can expose `main` and `sidebar` containers while its header and footer remain controlled by Twig templates.
 
-A layout is a way to show contents. Put it in some way, is a kind of web structure.
+A container can restrict which modules editors may insert. This lets developers preserve the design while giving editors control over the content.
 
-A layout can define different areas to show contents, onwards we'll call them **containers**.
+## Modules {#modules}
 
-A layout has its own twig template as base template for contents using it. So, menus, sidebars, etc, can be defined on it. 
+A module is an editable element inside a container: text, an image, a grid, or a project-specific feature. Its configuration defines form fields; its Twig template renders their values.
 
-### Contents {#contents}
+Each module instance normally belongs to its page version. Two pages using the same module type can have different text and images. See [Configure modules](../../configuration/configure-modules.md).
 
-#### Pages {#pages}
+## Shared blocks and sections {#blocks}
 
-A page is an instance of contents to be shown when a user visit a URL.
+A block is a reusable fragment managed outside a page version. It can have editable fields, or it can render static or controller-provided output. Pages can refer to the same block record so its content is maintained once.
 
-It's linked to a layout that defines its structure. 
+The optional sections plugin provides reusable compositions with their own module editor, versions, and publishing workflow. Choose a section when the shared fragment needs that page-like editing model.
 
-#### Versions {#versions}
+Changing a shared record can affect several pages. Republishing an older page version does not automatically roll back shared blocks, media files, or other records changed independently.
 
-When a page is edited, a new content version is created. This allows to keep the history of versions along the time.
+## Routes {#routes}
 
-#### Custom content types {#custom-content-types}
+A CMS route connects an internal identifier to locale-specific public paths. It can render content, redirect to another route or URL, or group child paths.
 
-A page is the basic kind of content, but, the SfsCms provides the feature of creating **custom content types**.
+The route identifier used by a menu or Twig helper is distinct from the public path. For example, identifier `about` can resolve to `/en/about` on one site and another localized path elsewhere.
 
-A custom content type is basically the same as pages, but the main difference is that it **is stored in a different 
- doctrine entity**. This allows to define some content type dependencies. Also, it is able to define different structures
- and templates.
+## Menus {#menus}
 
-Sites can define witch content types are allowed to be created for them.
+A menu stores editable navigation items. A developer places its rendering helper in a layout; editors maintain labels, destinations, and ordering. Creating a menu record does not place it on every page automatically.
 
-Let's see some examples:
+## Rendering and caching {#rendering-contents}
 
-A blog post can be defined in a custom content type. We can define App\Entity\Post as the doctrine entity, and define a 
- relationship to an author. Author info may be used when editing or rendering the post.
+Published content is rendered using its layout and module templates. Compiled output can be stored for later requests. ESI and AJAX fragments allow shared elements to be rendered independently when the application is configured for them.
 
-Other example can be a product content type for a store site. The product content type could be linked to an existing
- product entity and use its contents and data.
-
-### Routes {#routes}
-
-A route allows to reach contents from URLs. It contains a collection of paths or slugs (linked or not to languages) and 
- defines a behaviour to be performed.
-
-The basic behaviour is to serve a content (page or content type), but it can be configured to act as a redirection, ...
-
-### Modules {#modules}
-
-A module is the minimum unit of content that can be added to a page or content type. A module can be a title block, a card, hero,
- containers and grids, etc.
-
-One of the SfsCms best and powerful features is that custom modules can be created easily.
-
-Also, it is posible to add modules collections.
-
-### Blocks {#blocks}
-
-A block is a piece of content that can be used in many pages, content types, or directly from twig templates. 
-
-Blocks can be defined as static (just twig code, not editable) or dynamic, and can be singleton or many times instantiable. 
- This means that an instance of a block can be created just once or many times.
-
-### Menus {#menus}
-
-A menu is a list of links with text and links (linked to a route) rendered in a template.
-
-Menus can be rendered in any template with a twig function, as a special type of block.
-
-## How it works {#how-it-works}
-
-### Editing contents {#editing-contents}
-
-### SfsCms Router {#sfscms-router}
-
-### Rendering contents {#rendering-contents}
-
-### Caches {#caches}
+After changing templates or module definitions, verify both previews and published output. Clearing Symfony's container cache does not necessarily replace compiled CMS content or invalidate an HTTP cache.

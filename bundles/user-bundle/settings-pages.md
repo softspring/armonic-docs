@@ -21,6 +21,8 @@ The bundle ships these route groups:
 
 A practical public routes file looks like this:
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_preferences:
     resource: '@SfsUserBundle/config/routing/preferences.yaml'
@@ -42,6 +44,27 @@ _sfs_settings_confirmation:
     resource: '@SfsUserBundle/config/routing/settings_confirmation.yaml'
     prefix: '/user'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/preferences.yaml')->prefix('/user/preferences');
+
+    $routes->import('@SfsUserBundle/config/routing/change_email.yaml')->prefix('/user/change-email');
+
+    $routes->import('@SfsUserBundle/config/routing/change_username.yaml')->prefix('/user/change-username');
+
+    $routes->import('@SfsUserBundle/config/routing/change_password.yaml')->prefix('/user/change-password');
+
+    $routes->import('@SfsUserBundle/config/routing/settings_confirmation.yaml')->prefix('/user');
+};
+```
+
+<!-- config-tabs:end -->
 
 These routes are not public. They are intended for authenticated users.
 
@@ -141,6 +164,8 @@ Each settings controller depends on a form interface.
 
 That means you can replace the form type service without replacing the controller:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     App\Form\User\PreferencesForm: ~
@@ -148,6 +173,23 @@ services:
     Softspring\UserBundle\Form\Settings\PreferencesFormInterface:
         alias: App\Form\User\PreferencesForm
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Form\User\PreferencesForm::class);
+
+    $services->alias(\Softspring\UserBundle\Form\Settings\PreferencesFormInterface::class, \App\Form\User\PreferencesForm::class);
+};
+```
+
+<!-- config-tabs:end -->
 
 The same approach works for:
 

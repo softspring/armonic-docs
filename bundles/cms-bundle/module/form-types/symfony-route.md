@@ -3,7 +3,7 @@ title: "CMS Module Symfony Route Field Type"
 description: "Configure the symfonyRoute form type to select Symfony routes and route parameters inside CMS modules."
 ---
 
-# Symfony Route type
+# Symfony Route type {#symfony-route-type}
 
 This **symfonyRoute** type makes reference to *Softspring\CmsBundle\Form\Type\SymfonyRouteType* form type.
 
@@ -21,30 +21,61 @@ This field accepts a JSON containing attributes for the URL generation.
 
 For example, this Symfony route:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/routes.yaml
 product_big_view:
     path: /product-big/{color}/view
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('product_big_view', '/product-big/{color}/view');
+};
+```
+
+<!-- config-tabs:end -->
+
 requires a "color" parameter. We can define its value with *{"color": "yellow"}*.
 
 ## Options {#options}
 
-### restrict_patterns {#restrictpatterns}
+### Attribute allow-list {#restrictpatterns}
 
-Routes can be filtered by a default value.
+Limit the picker to routes that define a particular default attribute. The implementation checks whether the key exists, not whether its value is true. When several keys are supplied, a route is included if it defines any one of them.
 
 Every CMS has a *_sfs_cms_reference* default value defined to be used as filter.
 
 You can flag some routes with a default value to use as filter, for example
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/routes.yaml
 my_route:
+     path: /example
      defaults:
          use_for_some_content: true
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('my_route', '/example')->defaults(['use_for_some_content' => true]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Then you can use this value as option in your modules:
 
@@ -70,14 +101,14 @@ module:
                      restrict_default_attribute:
                          - "_sfs_cms_reference"
                          - "use_for_some_content"
-                         - "use_for_route_paramsernative_content"
+                         - "use_for_alternative_content"
 ```
 
-### restrict_default_attribute {#restrictdefaultattribute}
+### Exclude route names {#restrictdefaultattribute}
 
 Also routes can be filtered by patterns using restrict_patterns option.
 
-By default, ^_profiler and ^_wdt patterns are configured.
+The default exclusions are `^_profiler`, `^_wdt`, `^admin_`, and `^sfs_.*admin`. Setting `restrict_patterns` replaces that list. Patterns are matched against route names and are wrapped in `/` delimiters by the form type.
 
 You can set your own patterns:
 
@@ -110,10 +141,12 @@ This type returns an array with both fields:
     ]   
 ```
 
-This value can be in twig:
+In a module render template, use the CMS URL helper so CMS references are resolved as well as application routes:
 
 ```twig
-    {{ url(example.route.route_name, example.route.route_params) }}
+{% if button_link.route_name|default(false) %}
+    {{ sfs_cms_url(button_link) }}
+{% endif %}
 ```
 
 or with PHP:

@@ -29,7 +29,7 @@ Use this component when:
 Typical examples:
 
 - cache warmers or maintenance commands triggered from a protected admin area
-- background-style operations started from back office tools
+- bounded operations started from back office tools
 - operational endpoints used by trusted internal systems
 
 ## Main Building Blocks {#main-building-blocks}
@@ -53,25 +53,46 @@ The controller expects:
 - a list of request keys that are allowed as command arguments
 - a list of request keys that are allowed as command options
 
-Typical usage from routing or controller configuration looks like this:
+Assume the application already defines `app:import` with a `source` argument and a `--dry-run` option. Register `CommandController` as a public controller service, protect the route with the application's administrator authorization, and add CSRF or equivalent request authentication for state-changing operations. The component does not provide those controls automatically.
+
+The route can then pass only the selected argument and option:
+
+<!-- config-tabs:start -->
 
 ```yaml
 admin_tools_run_import:
     path: /admin/tools/run-import/{source}
     controller: Softspring\Component\CommandController\Controller\CommandController
+    methods: [POST]
     defaults:
         command: 'app:import'
         arguments: [ 'source' ]
-        options: [ 'env' ]
+        options: [ 'dry-run' ]
 ```
 
-With a request like:
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_tools_run_import', '/admin/tools/run-import/{source}')
+        ->controller(\Softspring\Component\CommandController\Controller\CommandController::class)
+        ->methods(['POST'])
+        ->defaults(['command' => 'app:import', 'arguments' => ['source'], 'options' => ['dry-run']]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Send an authenticated POST request, for example to:
 
 ```text
-/admin/tools/run-import/products?env=prod
+/admin/tools/run-import/products?dry-run=1
 ```
 
-the component builds the command input from the whitelisted values and runs the command.
+the component builds command input from the allowed route attributes and query values. It does not read ordinary POST body fields for these arguments. Execution remains synchronous inside the HTTP request; use Messenger or another queue for background work.
 
 ## Arguments And Options {#arguments-and-options}
 
@@ -88,7 +109,7 @@ That keeps the integration predictable and reduces accidental command exposure.
 
 ## Buffered Vs Streamed Output {#buffered-vs-streamed-output}
 
-By default, the controller uses streamed output.
+By default, the controller uses streamed output. Its response starts with HTTP 200 and does not translate the command's exit code into an error status. Use buffered mode when the caller needs a reliable 200/500 status for success or failure.
 
 That is usually the right choice for commands that may take time or should show progress as they run.
 
@@ -116,7 +137,7 @@ This is useful when:
 - operators do not need live streamed output
 - you want command lines to be recorded as application log entries
 
-That service must be a valid logger service id and the controller must be configured as a service so the container is available.
+The logger must be accessible through the injected container. Registering the controller as a service alone does not inject that container automatically: configure its constructor explicitly, or use an application controller with a narrow service locator. Keep the logger id in trusted route defaults, not user-supplied input.
 
 ## Using The Runners Directly {#using-the-runners-directly}
 

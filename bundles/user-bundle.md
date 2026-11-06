@@ -19,26 +19,15 @@ It covers the common parts most projects need:
 - optional invitations, access history, impersonation bar, and OAuth integration
 - optional Google Identity Platform login
 
-This bundle is not only an entity package. It also ships routes, controllers, forms, templates, events, managers, and security integration.
-
-That matters because real projects usually need more than a `User` entity:
-
-- a public login page
-- a real firewall and provider configuration
-- a way to register or invite users
-- profile and password settings pages
-- an admin area to manage users and administrators
-- extension points to adapt forms, templates, mailers, and business rules
-
 ## Start Here {#start-here}
 
 Read the guides in this order when you are integrating the bundle for the first time:
 
-1. `Install`
-2. `Login and security`
-3. `Register and reset password`
-4. `User settings pages`
-5. `Admin area`
+1. [Install](user-bundle/install.md)
+2. [Login and security](user-bundle/login-and-security.md)
+3. [Register and reset password](user-bundle/register-and-reset-password.md)
+4. [User settings pages](user-bundle/settings-pages.md)
+5. [Admin area](user-bundle/admin-area.md)
 
 Then add the optional guides you need:
 
@@ -51,25 +40,25 @@ Then add the optional guides you need:
 
 This bundle fits several common application shapes.
 
-### Admin-Only Backoffice
+### Admin-Only Backoffice {#admin-only-backoffice}
 
 Use login, reset password, admin routes, and CLI commands.
 
 Keep public registration disabled and create users manually or from the admin area.
 
-### Public Self-Service Application
+### Public Self-Service Application {#public-self-service-application}
 
 Enable login, register, email confirmation, reset password, and settings pages.
 
 This is the typical setup for SaaS products, client portals, and user-facing web applications.
 
-### Invitation-Only Platform
+### Invitation-Only Platform {#invitation-only-platform}
 
 Disable public registration.
 
 Enable invitations and let admins create access from the backoffice or from CLI commands.
 
-### Multi-Bundle Application
+### Multi-Bundle Application {#multi-bundle-application}
 
 The bundle integrates well with `account-bundle`, `permissions-bundle`, and admin-oriented bundles such as `cms-bundle` and `media-bundle`.
 

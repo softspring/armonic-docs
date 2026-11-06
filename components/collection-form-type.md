@@ -22,10 +22,13 @@ composer require softspring/collection-form-type:^6.0
 Then import the JavaScript in your asset build:
 
 ```js
-import '@softspring/collection-form-type/scripts/collection-form-type';
+// Source import for an Encore build (or use an equivalent package alias):
+import '../vendor/softspring/collection-form-type/assets/scripts/collection-form-type.js';
 ```
 
-This is how `cms-bundle` and `armonic` integrate it.
+For AssetMapper, use the published `@softspring/collection-form-type/collection-form-type.js` importmap entry. If Flex has not enabled it, register `Softspring\Component\CollectionFormType\SfsCollectionFormTypeBundle` in `config/bundles.php` so the published assets can be discovered.
+
+CMS Bundle already imports this behavior in its admin entry; do not initialize a second copy in the same page.
 
 ## When To Use It {#when-to-use-it}
 

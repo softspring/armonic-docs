@@ -23,7 +23,7 @@ This package is infrastructure, not UI. It does not ship routes, screens, or bac
 ## Install {#install}
 
 ```bash
-composer require softspring/doctrine-changelog-bundle:^6.0
+composer require softspring/doctrine-changelog-bundle:6.0.x-dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:
@@ -39,6 +39,8 @@ return [
 
 ## Basic Configuration {#basic-configuration}
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_doctrine_change_log.yaml
 sfs_doctrine_change_log:
@@ -49,7 +51,26 @@ sfs_doctrine_change_log:
 
     storage:
         enabled: false
+        driver: doctrine
 ```
+
+```php
+<?php
+
+// config/packages/sfs_doctrine_change_log.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_doctrine_change_log', [
+        'collect' => ['request' => true, 'user' => true, 'action' => true],
+        'storage' => ['enabled' => false, 'driver' => 'doctrine'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The current schema requires a `driver` even when storage is disabled. The value is not used until storage is enabled.
 
 That setup already gives you change events and an in-memory stack. It does not persist anything yet.
 
@@ -57,7 +78,7 @@ That setup already gives you change events and an in-memory stack. It does not p
 
 Only entities marked as registrable are tracked.
 
-In this line you can use either annotations or PHP attributes:
+Use PHP attributes in 6.0:
 
 ```php
 <?php
@@ -113,6 +134,8 @@ This is useful when your application wants to forward changes to its own queue, 
 
 ### Doctrine Storage {#doctrine-storage}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_doctrine_change_log:
     storage:
@@ -120,7 +143,35 @@ sfs_doctrine_change_log:
         driver: doctrine
 ```
 
-The Doctrine driver expects your application to provide a concrete changelog entity, typically extending `Softspring\DoctrineChangeLogBundle\Entity\ChangeLog`.
+```php
+<?php
+
+// config/packages/sfs_doctrine_change_log.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_doctrine_change_log', ['storage' => ['enabled' => true, 'driver' => 'doctrine']]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The default Doctrine driver expects `App\Entity\ChangeLog`. Define a mapped entity extending its mapped superclass:
+
+```php
+<?php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Softspring\DoctrineChangeLogBundle\Entity\ChangeLog as ChangeLogModel;
+
+#[ORM\Entity]
+class ChangeLog extends ChangeLogModel
+{
+}
+```
+
+Generate and review the application's migration for this table. Override the storage driver service argument if you use another entity name. Do not mark the changelog entity itself as registrable.
 
 This is a good fit when:
 
@@ -129,6 +180,8 @@ This is a good fit when:
 - operational simplicity matters more than warehouse-style analytics
 
 ### BigQuery Storage {#bigquery-storage}
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_doctrine_change_log:
@@ -142,7 +195,38 @@ sfs_doctrine_change_log:
                 mode: fixed
                 fixed:
                     name: changelog
+                attribute:
+                    attribute_name: changelog_table
 ```
+
+```php
+<?php
+
+// config/packages/sfs_doctrine_change_log.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_doctrine_change_log', [
+        'storage' => [
+            'enabled' => true,
+            'driver' => 'big-query',
+            'big_query' => [
+                'project' => '%env(BIGQUERY_PROJECT)%',
+                'dataset' => '%env(BIGQUERY_DATASET)%',
+                'table' => [
+                    'mode' => 'fixed',
+                    'fixed' => ['name' => 'changelog'],
+                    'attribute' => ['attribute_name' => 'changelog_table'],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The current schema also requires `table.attribute.attribute_name` in fixed mode; it only affects table selection when `mode: attribute` is used. Install `google/cloud-bigquery` and configure runtime credentials before enabling this driver. The example supplies no credential file or client data.
 
 BigQuery is the better fit when:
 

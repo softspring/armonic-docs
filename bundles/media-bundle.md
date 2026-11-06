@@ -49,7 +49,7 @@ If you are integrating the bundle for the first time, the usual reading order is
 Install the bundle:
 
 ```bash
-composer require softspring/media-bundle:^6.0
+composer require softspring/media-bundle:6.0.x-dev
 ```
 
 If your application does not use Symfony Flex, enable it manually:
@@ -153,6 +153,8 @@ Generated versions also keep a non-persisted `originalVersion` reference while t
 
 You can replace the default entity classes:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_media.yaml
 sfs_media:
@@ -161,6 +163,22 @@ sfs_media:
     version:
         class: App\Entity\MediaVersion
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'media' => ['class' => \App\Entity\Media::class],
+        'version' => ['class' => \App\Entity\MediaVersion::class],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The bundle resolves `MediaInterface` and `MediaVersionInterface` to those configured classes through a compiler pass.
 
@@ -175,6 +193,8 @@ The bundle ships two storage drivers:
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     driver: filesystem
@@ -182,6 +202,22 @@ sfs_media:
         path: '%kernel.project_dir%/public/media'
         url: '/media'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'filesystem',
+        'filesystem' => ['path' => '%kernel.project_dir%/public/media', 'url' => '/media'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 If you do not configure it explicitly, the bundle falls back to those same defaults.
 
@@ -197,12 +233,30 @@ and can translate them into public URLs later.
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     driver: google_cloud_storage
     google_cloud_storage:
         bucket: '%env(MEDIA_BUCKET_NAME)%'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'google_cloud_storage',
+        'google_cloud_storage' => ['bucket' => '%env(MEDIA_BUCKET_NAME)%'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The storage driver stores URLs internally as:
 
@@ -216,12 +270,27 @@ and exposes them publicly through the standard Google Storage HTTPS URL.
 
 Set `sfs_media.google_cloud_storage.delayed_deletion_days` to a positive integer to keep a removed object available at its existing URL until the configured delay has elapsed:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     google_cloud_storage:
         bucket: media-bucket
         delayed_deletion_days: 90
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', ['google_cloud_storage' => ['bucket' => 'media-bucket', 'delayed_deletion_days' => 90]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The driver sets the object's `Custom-Time` to the delayed deletion date. Configure the bucket with this Google Cloud Storage lifecycle rule, without a `matchesPrefix` condition:
 
@@ -272,6 +341,8 @@ A media type defines:
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     types:
@@ -304,6 +375,51 @@ sfs_media:
                     img:
                         src_version: article
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'article_image' => [
+                'type' => 'image',
+                'name' => 'Article image',
+                'description' => 'Responsive images used inside article pages',
+                'private' => false,
+                'upload_requirements' => [
+                    'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                    'minWidth' => 1200,
+                    'minHeight' => 675,
+                ],
+                'versions' => [
+                    'card' => ['type' => 'webp', 'scale_width' => 480, 'webp_quality' => 80],
+                    'article' => ['type' => 'webp', 'scale_width' => 1280, 'webp_quality' => 85],
+                ],
+                'pictures' => [
+                    'default' => [
+                        'sources' => [
+                            [
+                                'srcset' => [
+                                    ['version' => 'card', 'suffix' => '480w'],
+                                    ['version' => 'article', 'suffix' => '1280w'],
+                                ],
+                                'attrs' => ['sizes' => '100vw'],
+                            ],
+                        ],
+                        'img' => ['src_version' => 'article'],
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Type Configuration Fields {#type-configuration-fields}
 
@@ -391,6 +507,8 @@ have the highest priority. Nested animation settings are merged by key.
 Only options relevant to the output format are passed to its processor.
 Manual uploads and video types do not inherit image processing defaults.
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     defaults:
@@ -405,6 +523,27 @@ sfs_media:
                 normal: { type: avif } # Quality 88; max_frames 500; speed 5.
                 detailed: { type: avif, avif_quality: 90 }
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'defaults' => ['avif_quality' => 85, 'animation' => ['max_frames' => 500, 'speed' => 6]],
+        'types' => [
+            'content' => [
+                'defaults' => ['avif_quality' => 88, 'animation' => ['speed' => 5]],
+                'versions' => ['normal' => ['type' => 'avif'], 'detailed' => ['type' => 'avif', 'avif_quality' => 90]],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Versions {#versions}
 
@@ -463,6 +602,8 @@ That is why migration compares actual stored version options against normalized 
 Static generated images use Imagick by default. Override the default globally,
 per media type or per version (version > type > global):
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     imagine:
@@ -482,6 +623,35 @@ sfs_media:
                     imagine_driver: imagick
                     scale_width: 1200
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'imagine' => [
+            'driver' => 'imagick',
+            'allow_upscale' => false,
+            'resize_tolerance' => 0.02,
+            'preserve_original_encoding' => true,
+        ],
+        'types' => [
+            'content' => [
+                'imagine_driver' => 'gd',
+                'versions' => [
+                    'small' => ['type' => 'webp', 'scale_width' => 400],
+                    'large' => ['type' => 'avif', 'imagine_driver' => 'imagick', 'scale_width' => 1200],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Install `ext-imagick` and the ImageMagick codecs used by your sources and outputs.
 On Alpine, AVIF support requires `imagemagick-heic` (libheif), in addition to the
@@ -524,6 +694,8 @@ extension. Animated inputs use FFmpeg; still images use the configured Imagine
 driver. Image animations render in pictures without a manual poster. Video
 versions and their video sets keep their existing processing path.
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     defaults:
@@ -545,6 +717,36 @@ sfs_media:
                 small_webp: { type: webp, scale_width: 400, webp_quality: 82 }
                 still: { type: avif, scale_width: 400, animated: no }
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'defaults' => ['avif_quality' => 85, 'animation' => ['max_frames' => 500]],
+        'ffmpeg' => ['binary' => 'ffmpeg', 'probe_binary' => 'ffprobe', 'timeout' => 300],
+        'types' => [
+            'content' => [
+                'defaults' => ['animation' => ['speed' => 6]],
+                'upload_requirements' => [
+                    'animation' => 'accepted',
+                    'mimeTypes' => ['image/png', 'image/apng', 'image/avif', 'image/gif'],
+                ],
+                'versions' => [
+                    'small_avif' => ['type' => 'avif', 'scale_width' => 400],
+                    'small_webp' => ['type' => 'webp', 'scale_width' => 400, 'webp_quality' => 82],
+                    'still' => ['type' => 'avif', 'scale_width' => 400, 'animated' => 'no'],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 `upload_requirements.animation` accepts `accepted` (the default), `no` or
 `required`. Compatible-type choices use known animation metadata and creation
@@ -728,15 +930,52 @@ If the picture config name does not exist for the media type, the renderer throw
 
 By default, a rendered `<picture>` takes its `<img>` width and height from `img.src_version`. When that fallback has different dimensions from the responsive sources, use `img.dimensions_version` to provide the intrinsic display size without changing the fallback URL:
 
+<!-- config-tabs:start -->
+
 ```yaml
-pictures:
-    card:
-        sources:
-            - { srcset: [ { version: card, suffix: '1x' }, { version: card_retina, suffix: '2x' } ] }
-        img:
-            src_version: fallback
-            dimensions_version: card
+# config/packages/sfs_media.yaml
+sfs_media:
+    types:
+        content:
+            pictures:
+                card:
+                    sources:
+                        - { srcset: [ { version: card, suffix: '1x' }, { version: card_retina, suffix: '2x' } ] }
+                    img:
+                        src_version: fallback
+                        dimensions_version: card
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'content' => [
+                'pictures' => [
+                    'card' => [
+                        'sources' => [
+                            [
+                                'srcset' => [
+                                    ['version' => 'card', 'suffix' => '1x'],
+                                    ['version' => 'card_retina', 'suffix' => '2x'],
+                                ],
+                            ],
+                        ],
+                        'img' => ['src_version' => 'fallback', 'dimensions_version' => 'card'],
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Explicit image attributes passed to the renderer still take precedence over the configured dimensions version.
 
@@ -746,20 +985,54 @@ AVIF and WebP versions preserve animation automatically when the original is
 animated. The same picture configuration works for static images and animations;
 sources are rendered in their configured order without animation filtering:
 
+<!-- config-tabs:start -->
+
 ```yaml
-versions:
-    avif: { type: avif }
-    webp: { type: webp }
-pictures:
-    _default:
-        sources:
-            - srcset: [{ version: avif }]
-              attrs: { type: image/avif }
-            - srcset: [{ version: webp }]
-              attrs: { type: image/webp }
-        img:
-            src_version: avif
+# config/packages/sfs_media.yaml
+sfs_media:
+    types:
+        content:
+            versions:
+                avif: { type: avif }
+                webp: { type: webp }
+            pictures:
+                _default:
+                    sources:
+                        - srcset: [{ version: avif }]
+                          attrs: { type: image/avif }
+                        - srcset: [{ version: webp }]
+                          attrs: { type: image/webp }
+                    img:
+                        src_version: avif
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'content' => [
+                'versions' => ['avif' => ['type' => 'avif'], 'webp' => ['type' => 'webp']],
+                'pictures' => [
+                    '_default' => [
+                        'sources' => [
+                            ['srcset' => [['version' => 'avif']], 'attrs' => ['type' => 'image/avif']],
+                            ['srcset' => [['version' => 'webp']], 'attrs' => ['type' => 'image/webp']],
+                        ],
+                        'img' => ['src_version' => 'avif'],
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The default `animated: keep` retains animation in supported image formats;
 `animated: no` explicitly generates a still image. JPEG is always static.
@@ -903,13 +1176,30 @@ The bundle can expose a full media library UI through `softspring/crudl-controll
 
 Enable the built-in admin controller:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     media:
         admin_controller: true
 ```
 
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', ['media' => ['admin_controller' => true]]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Import routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_media_admin:
@@ -917,12 +1207,40 @@ _sfs_media_admin:
     prefix: /admin/media
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsMediaBundle/config/routing/admin_media.yaml')->prefix('/admin/media');
+};
+```
+
+<!-- config-tabs:end -->
+
 Import the role hierarchy when you use the default permission names:
+
+<!-- config-tabs:start -->
 
 ```yaml
 imports:
     - { resource: '@SfsMediaBundle/config/security/admin_role_hierarchy.yaml' }
 ```
+
+```php
+<?php
+
+// config/routing/admin_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->import('@SfsMediaBundle/config/security/admin_role_hierarchy.yaml');
+};
+```
+
+<!-- config-tabs:end -->
 
 ### Admin Actions {#admin-actions}
 
@@ -938,7 +1256,7 @@ The admin controller defines these actions:
 - create_ajax
 - migrate
 
-This is a richer surface than the current docs page suggested.
+The search and AJAX actions support the modal pickers used by other forms.
 
 ### Search Type Action {#search-type-action}
 

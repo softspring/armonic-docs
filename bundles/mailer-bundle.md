@@ -21,7 +21,7 @@ A good way to think about this bundle is: it is the shared infrastructure around
 Install the package:
 
 ```bash
-composer require softspring/mailer-bundle:^6.0
+composer require softspring/mailer-bundle:6.0.x-dev
 ```
 
 If your application does not use Symfony Flex, enable it manually:
@@ -51,6 +51,8 @@ It also decorates `twig.mime_body_renderer` so translatable email classes can re
 
 Configure the bundle under `sfs_mailer`:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_mailer.yaml
 sfs_mailer:
@@ -72,6 +74,32 @@ sfs_mailer:
         enabled: true
         class: App\Entity\EmailHistory
 ```
+
+```php
+<?php
+
+// config/packages/sfs_mailer.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_mailer', [
+        'entity_manager' => 'default',
+        'templates' => [
+            'my_template' => [
+                'template' => 'emails/my_template.html.twig',
+                'subject_block' => 'subject',
+                'html_block' => 'html',
+                'text_block' => 'text',
+                'from_email' => ['sender_name' => 'Acme', 'address' => 'noreply@example.com'],
+                'example_context' => ['companyName' => 'Acme'],
+            ],
+        ],
+        'history' => ['enabled' => true, 'class' => \App\Entity\EmailHistory::class],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The three top-level blocks are:
 
@@ -200,11 +228,28 @@ class MailTemplateLoader implements TemplateLoaderInterface
 }
 ```
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     App\Mailer\Loader\MailTemplateLoader:
         tags: ['sfs_mailer.template_loader']
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Mailer\Loader\MailTemplateLoader::class)->tag('sfs_mailer.template_loader');
+};
+```
+
+<!-- config-tabs:end -->
 
 This is the most reliable way to integrate application emails with the current bundle.
 
@@ -214,11 +259,29 @@ The bundle ships an admin controller to inspect registered templates.
 
 Import the routes when you want that UI:
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_mailer_templates:
     resource: '@SfsMailerBundle/config/routing/mailer_templates.yaml'
     prefix: /admin/mailer/templates
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsMailerBundle/config/routing/mailer_templates.yaml')
+        ->prefix('/admin/mailer/templates');
+};
+```
+
+<!-- config-tabs:end -->
+
+Protect the admin prefix through your application firewall and access-control rules. These route imports do not add authorization automatically. Test sends deliver to the submitted recipient, so expose the form only to trusted administrators.
 
 The available routes are:
 
@@ -272,7 +335,7 @@ When the form is submitted, the controller:
 2. sets the target recipient with `to(new Address(...))`;
 3. sends the message with `MailerInterface`.
 
-If the Twig template is missing, the controller adds a form error instead of crashing the page.
+The controller catches a missing Twig template, but its current flow redirects after the attempt. Check delivery errors in the application logs; the redirect alone does not prove that the recipient received the message.
 
 ### Requirements For Preview And Test {#requirements-for-preview-and-test}
 
@@ -335,14 +398,34 @@ class WelcomeEmail extends TranslatableEmail implements ExampleEmailInterface
     {
         parent::__construct($translator, $locale);
 
+        $this->from('no-reply@example.com');
         $this->htmlTemplate('emails/welcome.html.twig');
+        $this->textTemplate('emails/welcome.txt.twig');
         $this->subject('welcome.subject', 'messages');
         $this->setContextParam('name', 'Jane');
     }
 }
 ```
 
-The key point is that `generateExample()` must return a fully renderable email without needing a database lookup or request state.
+Add the templates and translation used by this class:
+
+```twig
+{# templates/emails/welcome.html.twig #}
+<h1>{{ 'welcome.subject'|trans }}</h1>
+<p>Hello {{ name }}.</p>
+```
+
+```twig
+{# templates/emails/welcome.txt.twig #}
+Hello {{ name }}.
+```
+
+```yaml
+# translations/messages.en.yaml
+welcome.subject: Welcome
+```
+
+Set a recipient before sending. The example generator must return an email that renders without a database lookup or request state. Verify each supported locale and both body formats with a local mail catcher or a null transport before using a real delivery service.
 
 ## Email History {#email-history}
 
@@ -360,12 +443,27 @@ This part contains:
 
 Enable it in configuration:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_mailer:
     history:
         enabled: true
         class: App\Entity\EmailHistory
 ```
+
+```php
+<?php
+
+// config/packages/sfs_mailer.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_mailer', ['history' => ['enabled' => true, 'class' => \App\Entity\EmailHistory::class]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 When history is enabled, the bundle:
 
@@ -376,7 +474,7 @@ When history is enabled, the bundle:
 
 ### Implementing The Entity {#implementing-the-entity}
 
-The bundle ships `Softspring\MailerBundle\Model\EmailHistory` as a mapped superclass and `Softspring\MailerBundle\Entity\EmailHistory` as a ready entity.
+The bundle ships `Softspring\MailerBundle\Model\EmailHistory` as a mapped superclass and `Softspring\MailerBundle\Entity\EmailHistory` as a ready entity. Extend the mapped model when defining a separate application entity; extending an already mapped concrete entity would require an intentional Doctrine inheritance strategy.
 
 If you want an application entity, the usual approach is:
 
@@ -386,7 +484,7 @@ If you want an application entity, the usual approach is:
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Softspring\MailerBundle\Entity\EmailHistory as BaseEmailHistory;
+use Softspring\MailerBundle\Model\EmailHistory as BaseEmailHistory;
 use Softspring\MailerBundle\Model\EmailHistoryInterface;
 
 #[ORM\Entity]
@@ -433,11 +531,26 @@ These values are intended for your own history-writing logic.
 
 Import the history routes when you want the backoffice screens:
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_mailer_history:
     resource: '@SfsMailerBundle/config/routing/mailer_history.yaml'
     prefix: /admin/mailer/history
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsMailerBundle/config/routing/mailer_history.yaml')->prefix('/admin/mailer/history');
+};
+```
+
+<!-- config-tabs:end -->
 
 The available routes are:
 
