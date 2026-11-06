@@ -3,23 +3,33 @@ title: "CMS Bundle Troubleshooting"
 description: "Fix common CMS Bundle issues such as MySQL memory errors and silent failures related to ESI blocks and HTTP cache."
 ---
 
-# Troubleshooting
+# Troubleshooting {#troubleshooting}
 
-## Mysql memory allocation error {#mysql-memory-allocation-error}
+## MySQL memory allocation error {#mysql-memory-allocation-error}
 
 In some situations, Doctrine can dispatch a "Doctrine\DBAL\Exception\DriverException" exception with an "out of sort memory" message.
 
 > SQLSTATE[HY001]: Memory allocation error: 1038 Out of sort memory, consider increasing server sort buffer size
 
+This MySQL-specific error and its `sort_buffer_size` setting do not apply to PostgreSQL. For PostgreSQL connection or encoding issues, see [Configure MySQL or PostgreSQL](../getting-started/configure-database.md).
+
 This is a common error if database instance has a low value for [sort_buffer_size](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_sort_buffer_size) variable.
 
-The solution is easy: increase this value, for example to 5.4k.
+Inspect the failing query and its indexes before changing server memory settings. Check the active session value with:
+
+```sql
+SHOW SESSION VARIABLES LIKE 'sort_buffer_size';
+```
+
+MySQL allocates a sort buffer per sorting session, so a larger global value increases memory use under concurrency. Choose a value from measurements on your own workload and apply it through the database administrator or managed service configuration. See the [MySQL sort buffer reference](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_sort_buffer_size).
 
 ## Silent fail using a lot of ESI blocks or menus and http cache {#silent-fail-using-a-lot-of-esi-blocks-or-menus-and-http-cache}
 
-If you use a lot of menus (sometimes about 20-30 items) you can experiment a silent error. 
+With many ESI fragments, the HTTP cache trace can produce a large response header. If your proxy rejects the response, check the application and proxy logs for header-size errors.
 
-You can try disabling tracing in http_cache:
+Disable diagnostic cache tracing to reduce the header size, then repeat the request:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/packages/framework.yaml
@@ -28,6 +38,19 @@ framework:
         trace_level: none
     esi: true
 ```
+
+```php
+<?php
+
+// config/packages/framework.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', ['http_cache' => ['trace_level' => 'none'], 'esi' => true]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## After deploying a new version assets are not loaded {#after-deploying-a-new-version-assets-are-not-loaded}
 
@@ -44,12 +67,27 @@ One solution is to re-publish the content version in admin panel.
 
 Another solution is to disable content compilation storing in general:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_cms.yaml
 sfs_cms:
     content:
         save_compiled: false
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms', ['content' => ['save_compiled' => false]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 or for a specific layout:
 
@@ -72,12 +110,27 @@ content:
 The last solution is to prefix compiled contents by version, so when you deploy a new version, the content is not found
  and is compiled and stored again.
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_cms.yaml
 sfs_cms:
     content:
         prefix_compiled: '%env(APP_VERSION)%/'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms', ['content' => ['prefix_compiled' => '%env(APP_VERSION)%/']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Some site or locale content render has not styles or scripts {#some-site-or-locale-content-render-has-not-styles-or-scripts}
 

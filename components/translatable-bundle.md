@@ -50,12 +50,28 @@ The bundle configuration lives under `sfs_translatable`.
 
 The base form and Doctrine features work without extra configuration. The optional translation API layer is configured here:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_translatable.yaml
 sfs_translatable:
     api:
+        enabled: true
         driver: google
 ```
+
+```php
+<?php
+
+// config/packages/sfs_translatable.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_translatable', ['api' => ['enabled' => true, 'driver' => 'google']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 In practice, Armonic standalone enables the Google driver this way and imports the auto-translate frontend script in the admin asset build.
 
@@ -203,11 +219,26 @@ When an API driver is configured:
 
 The translation endpoint is not enabled automatically. Import the route in your application:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/routes/sfs_translatable.yaml
 sfs_translatable:
     resource: '@SfsTranslatableBundle/config/routing/api_translate.yaml'
 ```
+
+```php
+<?php
+
+// config/routes/sfs_translatable.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsTranslatableBundle/config/routing/api_translate.yaml');
+};
+```
+
+<!-- config-tabs:end -->
 
 The endpoint is:
 
@@ -218,6 +249,8 @@ It expects:
 - `text`
 - `source`
 - `target`
+
+Protect the translation route with the application's editor permissions and request authentication. The provider needs valid Google credentials and access to the translation service; avoid exposing a billable translation endpoint publicly. Review generated translations before publishing.
 
 ### Import The Frontend Script {#import-the-frontend-script}
 

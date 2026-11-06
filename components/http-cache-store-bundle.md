@@ -55,12 +55,27 @@ For many projects, that is enough.
 
 This bundle only matters if Symfony HttpCache is enabled:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/framework.yaml
 framework:
     http_cache:
         enabled: true
 ```
+
+```php
+<?php
+
+// config/packages/framework.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', ['http_cache' => ['enabled' => true]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 If your project does not use Symfony HttpCache, this bundle has nothing to replace.
 
@@ -77,11 +92,26 @@ That means the minimum configuration is often no extra configuration at all.
 
 The bundle exposes two practical options:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_http_cache_store:
     adapter: 'cache.app'
     logger: null
 ```
+
+```php
+<?php
+
+// config/packages/framework.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_http_cache_store', ['adapter' => 'cache.app', 'logger' => null]);
+};
+```
+
+<!-- config-tabs:end -->
 
 - `adapter`: the cache pool service id used to store HttpCache data
 - `logger`: an optional logger service id used for hit, miss, and write logs
@@ -92,19 +122,43 @@ Use a dedicated persistent pool when Symfony HttpCache is responsible for shared
 
 Example:
 
-```yaml
-# config/services.yaml
-services:
-    app.http_cache_pool:
-        parent: 'cache.adapter.redis'
-        public: true
-        tags:
-            - { name: 'cache.pool', namespace: 'http_cache' }
+<!-- config-tabs:start -->
 
-# config/packages/sfs_http_cache_store.yaml
+```yaml
+# config/packages/cache.yaml
+framework:
+    cache:
+        pools:
+            app.http_cache_pool:
+                adapter: cache.adapter.redis
+                provider: '%env(REDIS_URL)%'
+
 sfs_http_cache_store:
-    adapter: 'app.http_cache_pool'
+    adapter: app.http_cache_pool
 ```
+
+```php
+<?php
+
+// config/packages/cache.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'cache' => [
+            'pools' => [
+                'app.http_cache_pool' => ['adapter' => 'cache.adapter.redis', 'provider' => '%env(REDIS_URL)%'],
+            ],
+        ],
+    ]);
+
+    $container->extension('sfs_http_cache_store', ['adapter' => 'app.http_cache_pool']);
+};
+```
+
+<!-- config-tabs:end -->
+
+Set `REDIS_URL`, for example `redis://127.0.0.1:6379`, and install a Redis client supported by Symfony Cache. The pool can remain private because the compiler pass references it directly. Confirm that a Redis restart or a pool clear has the expected effect before relying on this store across application instances.
 
 This is useful when you want:
 
@@ -128,12 +182,29 @@ That is often enough for development, staging, or smaller deployments.
 
 You can point the bundle to a logger service:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_http_cache_store:
     logger: 'monolog.logger.http_cache'
 ```
 
+```php
+<?php
+
+// config/packages/sfs_http_cache_store.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_http_cache_store', ['logger' => 'monolog.logger.http_cache']);
+};
+```
+
+<!-- config-tabs:end -->
+
 A dedicated Monolog channel is usually the cleanest option:
+
+<!-- config-tabs:start -->
 
 ```yaml
 monolog:
@@ -142,6 +213,21 @@ monolog:
 sfs_http_cache_store:
     logger: 'monolog.logger.http_cache'
 ```
+
+```php
+<?php
+
+// config/packages/monolog.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('monolog', ['channels' => ['http_cache']]);
+
+    $container->extension('sfs_http_cache_store', ['logger' => 'monolog.logger.http_cache']);
+};
+```
+
+<!-- config-tabs:end -->
 
 This helps when you want to understand:
 
@@ -231,14 +317,3 @@ The most important practical limits are:
 - it changes storage, not the caching strategy itself
 - the adapter must match whether Symfony or an upstream proxy owns shared response storage
 - purging one URL removes the main cached entry for that URL, but storage cleanup is still driven by the cache backend and TTLs
-
-## Good Fit Summary {#good-fit-summary}
-
-Choose this bundle when your goal is:
-
-- better storage control for Symfony HttpCache
-- easier operations through Symfony cache pools
-- cleaner isolation of reverse proxy cache data
-- better observability through logging
-
-That is the core value of the bundle.

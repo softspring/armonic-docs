@@ -34,6 +34,8 @@ Most helpers are enabled by default. The Encore source helpers are opt-in.
 
 You can enable or disable each helper under `sfs_twig_extra`:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_twig_extra.yaml
 sfs_twig_extra:
@@ -49,6 +51,25 @@ sfs_twig_extra:
         enabled: false
         public_path: '%kernel.project_dir%/public'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_twig_extra.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_twig_extra', [
+        'active_for_routes_extension' => ['enabled' => true],
+        'routing_extension' => ['enabled' => true],
+        'date_span_extension' => ['enabled' => true],
+        'instanceof_extension' => ['enabled' => true],
+        'encore_entry_sources_extension' => ['enabled' => false, 'public_path' => '%kernel.project_dir%/public'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is useful when you want to keep the template API small and only expose the helpers your project really uses.
 
@@ -108,7 +129,7 @@ Then in Twig:
 {{ app.store }}
 ```
 
-This is the cleanest way to expose request-scoped or application-scoped context to templates.
+Set request-specific values for each main request and account for sub-requests. Do not rely on a value from a previous request in long-running application processes.
 
 ## active_for_routes {#active-for-routes}
 
@@ -177,7 +198,7 @@ If there is no request, no timezone cookie, or the cookie contains an invalid ti
 The bundle adds a Twig test named `instanceof`:
 
 ```twig
-{% if block is instanceof('App\\\\Cms\\\\Block\\\\HeroBlock') %}
+{% if block is instanceof('App\\Cms\\Block\\HeroBlock') %}
     ...
 {% endif %}
 ```

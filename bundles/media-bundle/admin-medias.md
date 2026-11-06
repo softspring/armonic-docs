@@ -9,13 +9,30 @@ description: "Use the built-in admin media library, routes, permissions, and mai
 
 ## Enable Admin Controllers {#enable-admin-controllers}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     media:
         admin_controller: true
 ```
 
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', ['media' => ['admin_controller' => true]]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Import the admin routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_media_admin:
@@ -23,12 +40,40 @@ _sfs_media_admin:
     prefix: /admin/media
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsMediaBundle/config/routing/admin_media.yaml')->prefix('/admin/media');
+};
+```
+
+<!-- config-tabs:end -->
+
 Import the default role hierarchy when you want the bundled permission names:
+
+<!-- config-tabs:start -->
 
 ```yaml
 imports:
     - { resource: '@SfsMediaBundle/config/security/admin_role_hierarchy.yaml' }
 ```
+
+```php
+<?php
+
+// config/routing/admin_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->import('@SfsMediaBundle/config/security/admin_role_hierarchy.yaml');
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Admin Permissions {#admin-permissions}
 

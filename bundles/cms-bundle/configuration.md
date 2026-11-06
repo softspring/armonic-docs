@@ -3,56 +3,58 @@ title: "CMS Bundle Configuration"
 description: "Understand the project-level CMS directory structure and how blocks, contents, layouts, menus, modules, and sites are defined."
 ---
 
-# Configuration
+# Organize CMS configuration {#configuration}
 
-## Configuration structure {#configuration-structure}
+CMS definitions live under `cms/` in the Symfony project directory. If the application is inside an `app/` directory, its definitions are under `app/cms/`; the directory name is relative to `kernel.project_dir`.
 
-After install SfsCms a new "cms" folder is created on project root. This new folder will contain the SfsCms configuration
- for the project.
+## Directory structure {#configuration-structure}
 
-Inside this directory, other directories will be created:
+```text
+cms/
+├── blocks/
+├── contents/
+├── layouts/
+├── menus/
+├── modules/
+└── sites/
+```
 
-- **cms/blocks**: blocks configuration
-- **cms/contents**: content types configuration
-- **cms/fixtures**: this directory will contain contents fixtures
-- **cms/layouts**: layouts configuration
-- **cms/menus**: menus configuration
-- **cms/modules**: modules configuration
-- **cms/sites**: sites configuration
+Each element has an identifier directory containing `config.yaml` and any required Twig templates or translations. For a hero module:
 
-## How create elements {#how-create-elements}
+```text
+cms/modules/hero/
+├── config.yaml
+├── render.html.twig
+└── translations/
+    └── sfs_cms_modules.en.yaml
+```
 
-Inside the configuration directories (blocks, contents, layouts, ...) a new directory, with the element identifier name,
- needs to be created.
+Add `edit.html.twig` and `form.html.twig` when the module needs a custom editor preview or field layout. They are not mandatory for every dynamic module.
 
-These element directories must contain a config.yaml configuration file, in addition to other templates or required files 
- for the element.
+See the configuration guides for [sites](../../configuration/configure-sites.md), [content types](../../configuration/configure-content-types.md), [layouts](../../configuration/configure-layouts.md), [modules](../../configuration/configure-modules.md), [blocks](../../configuration/configure-blocks.md), and [menus](../../configuration/configure-menu.md).
 
-For example, if a new "Call to action" module needs to be created, this is the common files:
+## Override a supplied definition {#configuration-overriding}
 
-- *cms/*
-  - *modules/*
-    - *call_to_action/*
-      - *edit.html.twig*
-      - *form.html.twig*
-      - *config.yaml*
-      - *render.html.twig*
+CMS collections are loaded in this order:
 
-## Configuration overriding {#configuration-overriding}
+1. The bundle's built-in collection.
+2. Configured external collections.
+3. The project's `cms/` directory.
 
-Is posible to override every element configuration, using the same element name in folders.
+Later definitions with the same identifier override earlier settings according to their configuration schema. Some lists, including site hosts and paths, replace the earlier list rather than appending to it.
 
-SfsCms bundle comes with some default elements (a default site, a default layout, and some basic modules).
+For example, `cms/sites/default/config.yaml` customizes the supplied `default` site. A directory with a different identifier creates another site instead.
 
-Creating a *cms/sites/default/config.yaml* file will override the default configuration. The same with other elements.
+Twig namespaces follow the same collection precedence, so a project can override a supplied template without editing files in `vendor/`.
 
-Also is posible to add many elements collections (as shown later). Any of the provided collection elements can be modified.
+## Apply changes {#apply-changes}
 
-The overriding preference is as follows:
+Clear the application cache after changing definitions:
 
-1. SfsCms default configuration
-2. collections configuration
-3. project configuration
+```bash
+php bin/console cache:clear
+```
 
-Likewise, twig template namespaces work with the same overriding preference. 
+Open the affected admin screen, create or edit a record, and preview its output. When changing stored data formats, provide the relevant migration instead of relying on a revision number alone. Recompile and review published content after changing render templates.
 
+Fixtures and data import are separate from element definitions. Use the application's documented fixture workflow; the core package does not automatically create a demo website when a configuration directory is added.

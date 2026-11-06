@@ -1,148 +1,99 @@
 ---
 title: "Armonic Standalone Installation"
 description: "Install and run the Armonic standalone project locally with the required tools, dependencies, and setup steps."
+next: "build-a-small-website"
+related:
+    - "configuration"
+    - "configure-database"
+    - "user-manual"
 ---
 
-# Armonic standalone
+# Armonic standalone {#armonic-standalone}
 
-## Description {#description}
+Armonic Standalone is a Symfony application with Armonic already integrated. Use it to explore the editor, build a first website, or start an application from an existing CMS setup.
 
-[Armonic Standalone](https://github.com/softspring/armonic-standalone) is a great way to dive into the world of [Armonic](https://github.com/softspring/armonic). With a
-quick and easy setup, you can have a fully functional local development environment in minutes.
+This guide uses the **6.0** branch and a local database containing only development data.
 
-## Installation {#instalation}
+## Check the tools {#requirements}
 
-**1. Clone this repository:**
+Install PHP 8.4 or later, Composer, a Node.js version compatible with the installed Encore dependencies, npm, Docker Compose, and optionally Symfony CLI. Check [Requirements](../getting-started/requirements.md) for PHP extensions and image-processing tools. Installing an unversioned distribution `php-cli` package does not guarantee the required PHP version.
 
-```bash
-    git clone https://github.com/softspring/armonic-standalone
-```
-
-**2. Install dependencies**
-
-1. [Symfony CLI](https://symfony.com/download):
+## Clone and install {#instalation}
 
 ```bash
-curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
-sudo apt install symfony-cli
-```
-***macOS:***
-```bash
-brew install symfony-cli/tap/symfony-cli
+git clone --branch 6.0 https://github.com/softspring/armonic-standalone
+cd armonic-standalone
+composer install
 ```
 
-2. [Docker](https://docs.docker.com/get-docker/):
-   Choose one option.
+Composer installs the PHP dependencies before npm resolves the frontend packages from `vendor/`. Keep the supplied Webpack version while following this guide.
 
-3. PHP
+## Configure the database {#configure-database}
 
-```bash
-sudo apt install php-cli 
-```
-***macOS:***
+The checkout includes a MySQL Compose service. To use PostgreSQL, replace that database definition with the corresponding service from [Configure MySQL or PostgreSQL](../getting-started/configure-database.md), keeping unrelated services.
 
-First you need Xcode Command Line Tools:
-```bash
-xcode-select --install
-```
+Choose one connection in `.env.local` and adapt its port to your Compose mapping:
 
-```bash
-brew install php
-brew install mysql
+**MySQL:**
+
+```dotenv
+DATABASE_URL="mysql://app:app_password@127.0.0.1:33061/app?serverVersion=8.4&charset=utf8mb4"
 ```
 
-4. Composer
+**PostgreSQL:**
 
-```bash
-sudo apt install composer
-```
-***macOS:***
-```bash
-brew install composer
+```dotenv
+DATABASE_URL="postgresql://app:app_password@127.0.0.1:54321/app?serverVersion=17&charset=utf8"
 ```
 
-5. NPM
-   (Node >= 18)
+Use `pdo_mysql` for MySQL or `pdo_pgsql` for PostgreSQL. The current standalone Composer manifest also requires `mysqli`, including when PostgreSQL is selected.
+
+For PostgreSQL, remove MySQL-only `charset: utf8mb4` and `default_table_options` charset/collation from `config/packages/doctrine.yaml`. Keep the ORM mappings. The database guide includes equivalent YAML and PHP connection configuration.
+
+Start the database, check the connection, and run the migrations:
 
 ```bash
-sudo apt install npm
+docker compose up -d --wait database
+php bin/console cache:clear
+php bin/console dbal:run-sql 'SELECT 1'
+php bin/console doctrine:migrations:migrate -n
 ```
 
-6. Install Composer packages
+Use a new local database for this walkthrough. Do not substitute `doctrine:schema:create` for the migration step: the migrations also exercise the bundle upgrade path.
 
-In the folder where you downloaded armonic-standalone run. In this case, armonic-standalone:
+## Build the assets {#build-assets}
 
 ```bash
-  cd armonic-standalone
-  composer update
+npm install
+npm run dev
 ```
 
-7. Start the containers
+For an optimized build, use `npm run build`. The admin shell, sidebar, form widgets, and content editor need the generated assets; a page that renders HTML without them does not validate the full setup.
+
+## Prepare demo data and an administrator {#prepare-demo-data}
+
+Optionally load the example fixtures **only in the disposable local database**. The default fixture command purges existing data:
 
 ```bash
-  docker compose up -d
+php bin/console doctrine:fixtures:load
 ```
 
-8. Execute migrations
+Create the administrator after loading fixtures so the fixture purge does not remove it:
 
 ```bash
-  php bin/console doctrine:migrations:migrate -n
+php bin/console sfs:user:create admin reader@example.com 'local-demo-change-this-password' --enabled --admin
+php bin/console sfs:user:promote reader@example.com --super-admin
 ```
 
+Log in by email. Use a unique password outside this local walkthrough.
 
-Troubleshooting:
-- If you have an error like:
-```bash
-  An exception occurred in the driver: SQLSTATE[HY000] [1045] Access denied for user 'app'@'localhost' (using password: YES)
-```
-Create a new file compose.override.yaml in the root of the project with the following content:
-
-```yaml
-services:
-###> doctrine/doctrine-bundle ###
-  database:
-    ports:
-      - "${MYSQL_PORT:-33061}:3306"
-###< doctrine/doctrine-bundle ###
-```
-Create a new file .env.local with the following content:
-
-```env
-   DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&charset=utf8mb4"
-```
-And execute again:
+## Start the application {#start-application}
 
 ```bash
-  docker compose up -d
-  php bin/console doctrine:migrations:migrate -n
+symfony server:start -d
 ```
 
-9. Install front-end dependencies
-
-```bash
-  npm install
-  npm run dev
-```
-
-10. Start the Symfony server
-
-```bash
-  symfony server:ca:install
-  symfony server:start -d
-```
-
-11. (Optional) If you want an example page, you have to load fixtures:
-
-```bash
-  php bin/console doctrine:fixtures:load
-```
-
-12. Create a test user. In this case, the user is “admin”, the email is “email@example.com” and the password is “admin”.
-
-```bash
-  php bin/console sfs:user:create admin email@example.com admin
-  php bin/console sfs:user:promote email@example.com 
-```
+Open the URL printed by Symfony CLI. If using local HTTPS, install Symfony's local certificate authority according to its setup instructions. The examples below use port 8000; adapt them to your server.
 
 ## Usage {#usage}
 
@@ -154,10 +105,10 @@ Open your browser and go to https://127.0.0.1:8000/app/en/login (or https://127.
 2. You are done! You can now start working with Armonic Standalone at https://127.0.0.1:8000/admin/en/.
    ![dashboard.png](.files/dashboard.png){.img-fluid}
 
-3. If you have executed point 11 of the installation and you wish to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
+3. If you loaded the optional fixtures and want to see the example page, you can consult the page at https://127.0.0.1:8000/admin/en/cms/pages/ , its name is 'Home'.
    ![example.png](.files/example.png){.img-fluid}
-   You can see the page information and edit it in "View" link.
+   Open **Content** to edit the page. **View** opens its details and version history.
    ![example-edit.png](.files/example-edit.png){.img-fluid}
-   In the list of "Last versions" or in the "Versions" section, you can publish the page and you can see it at https://127.0.0.1:8000/en/.
+   In the content editor, open the arrow next to **Save version** and choose **Save and publish**. You can then see the page at https://127.0.0.1:8000/en/ (adjust the port to match your local server).
    ![example-page.png](.files/example-page.png){.img-fluid}
     

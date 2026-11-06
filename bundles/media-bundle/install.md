@@ -10,7 +10,7 @@ description: "Install and configure Media Bundle with the minimum setup needed t
 ## Install The Package {#install-the-package}
 
 ```bash
-composer require softspring/media-bundle:^6.0
+composer require softspring/media-bundle:6.0.x-dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:
@@ -42,6 +42,8 @@ Even if you use filesystem storage only, `google/cloud-storage` is still a direc
 
 Start with a minimal filesystem setup:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/sfs_media.yaml
 imports:
@@ -56,11 +58,32 @@ sfs_media:
         admin_controller: true
 ```
 
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->import('@SfsMediaBundle/config/security/admin_role_hierarchy.yaml');
+
+    $container->extension('sfs_media', [
+        'driver' => 'filesystem',
+        'filesystem' => ['path' => '%kernel.project_dir%/public/media', 'url' => '/media'],
+        'media' => ['admin_controller' => true],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 This is enough to boot the bundle, but it is not enough to upload useful media yet. Real uploads start when you define at least one media type under `sfs_media.types`.
 
 ## Import Routes {#import-routes}
 
 If you want the built-in admin media library, import the admin routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/routes/sfs_media.yaml
@@ -69,11 +92,26 @@ _sfs_media_admin:
     prefix: /admin/media
 ```
 
+```php
+<?php
+
+// config/routes/sfs_media.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsMediaBundle/config/routing/admin_media.yaml')->prefix('/admin/media');
+};
+```
+
+<!-- config-tabs:end -->
+
 If you disable `media.admin_controller`, do not import those routes.
 
 ## Define The First Media Type {#define-the-first-media-type}
 
 The bundle is configuration-driven. Before you can upload or render anything useful, define a media type:
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_media:
@@ -95,6 +133,35 @@ sfs_media:
                     scale_width: 1280
                     webp_quality: 85
 ```
+
+```php
+<?php
+
+// config/routing/admin_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'article_image' => [
+                'type' => 'image',
+                'name' => 'Article image',
+                'upload_requirements' => [
+                    'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                    'minWidth' => 1200,
+                    'minHeight' => 675,
+                ],
+                'versions' => [
+                    'card' => ['type' => 'webp', 'scale_width' => 480, 'webp_quality' => 80],
+                    'article' => ['type' => 'webp', 'scale_width' => 1280, 'webp_quality' => 85],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Without type configuration, the bundle knows how to manage media entities, but it does not know what files, versions, or rendering variants your application expects.
 

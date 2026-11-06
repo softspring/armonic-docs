@@ -3,44 +3,20 @@ title: "Configure CMS Blocks"
 description: "Define Armonic CMS blocks with YAML configuration, rendering mode, cache behavior, and form fields."
 ---
 
-# Block Configuration (`cms/blocks`)
+# Configure blocks {#configure-blocks}
 
-Each block type is configured in:
+A block is a reusable fragment that can be rendered from several pages or templates. Editors update its data in one place. Use a block for a shared call to action, contact details, or another fragment that should remain consistent across the site.
 
-- `cms/blocks/<block_name>/config.yaml`
+Define a block type in `cms/blocks/<type>/config.yaml` and its frontend template in the same directory. A type defines the form and rendering rules; its editable record is created in the admin area.
 
-The schema is defined in `cms-bundle/src/Config/Model/Block.php`.
-
-## Minimal Example
+## Define a call to action {#define-call-to-action}
 
 ```yaml
+# cms/blocks/cta/config.yaml
 block:
     revision: 1
-```
-
-This is the only required key. Everything else has defaults.
-If you clear the cache, you’ll be able to see the block in the drop-down menu of the ‘New block’ button.
-
-## Practical Examples
-
-Static singleton block rendered through a route:
-
-```yaml
-block:
-    revision: 1
-    static: true
     singleton: true
-    esi: true
-    render_url: user_dropdown
-```
-
-Configurable (non-static) block with form fields:
-
-```yaml
-block:
-    revision: 1
-    render_template: '@block/cta/render.html.twig'
-    form_template: '@block/cta/form.html.twig'
+    esi: false
     form_fields:
         title:
             type: text
@@ -50,66 +26,67 @@ block:
             type: url
 ```
 
-## Option Reference
+`singleton: true` allows one editable record for this type. `esi: false` renders the example directly, so it does not require an ESI-capable HTTP cache.
 
-Top-level `block` keys:
+Create its template:
 
-- `revision` (required, integer)
-- `render_template` (optional, default: `@block/<block_name>/render.html.twig`)
-- `form_template` (optional)
-- `esi` (optional, default: `true`)
-- `ajax` (optional, default: `false`)
-- `isolate_request` (optional, `true|false|null`, default: `null`)
-- `cache_type` (optional, `public|private`, default: `public`)
-- `cache_ttl` (optional, integer, default: `false`)
-- `singleton` (optional, default: `true`)
-- `static` (optional, default: `false`)
-- `schedulable` (optional, default: `false`)
-- `render_url` (optional)
-- `form_fields` (optional map of fields)
-
-### `form_fields`
-
-Each field entry supports:
-
-- `type` (required)
-- `type_options` (optional map)
-
-Example:
-
-```yaml
-form_fields:
-    heading:
-        type: translation
-    columns:
-        type: choice
-        type_options:
-            choices:
-                '2 columns': 2
-                '3 columns': 3
+```twig
+{# cms/blocks/cta/render.html.twig #}
+<aside class="call-to-action">
+    <h2>{{ title }}</h2>
+    <a href="{{ buttonUrl }}">{{ buttonLabel }}</a>
+</aside>
 ```
 
-## Validation Rules (Important)
+The fields are available as Twig variables. Keep text escaped. Use a full URL for `buttonUrl`; use a CMS link or route field when editors should choose an application route instead.
 
-The configuration model enforces these constraints:
+Clear the cache, open **Blocks**, and create the **cta** block. Enter its title, label, and URL, then save it:
 
-1. If `static: true`, then `singleton` must also be `true`.
-2. If `static: true`, `form_fields` cannot be defined.
-3. If `static: true`, `form_template` cannot be defined.
-4. If `static: true`, `schedulable` cannot be `true`.
-5. `isolate_request` can only be set when at least one of `esi` or `ajax` is enabled.
-6. You cannot enable both `esi: true` and `ajax: true` at the same time.
+```bash
+php bin/console cache:clear
+```
 
-## How To Choose Options
+## Render the shared block {#render-block}
 
-- Use `static: true` for blocks that have no per-instance editable data.
-- Keep `singleton: true` when the block should exist only once globally.
-- Use `form_fields` only for non-static blocks that editors need to customize.
-- Use `render_url` when rendering should be delegated to a Symfony route/controller.
-- Use `cache_type` and `cache_ttl` to control cache behavior for expensive blocks.
-- Use `isolate_request: true` only when you need to avoid user-session context in sub-requests.
+In a layout or another Twig template:
 
-## Notes
+```twig
+{{ sfs_cms_block_by_type('cta') }}
+```
 
-- `revision` is typically increased when block structure/behavior changes and migration logic is needed.
-- Most projects start with defaults and only override values that are functionally necessary.
+The helper finds the singleton record for that type. The default render template is `@block/cta/render.html.twig`. Use `render_template` when the file is elsewhere.
+
+To let editors insert the block into a page, use the CMS block module. The [small website walkthrough](../user-manual/build-a-small-website.md) shows the complete editing flow.
+
+## Static blocks {#static-blocks}
+
+A static block has no editable per-record fields. For example:
+
+```yaml
+# cms/blocks/legal_notice/config.yaml
+block:
+    revision: 1
+    static: true
+    singleton: true
+    esi: false
+```
+
+Create `cms/blocks/legal_notice/render.html.twig` with its content. Static blocks must be singletons and cannot declare `form_fields`, `form_template`, or scheduling.
+
+If you set `render_url`, rendering is delegated to a Symfony route. The route must exist and return the fragment. Do not point it to the block's own render route, which would render recursively.
+
+## Caching and request context {#caching-request-context}
+
+Blocks support `esi`, `ajax`, `cache_type`, `cache_ttl`, and `isolate_request`. Choose these together with the application's HTTP cache setup:
+
+- `esi` and `ajax` cannot both be enabled;
+- `isolate_request` can only be set when ESI or AJAX is enabled;
+- `cache_type: public` is for output that can be shared between users;
+- user-specific output needs an appropriate private or uncached strategy;
+- omit `cache_ttl` to keep its default rather than inventing a TTL.
+
+A block containing account or session information must not be cached publicly as if it were shared content. See [HTTP cache](../components/cache.md) before enabling fragment caching.
+
+## Change existing block data {#change-block-data}
+
+`revision` identifies the data format. When changing the stored field structure, increase the revision and provide a compatible data migration where needed. Renaming a field in YAML does not rename values already saved in existing records.

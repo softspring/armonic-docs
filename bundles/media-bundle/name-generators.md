@@ -23,6 +23,8 @@ That is enough for many projects, especially when the storage path only needs st
 
 ## Configure A Generator Per Type {#configure-a-generator-per-type}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     types:
@@ -30,6 +32,23 @@ sfs_media:
             type: image
             generator: App\Media\ArticleImageNameGenerator
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'article_image' => ['type' => 'image', 'generator' => \App\Media\ArticleImageNameGenerator::class],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Custom Generator Contract {#custom-generator-contract}
 

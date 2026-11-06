@@ -1,44 +1,48 @@
 ---
 title: "Why Armonic?"
-description: "Understand why teams choose Armonic, what it does best, when it is a good fit, and the main ways to use it."
+description: "Manage website content in Symfony. See what editors and developers can do with Armonic, and choose how to get started."
+next: "getting-started"
+related:
+    - "requirements"
+    - "install-new-symfony-project"
+    - "build-a-small-website"
 ---
 
 # Why Armonic? {#why-armonic}
 
-Armonic is a CMS for Symfony projects. It helps teams manage pages from one place while developers keep full control of the codebase.
+Armonic adds content management to your Symfony application. Editors manage pages in an admin area. Developers build the layouts and modules those pages use.
 
-It is useful when you want a practical editorial workflow without leaving Symfony.
+For example, a developer can create a landing page layout. An editor can then add text and images, preview the page, and publish it.
 
 ## Why teams choose Armonic {#why-teams-choose-armonic}
 
-- **One platform for multiple sites**: Manage several websites from the same back office.
-- **Multilingual content**: Create and maintain content in multiple locales.
-- **Inline and structured editing**: Edit content directly in context or with the module editor.
-- **Version history and publishing control**: Track changes, preview drafts, and publish or unpublish safely.
-- **SEO-ready editing**: Manage title, description, and related metadata from the page editor.
-- **Built on Symfony**: Reuse your existing architecture, tooling, deployment model, and team knowledge.
+- **Edit pages** using modules configured for your project.
+- **Preview changes** before publishing, and keep previous content versions.
+- **Manage several sites and languages** from the same admin area.
+- **Keep your Symfony application** and add the CMS features you need.
 
 ## Is it for me? {#is-it-for-me}
 
-Armonic is a strong fit if your project already uses Symfony or if your team wants to build on Symfony from day one.
+Choose Armonic when your team uses Symfony and needs editors to manage website content.
 
-You should be comfortable with:
+A Symfony developer sets up the application, defines its layouts and modules, and handles deployment. After setup, editors can manage content without changing code.
 
-- Symfony project structure and configuration.
-- Typical deployment and operations for Symfony applications.
-
-Non-technical teams can use Armonic day to day after setup, but a developer is still needed to build and maintain the project.
-
-## Armonic flavours {#armonic-flavours}
+## Choose where to start {#armonic-flavours}
 
 ### Armonic standalone {#armonic-standalone}
 
-A ready-to-run base project with the main packages preinstalled.
+Start with a base project that includes the main packages.
+
+[Use the standalone edition](../standalone/install-armonic-standalone.md).
 
 ### Armonic for existing Symfony projects {#armonic-existing}
 
-Install only the bundles and components you need in an existing Symfony codebase.
+Add Armonic to an application you already have.
+
+[Install in an existing Symfony project](../getting-started/install-existing-symfony-project.md).
 
 ### Armonic for Sylius {#armonic-sylius}
 
-Integrate Armonic in Sylius projects when you need CMS capabilities on top of ecommerce features.
+Add content pages alongside your shop.
+
+[Install in a Sylius project](../getting-started/install-sylius-project.md).

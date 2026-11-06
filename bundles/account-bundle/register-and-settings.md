@@ -27,11 +27,11 @@ The main registration events are:
 `AccountCreateListener` extends the default flow:
 
 - if the current user exists and the account implements `OwnerInterface`, that user becomes the owner
-- if the account implements `MultiAccountedAccountInterface`, the listener creates a membership relation for the current user
+- if the account implements `AccountMembershipsInterface`, the listener creates a membership relation for the current user
 - if that relation supports roles, it adds `ROLE_OWNER`
 - if that relation supports `grantedBy`, it stores the current user there too
 
-This makes the built-in flow a practical starting point for SaaS onboarding, but it also shows that some default behavior still relies on legacy multi-account interfaces.
+The listener uses the current membership interfaces. A custom account type must expose and initialize its membership collection for this automatic membership to be created.
 
 ## Redirect After User Registration {#redirect-after-user-registration}
 
@@ -40,7 +40,7 @@ This makes the built-in flow a practical starting point for SaaS onboarding, but
 - `sfs_user.register.success`
 - `sfs_user.invitation.accepted`
 
-When the registered user implements `UserMultiAccountedInterface` and still has no accounts, the listener redirects the user to `sfs_account_register`.
+When the registered user implements `UserAccountMembershipsInterface` and still has no accounts, the listener redirects the user to `sfs_account_register`.
 
 That creates a simple onboarding flow:
 
@@ -76,15 +76,15 @@ This is a good base when you want a simple editable account profile and then nee
 
 ## Settings Users List {#settings-users-list}
 
-The bundle also includes a members page for the current account. It works when the account implements `MultiAccountedAccountInterface`.
+The bundle also includes a members page for the current account. It works when the account implements `AccountMembershipsInterface`.
 
-Use it as a starting point, not as a universal membership UI. Projects using the newer relation-based APIs often need a custom page or a replaced controller/view.
+The controller passes the account's memberships to the template. The bundled template displays usernames; override it if your users log in only by email or need another display label.
 
 ## User Accounts List {#user-accounts-list}
 
-`User\AccountsController` shows the accounts for the current user. In the current implementation it expects the authenticated user to implement `UserMultiAccountedInterface`.
+`User\AccountsController` shows the accounts for the current user. In the current implementation it expects the authenticated user to implement `UserAccountMembershipsInterface`.
 
-This is useful for classic "switch between accounts" experiences, but it is another area where older multi-account APIs still shape the built-in page.
+This is useful for classic "switch between accounts" experiences, and uses `app.user.accountMemberships` in the template.
 
 ## When To Keep The Built-In UI {#when-to-keep-the-built-in-ui}
 

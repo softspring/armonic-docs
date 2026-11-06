@@ -83,6 +83,8 @@ can be granted through `role_hierarchy`, even if the user does not literally hav
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     role_hierarchy:
@@ -93,6 +95,29 @@ security:
             - PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_UPDATE
             - PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_MIGRATE
 ```
+
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', [
+        'role_hierarchy' => [
+            'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW' => [
+                'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RO',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_CREATE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_DELETE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_UPDATE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_MIGRATE',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 With the component enabled, a user with `ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW` is also granted `PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_UPDATE`.
 
@@ -139,6 +164,8 @@ The standard Softspring pattern has three layers:
 
 For example, `media-bundle` defines:
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     role_hierarchy:
@@ -153,9 +180,35 @@ security:
             - PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_MIGRATE
 ```
 
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', [
+        'role_hierarchy' => [
+            'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RO' => ['PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_LIST', 'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_DETAILS'],
+            'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW' => [
+                'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RO',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_CREATE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_DELETE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_UPDATE',
+                'PERMISSION_SFS_MEDIA_ADMIN_MEDIAS_MIGRATE',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 ### Application-Level Aggregation {#application-level-aggregation}
 
 Projects such as `armonic-standalone` then aggregate package roles into final application roles:
+
+<!-- config-tabs:start -->
 
 ```yaml
 security:
@@ -166,6 +219,28 @@ security:
             - ROLE_SFS_CMS_ADMIN_BLOCKS_RW
             - ROLE_SFS_CMS_ADMIN_CONTENTS_RW
 ```
+
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', [
+        'role_hierarchy' => [
+            'ROLE_ADMIN' => [
+                'ROLE_SFS_USER_ADMIN_USERS_RW',
+                'ROLE_SFS_MEDIA_ADMIN_MEDIAS_RW',
+                'ROLE_SFS_CMS_ADMIN_BLOCKS_RW',
+                'ROLE_SFS_CMS_ADMIN_CONTENTS_RW',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This lets packages stay decoupled from your final business role model.
 
@@ -243,11 +318,26 @@ This gives you a layered model:
 
 Several Softspring applications use:
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     access_decision_manager:
         strategy: unanimous
 ```
+
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', ['access_decision_manager' => ['strategy' => 'unanimous']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 That fits well with `PERMISSION_*` checks because:
 

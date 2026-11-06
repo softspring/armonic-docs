@@ -3,44 +3,36 @@ title: "Create a New Menu in Armonic CMS"
 description: "Learn how to create a new menu in Armonic CMS, define its structure and settings, and prepare it for use in your pages."
 ---
 
-# Creating a New Menu in Armonic CMS
+# Create a menu {#creating-a-new-menu-in-armonic-cms}
 
-This user manual will guide you step by step through the process of creating a new menu in the Armonic CMS administration panel.
+Menus organize links to pages, Symfony routes, or other supported destinations. A developer defines each menu type and places its rendering helper in the site layout; editors manage its items.
 
-## Accessing the Menu Creator {#accessing-the-menu-creator}
-Navigate to the Armonic CMS administration panel.
-In the **left sidebar**, locate the **CMS/Menus** section.
+If the type you need is missing, see [Configure menus](../configuration/configure-menu.md).
 
-![armonic-menus-section.png](.files/armonic-menus-section.png){.img-fluid}
+## Choose the menu type {#accessing-the-menu-creator}
 
-First, you can see that you don't have any menus configured yet.
-To configure menu types, see the [Menu Configuration (cms menus)](../configuration/configure-menu.md) section.
+Open **CMS / Menus**, choose **New menu**, and select a configured type such as **Main**.
 
-Once you have configured a menu (in our example, the ‘main’ menu), look for the **‘New menu’ button** in the top-right corner of the ‘Menus’ section.
+![Menus section in the CMS sidebar](.files/armonic-menus-section.png){.img-fluid}
 
-![armonic-new-menu-button.png](.files/armonic-new-menu-button.png){.img-fluid}
+![New menu action with available menu types](.files/armonic-new-menu-button.png){.img-fluid}
 
-Choose the type of menu you want to create from the dropdown menu. The available menu types will depend on the modules installed in your Armonic CMS instance.
+## Add labels and destinations {#filling-menu-basic-information}
 
-## Filling Basic Information {#filling-menu-basic-information}
+Give the menu an internal name, such as **Main navigation**. Use **Add element** for each link:
 
-Complete the basic fields or the custom fields for the menu type you selected.
+![New menu form with its name and item controls](.files/armonic-new-menu-form.png){.img-fluid}
 
-![armonic-new-menu-form.png](.files/armonic-new-menu-form.png){.img-fluid}
+Enter the link text in the available languages and choose its route. Fill any route parameters required by that destination. For example, **About** can point to the `about` CMS route created with the page.
 
-You can add elements to the menu by clicking the **‘Add element’ button**. Each element can have a basic field.
+![Menu item fields for its text and route](.files/armonic-new-menu-element.png){.img-fluid}
 
-![armonic-new-menu-element.png](.files/armonic-new-menu-element.png){.img-fluid}
+Arrange the items in the intended order and choose **Create menu**. Confirm the result in the list:
 
-## Save, view and edit the menu {#save-view-edit-menu}
+![Menus list with the saved navigation](.files/armonic-new-menu-list.png){.img-fluid}
 
-After filling in the necessary information, click the **‘Save’ button** to create the menu.
-Once saved, you can view the menu details, edit its content, or delete it if needed
+## Check the public navigation {#using-menu-in-pages}
 
-![armonic-new-menu-list.png](.files/armonic-new-menu-list.png){.img-fluid}
+Open a page whose layout renders this menu. Follow each link and verify its label in every enabled language. A menu item can refer to unpublished content, but visitors cannot use that page successfully until it is published.
 
-## Using the Menu in Pages {#using-menu-in-pages}
-
-Creating a menu does not automatically place it in a page layout.
-To render it in a page, add it in a module/menu slot from the page editor.
-See [Adding modules or blocks](adding-modules-or-blocks.md) for the full workflow.
+Creating a menu record does not add it to a layout automatically. If it does not appear, ask a developer to check the menu type and the `sfs_cms_menu()` call in the page layout. The [small website walkthrough](build-a-small-website.md) includes both setup and editing steps.

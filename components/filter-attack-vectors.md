@@ -96,7 +96,3 @@ The limits are important:
 - matching is intentionally coarse
 - some blocked patterns may also match requests that are unusual but not malicious
 - the package is best used as a small early filter, not as the only defensive layer
-
-## Summary {#summary}
-
-Choose this component when you want a tiny, explicit, autoload-based filter for a few recurring attack-vector probes and you prefer simplicity over configurability.

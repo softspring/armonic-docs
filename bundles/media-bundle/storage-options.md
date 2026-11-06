@@ -14,6 +14,8 @@ Both implement the same storage contract, so the rest of the bundle can keep the
 
 ## Filesystem Storage {#filesystem-storage}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     driver: filesystem
@@ -21,6 +23,22 @@ sfs_media:
         path: '%kernel.project_dir%/public/media'
         url: '/media'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'filesystem',
+        'filesystem' => ['path' => '%kernel.project_dir%/public/media', 'url' => '/media'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is the simplest setup for:
 
@@ -32,12 +50,30 @@ The driver stores internal URLs with the `sfs-media-filesystem://` prefix and ca
 
 ## Google Cloud Storage {#google-cloud-storage}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     driver: google_cloud_storage
     google_cloud_storage:
         bucket: '%env(MEDIA_BUCKET_NAME)%'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'google_cloud_storage',
+        'google_cloud_storage' => ['bucket' => '%env(MEDIA_BUCKET_NAME)%'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is the better fit when:
 

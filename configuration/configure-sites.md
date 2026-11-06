@@ -3,156 +3,94 @@ title: "Configure CMS Sites"
 description: "Set up multiple sites in Armonic CMS with their own hosts, locales, robots rules, and allowed content types."
 ---
 
-# Multi-Site Setup in CMS
+# Configure sites {#configure-sites}
 
-In the CMS, you can configure multiple sites with different settings, languages, and content types. This allows you to manage various websites from a single platform. Let's explore how to configure sites in the CMS:
+A site groups content, languages, and public URLs. One Symfony application can serve several sites, each with its own hosts, locale paths, and allowed content types.
 
-In this example we have our main website (default) and the blog (blog). You can only have one if you want, of course.
+Create a directory per site under `cms/sites/`. For example, `cms/sites/default/config.yaml` defines the `default` site. The admin area shows the sites loaded from these definitions.
 
-For each site you add a folder in cms/sites/ with the name of the site, and inside you have to create a file called config.yaml with the configuration of the site.
+![Configured sites in the Armonic admin area](.files/sites-config.png){.img-fluid}
 
-![sites-config.png](.files/sites-config.png){.img-fluid}
+## Start with a local site {#local-site}
 
-### Let's see a real example {#lets-see-a-real-example}
+This complete configuration serves English content below `/en/` and disables HTTPS redirection for a local HTTP server:
+
+```yaml
+# cms/sites/default/config.yaml
+site:
+    allowed_content_types: ['page']
+    locales: ['en']
+    default_locale: en
+    https_redirect: false
+    paths:
+        - { path: '/en/', locale: en, trailing_slash_on_root: true }
+```
+
+At least one host or path is required for an enabled site. A site's paths and locales determine where its CMS routes are available. Creating a site definition does not create a homepage: create and publish a page, then assign it a CMS route.
+
+Clear the cache after adding or changing a definition:
+
+```bash
+php bin/console cache:clear
+```
+
+Check the site in the admin area and open one of its published routes. See [Create routes](../user-manual/create-routes.md).
+
+## Add a second language {#locales-languages}
+
+Update the existing site's `locales`, `default_locale`, and `paths` together:
 
 ```yaml
 site:
-    allowed_content_types: ['page', 'technology', 'project']
-    locales: ['es', 'en']
-    default_locale: 'es'
-    https_redirect: true
-    robots:
-        mode: static
-        static_file: '@site/default/robots.txt.twig'
-    hosts:
-        - { domain: '%env(WEB_DOMAIN)%', canonical: true } # , locale: 'es' }
-        - { domain: 'www.%env(WEB_DOMAIN)%', redirect_to_canonical: true } # , locale: 'en' }
+    allowed_content_types: ['page']
+    locales: ['en', 'es']
+    default_locale: en
+    https_redirect: false
     paths:
-        - { path: '/es/', locale: 'es', trailing_slash_on_root: true }
-        - { path: '/en/', locale: 'en', trailing_slash_on_root: true }
-    extra:
-        order: 1
-    error_pages:
-        404:
-            es: ['@site/default/error_pages/404.html.twig']
-            en: ['@site/default/error_pages/404.html.twig']
-        4xx:
-            es: ['@site/default/error_pages/4xx.html.twig']
-            en: ['@site/default/error_pages/4xx.html.twig']
-        5xx:
-            es: ['@site/default/error_pages/5xx.html.twig', '/srv/cms/site/default/error_pages/5xx-es.html']
-            en: ['@site/default/error_pages/5xx.html.twig', '/srv/cms/site/default/error_pages/5xx-en.html']
-
-    slash_route:
-        behaviour: 'redirect_to_route_with_user_language'
-        route: 'home'
-        redirect_code: 301
-
-    sitemaps:
-        default:
-            url: sitemap.xml
+        - { path: '/en/', locale: en, trailing_slash_on_root: true }
+        - { path: '/es/', locale: es, trailing_slash_on_root: true }
 ```
 
-And let's go step by step:
+Editors can then provide content for both locales. A locale path does not translate the content automatically; review the translated fields and route paths before publishing.
 
->[!IMPORTANT] 
-> You don't need to configure all of these, only the ones needed for your site. 
-> You can see in the [Install new Symfony Project](../getting-started/install-new-symfony-project.md) that you can have a site without any configuration.
+## Configure public hosts {#host-configuration}
 
-### **1️⃣ Allowed Content Types** {#allowed-content-types}
+For a deployed site, add its hostnames and enable HTTPS. Use a project environment variable rather than embedding a deployment hostname in reusable configuration:
+
 ```yaml
-allowed_content_types: ['page', 'technology', 'project']
+site:
+    allowed_content_types: ['page']
+    locales: ['en', 'es']
+    default_locale: en
+    https_redirect: true
+    hosts:
+        - { domain: '%env(APP_HOST)%', canonical: true }
+        - { domain: 'www.%env(APP_HOST)%', redirect_to_canonical: true }
+    paths:
+        - { path: '/en/', locale: en, trailing_slash_on_root: true }
+        - { path: '/es/', locale: es, trailing_slash_on_root: true }
 ```
-- Defines which content types are permitted in this site configuration. We explain more about Content Types in the [Content Types](configure-content-types.md) section.
-- In this case, the site allows **pages**, **technology articles**, and **projects**.
 
-### **2️⃣ Locales (Languages)** {#locales-languages}
-```yaml
-locales: ['es', 'en']
-default_locale: 'es'
-```
-- The site supports **Spanish (es)** and **English (en)**.
-- Spanish (`es`) is set as the **default language**.
+Set `APP_HOST` to the site's hostname, such as `example.test`, without a scheme or path. Configure the web server, DNS, and TLS certificate for those hosts separately. If the application is behind a reverse proxy, configure Symfony's trusted proxies so it detects HTTPS correctly.
 
-### **3️⃣ HTTPS Redirection** {#https-redirection}
-```yaml
-https_redirect: true
-```
-- Ensures all traffic is redirected to **HTTPS**.
+Use host entries only for domains that belong to that site. The `canonical` flag identifies its primary hostname; `redirect_to_canonical` redirects an alternate hostname to it.
 
-### **4️⃣ Robots Configuration** {#robots-configuration}
-```yaml
-robots:
-    mode: static
-    static_file: '@site/default/robots.txt.twig'
-```
-- Defines how the `robots.txt` file is handled.
-- The mode is **static**, meaning it serves a predefined file.
-- The file used is located at `@site/default/robots.txt.twig`.
+## Restrict content types {#allowed-content-types}
 
-### **5️⃣ Host Configuration** {#host-configuration}
-```yaml
-hosts:
-    - { domain: '%env(WEB_DOMAIN)%', canonical: true }
-    - { domain: 'www.%env(WEB_DOMAIN)%', redirect_to_canonical: true }
-```
-- Defines different **domains** where the site is accessible.
-- The **canonical** domain is taken from an environment variable (`WEB_DOMAIN`).
-- Other domains (like `www.` versions) are redirected to the canonical domain.
+`allowed_content_types` lists the configured content type identifiers available on this site. Start with `page`, and add identifiers such as `article` only after defining them under `cms/contents/`.
 
-### **6️⃣ Path Configuration** {#path-configuration}
-```yaml
-paths:
-    - { path: '/es/', locale: 'es', trailing_slash_on_root: true }
-    - { path: '/en/', locale: 'en', trailing_slash_on_root: true }
-```
-- Maps URL paths to languages.
-- `/es/` → Spanish (`es`)
-- `/en/` → English (`en`)
-- **trailing_slash_on_root: true** ensures a trailing slash is added.
+See [Configure content types](configure-content-types.md). A site identifier and a content type identifier serve different purposes: one type can be used by several sites.
 
-### **7️⃣ Extra Settings** {#extra-settings}
-```yaml
-extra:
-    order: 1
-```
-- Defines an **ordering priority** for the site (useful in multi-site configurations).
+## Configure robots, sitemaps, and error pages {#site-services}
 
-### **8️⃣ Error Page Configuration** {#error-page-configuration}
-```yaml
-error_pages:
-    404:
-        es: ['@site/default/error_pages/404.html.twig']
-        en: ['@site/default/error_pages/404.html.twig']
-    4xx:
-        es: ['@site/default/error_pages/4xx.html.twig']
-        en: ['@site/default/error_pages/4xx.html.twig']
-    5xx:
-        es: ['@site/default/error_pages/5xx.html.twig', '/srv/cms/site/default/error_pages/5xx-es.html']
-        en: ['@site/default/error_pages/5xx.html.twig', '/srv/cms/site/default/error_pages/5xx-en.html']
-```
-- Defines **custom error pages** for different HTTP error codes.
-- **404 pages** are language-specific.
-- **4xx and 5xx errors** support multiple templates.
+The site definition can also configure:
 
-### **9️⃣ Slash Route Handling** {#slash-route-handling}
-```yaml
-slash_route:
-    behaviour: 'redirect_to_route_with_user_language'
-    route: 'home'
-    redirect_code: 301
-```
-- When a user accesses `/`, they are redirected based on their language.
-- The route used is `'home'`, and the redirection is a **301 permanent redirect**.
+- `robots`: static or generated rules for crawlers;
+- `sitemaps`: named sitemap endpoints;
+- `error_pages`: locale-specific templates and fallback files;
+- `slash_route`: redirect behavior when opening the site's root;
+- `extra`: application-defined metadata.
 
-### **🔟 Sitemap Configuration** {#sitemap-configuration}
-```yaml
-sitemaps:
-    default:
-        url: sitemap.xml
-```
-- Specifies the **sitemap file** used (`sitemap.xml`).
+`extra` has no built-in routing priority semantics. An `extra.order` value only affects ordering if your application explicitly uses it.
 
----
-
-This configuration ensures a flexible and scalable multi-site setup!
+The [site reference](../bundles/cms-bundle/sites.md) describes these options with examples. Keep sitemap and robots paths distinct, and verify that referenced templates and CMS route names exist. For local testing, keep HTTPS disabled until your server has a working certificate.

@@ -163,7 +163,7 @@ A few limits matter when you use this bundle today:
 - it returns only one main unit
 - it does not expose configuration for thresholds or formatting rules
 - invalid non-date values return an empty string and may log a warning
-- parseable strings are accepted, but malformed strings can still raise an exception
+- parseable strings are accepted; malformed strings return an empty string and can produce a warning through the configured logger
 - the current implementation accepts `DateTime`, not generic `DateTimeInterface`
 - future dates do not have dedicated wording such as `in 5 minutes`
 

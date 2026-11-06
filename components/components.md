@@ -44,11 +44,26 @@ The package resolves most entry templates through `sfs_components_theme`.
 
 With the default setup:
 
+<!-- config-tabs:start -->
+
 ```yaml
 twig:
     globals:
         sfs_components_theme: 'bootstrap5'
 ```
+
+```php
+<?php
+
+// config/packages/twig.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', ['globals' => ['sfs_components_theme' => 'bootstrap5']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 These entry templates resolve automatically:
 
@@ -108,7 +123,7 @@ For admin areas, extend:
 
 The admin layout gives you:
 
-- fixed header area
+- responsive header and collapsible sidebar
 - logo block
 - user dropdown area
 - sidebar area
@@ -117,6 +132,22 @@ The admin layout gives you:
 - flash messages include at the end of the page
 
 This makes it a good default shell for bundle admin screens and back office pages.
+
+### Load the admin shell assets {#admin-shell-assets}
+
+The shell's layout and sidebar controls need its CSS and JavaScript. In an Encore application, import the sources into the admin entries:
+
+```js
+// assets/admin.js
+import '../vendor/softspring/components/assets/layout/admin-shell.js';
+```
+
+```scss
+// assets/admin.scss
+@import '../vendor/softspring/components/assets/styles/admin.bootstrap5';
+```
+
+Load those entries from the admin layout's asset blocks. With AssetMapper, use the published `@softspring/components/admin-shell.js` importmap entry and the published stylesheet instead of pointing at SCSS source files. Avoid copying an old fixed-header override over the current shell: it can cover page actions and prevent the responsive sidebar from working.
 
 ### Typical Usage {#admin-layout-typical-usage}
 
@@ -240,7 +271,8 @@ Older projects still use the Semantic UI table and pager variants:
     collection: entities,
     classes: 'table ui celled'
 } %}
-...
+    {% block ths %}<th>Name</th>{% endblock %}
+    {% block tds %}<td>{{ element.name }}</td>{% endblock %}
 {% endembed %}
 ```
 
@@ -255,6 +287,8 @@ The package provides two admin sidebar views:
 
 In practice, projects usually select one of them through admin menu configuration:
 
+<!-- config-tabs:start -->
+
 ```yaml
 twig:
     globals:
@@ -264,6 +298,28 @@ twig:
             _translation_domain: 'sfs_components'
             _active_for_routes_class: 'active'
 ```
+
+```php
+<?php
+
+// config/packages/twig.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', [
+        'globals' => [
+            'admin_menu' => [
+                '_view' => '@SfsComponents/sidebar/sidebar-pills.html.twig',
+                '_cacheable' => false,
+                '_translation_domain' => 'sfs_components',
+                '_active_for_routes_class' => 'active',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Each block can define menu entries with:
 
@@ -344,6 +400,6 @@ If your project already has a complete design system and custom layout stack, yo
 
 ## Current Limits {#current-limits}
 
-- The package is template-only. It does not provide controllers or domain logic.
+- The package provides templates and shared admin-shell assets. It does not provide controllers or domain logic.
 - The admin layout becomes more useful when combined with `twig-extra-bundle` and related user routes.
 - Bootstrap 5 is the main supported theme. Semantic UI support is limited and mainly kept for older integrations.
