@@ -132,13 +132,37 @@ This component is a library, so the application or bundle must wire the service.
 
 The common pattern is to decorate Symfony's `twig.mime_body_renderer`:
 
+<!-- config-tabs:start -->
+
 ```yaml
-Softspring\Component\MimeTranslatable\TranslatableBodyRenderer:
-    decorates: twig.mime_body_renderer
-    arguments:
-        - '@Softspring\Component\MimeTranslatable\TranslatableBodyRenderer.inner'
-        - '@translator.default'
+# config/services.yaml
+services:
+    Softspring\Component\MimeTranslatable\TranslatableBodyRenderer:
+        decorates: twig.mime_body_renderer
+        arguments:
+            - '@Softspring\Component\MimeTranslatable\TranslatableBodyRenderer.inner'
+            - '@translator.default'
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\Softspring\Component\MimeTranslatable\TranslatableBodyRenderer::class)
+        ->decorate('twig.mime_body_renderer')
+        ->args([
+            service('Softspring\\Component\\MimeTranslatable\\TranslatableBodyRenderer.inner'),
+            service('translator.default'),
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is the same idea used later by `mailer-bundle`.
 
@@ -210,4 +234,5 @@ There are a few practical limits to know:
 - the component does not auto-register services
 - the renderer logic must be wired by the application or a higher-level bundle
 - subject translation is eager, not lazy
+- the current renderer restores the translator locale after successful rendering, but does not use a `finally` block; an exception can leave the translator on the message locale in a long-running process
 - `ExampleEmailInterface` is only a contract; preview UIs belong to higher-level bundles such as `mailer-bundle`

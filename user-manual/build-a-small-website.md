@@ -1,6 +1,11 @@
 ---
 title: "Build and Publish a Small Website"
 description: "Create a two-page Armonic website with a shared menu, editable content, a reusable block, and published routes."
+next: "adding-modules-or-blocks"
+related:
+    - "configure-modules"
+    - "configure-menu"
+    - "configure-blocks"
 ---
 
 # Build and publish a small website {#build-and-publish-a-small-website}

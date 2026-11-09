@@ -3,11 +3,13 @@ title: "CMS Bundle Sites"
 description: "Configure CMS sites, locales, hosts, HTTPS redirects, sitemaps, and default site behavior in the Softspring CMS Bundle."
 ---
 
-# Sites
+# Sites {#sites}
 
 ## Site locales {#site-locales}
 
 A site can be localized with many locales:
+
+The examples below are fragments of `cms/sites/<site>/config.yaml`. Merge them into a site that already defines at least one host or path; they are not separate complete site definitions. Start with [Configure sites](../../configuration/configure-sites.md) for a working local example.
 
 ```yaml
 # config.yaml
@@ -18,12 +20,27 @@ site:
 
 Keep in mind that every site's locales must be included together in framework configuration:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/translation.yaml
 framework:
   default_locale: en
   enabled_locales: [ en, de, fr, it, es ]
 ```
+
+```php
+<?php
+
+// config/packages/translation.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', ['default_locale' => 'en', 'enabled_locales' => ['en', 'de', 'fr', 'it', 'es']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Force https {#force-https}
 
@@ -94,6 +111,8 @@ site:
 ```
 
 ## Error pages {#error-pages}
+
+The configuration accepts `error_pages`, but the CMS site model marks this feature as not implemented. Configure Symfony error templates for application error pages; do not rely on these entries to replace the exception controller.
 
 ```yaml
 site:
@@ -247,10 +266,12 @@ site:
     sitemaps:
       -
         url: ~
-        default_priority: ~
-        default_changefreq: ~
-        cache_ttl: ~
-        alternates: ~
+        default_priority: false
+        default_changefreq: false
+        cache_ttl: 300
+        alternates_locales: true
+        alternates_sites: true
+        alternates_include_hreflang: true
 
     sitemaps_index:
       url: false 
@@ -268,3 +289,5 @@ Menu rendering respects an explicitly supplied site; otherwise it uses the
 current resolved site. Standalone ESI fragments have a site and locale, but no
 originating page request. Invalidate cached fragments and pages after deploying
 changes to site-context resolution.
+
+For a complete discovery-resource example, see [Sitemaps and robots.txt](sitemaps-and-robots.md).

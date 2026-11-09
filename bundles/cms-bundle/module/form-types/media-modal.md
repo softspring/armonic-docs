@@ -1,71 +1,36 @@
 ---
 title: "CMS Module Media Modal Field Type"
-description: "Use the CMS media modal field type to pick media entries from a popup with richer selection options."
+description: "Use the current modal media picker and understand the media and mediaVersion aliases in Armonic 6.0."
 ---
 
-# Media Modal type
+# Media modal {#media-modal-type}
 
-This type depends on [softspring/media-bundle](https://github.com/softspring/media-bundle), and
-**allows to select a media** instance from a modal popup.
+The standard CMS `media` field already opens a media selection modal in 6.0. Use `mediaVersion` to select an output version alongside the media. See [Media fields](media.md) for complete configuration and rendering examples.
 
-This **mediaModal** type makes reference to *Softspring\CmsBundle\Form\Type\MediaModalType* form type (see *Softspring\MediaBundle\Form\MediaModalType*).
+## Replace an older field alias {#example-usage}
 
-> *The "mediaModal" type replaces the deprecated "imageModal" type, but it works exactly the same. It has been replaced because of semantic reasons.*
-
-It's similiar to [media](media.md) type, but this *mediaModal* type has more features explained bellow.
-
-## Example usage {#example-usage}
-
-When you are modeling a CMS module, you can use this *mediaModal* field as follows:
+The CMS no longer defines `Softspring\CmsBundle\Form\Type\MediaModalType`. Replace an old `type: mediaModal` with `type: media` when the saved value is a media object:
 
 ```yaml
-# cms/module/example/config.yaml
+# Fragment of cms/modules/feature/config.yaml
 module:
     module_options:
         form_fields:
-            media_field:
-                type: 'mediaModal'
+            image:
+                type: media
                 type_options:
                     media_types:
-                        content:
-                            image: 'sm'
                         background:
-                            image: 'sm'
-```
-
-This requires some *softspring/media-bundle* configuration (see [media form type](media.md) for more info).
-
-## Preview values {#preview-values}
-
-Preview values works the same as [media form type](media.md).
-
-## Field rendering {#field-rendering}
-
-Field rendering works the same as [media form type](media.md).
-
-## Media attributes {#media-attributes}
-
-Media attributes works the same as [media form type](media.md).
-
-## Thumbnails {#thumbnails}
-
-This *mediaModal* type also allows to show a thumbnail of selected image:
-
-```yaml
-# cms/module/example/config.yaml
-module:
-    module_options:
-        form_fields:
-            media_field:
-                type: 'mediaModal'
-                type_options:
+                            image: [sm]
                     show_thumbnail: true
 ```
 
-## Upload new medias {#upload-new-medias}
+Changing to `mediaVersion` also changes the data structure to `{media, version}`. Provide a module data migration for existing content before making that change.
 
-> *This type will provide the feature of uploading new medias, but it's not yet implemented.*
+## Requirements {#requirements}
 
-## Field options {#field-options}
+The modal needs the Media Bundle form theme, admin JavaScript, and media search routes. Editors must have permission to access the search endpoint. Upload new files in the media administration area, then return to the picker to select them; this field is not an upload form.
 
-Same options as [media form type](media.md).
+## Restrict selectable media {#field-options}
+
+Set `media_types` to an explicit allow-list that matches the frontend renderer. `null` allows all configured media types; an empty map allows none. For `mediaVersion`, the submitted output is also checked against the versions, pictures, or video sets allowed for the selected type.

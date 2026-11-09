@@ -30,7 +30,7 @@ Sections are provided by `softspring/cms-sections-plugin`.
 Install the package with Composer:
 
 ```bash
-composer require softspring/cms-sections-plugin
+composer require softspring/cms-sections-plugin:6.0.x-dev
 ```
 
 If your project does not use Symfony Flex, enable the plugin in `config/bundles.php`:
@@ -44,11 +44,26 @@ return [
 
 The plugin prepends its CMS collection automatically:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_cms:
     collections:
         - vendor/softspring/cms-sections-plugin/cms
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms', ['collections' => ['vendor/softspring/cms-sections-plugin/cms']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 That collection provides the `section` module and its form, edit, and render templates.
 
@@ -56,12 +71,27 @@ That collection provides the `section` module and its form, edit, and render tem
 
 Add the frontend route used to render sections:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/routes/sfs_cms.yaml
 _sfs_cms_sections_frontend_:
     resource: "@SfsCmsSectionsPlugin/config/routing/frontend_sections.yaml"
     prefix: /{_locale}
 ```
+
+```php
+<?php
+
+// config/routes/sfs_cms.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsCmsSectionsPlugin/config/routing/frontend_sections.yaml')->prefix('/{_locale}');
+};
+```
+
+<!-- config-tabs:end -->
 
 The plugin exposes the section render route at:
 
@@ -71,12 +101,27 @@ The plugin exposes the section render route at:
 
 Add the admin routes where you want the CMS backoffice to manage sections:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/routes/admin/sfs_cms.yaml
 _sfs_cms_sections_:
     resource: "@SfsCmsSectionsPlugin/config/routing/admin_sections.yaml"
     prefix: "/cms/sections"
 ```
+
+```php
+<?php
+
+// config/routes/admin/sfs_cms.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsCmsSectionsPlugin/config/routing/admin_sections.yaml')->prefix('/cms/sections');
+};
+```
+
+<!-- config-tabs:end -->
 
 These routes add the section list, create, update, delete, preview, content edition, version list, publish, unpublish, recompile, clear compiled content, and cleanup actions.
 
@@ -121,6 +166,8 @@ final class SectionsAdminRoutingProvider implements RoutingProviderInterface
 
 Register it with the CMS routing provider tag:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/services.yaml
 services:
@@ -128,11 +175,29 @@ services:
         tags: [ 'sfs_cms.routing_provider' ]
 ```
 
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Cms\Infrastructure\Routing\SectionsAdminRoutingProvider::class)
+        ->tag('sfs_cms.routing_provider');
+};
+```
+
+<!-- config-tabs:end -->
+
 This provider only makes Symfony accept the plugin route type. It does not add routes, because the section routes are already declared explicitly by the plugin route file.
 
 ## Add security roles {#add-security-roles}
 
 Import the role hierarchy shipped by the plugin:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/packages/security.yaml
@@ -140,7 +205,22 @@ imports:
     - { resource: '@SfsCmsSectionsPlugin/config/security/admin_role_hierarchy.yaml' }
 ```
 
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->import('@SfsCmsSectionsPlugin/config/security/admin_role_hierarchy.yaml');
+};
+```
+
+<!-- config-tabs:end -->
+
 Then give your admin role one of the section roles:
+
+<!-- config-tabs:start -->
 
 ```yaml
 security:
@@ -148,6 +228,19 @@ security:
         ROLE_ADMIN:
             - ROLE_SFS_CMS_ADMIN_SECTIONS_RW
 ```
+
+```php
+<?php
+
+// config/security/admin_role_hierarchy.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', ['role_hierarchy' => ['ROLE_ADMIN' => ['ROLE_SFS_CMS_ADMIN_SECTIONS_RW']]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Available roles:
 
@@ -159,6 +252,8 @@ Available roles:
 ## Add the admin menu entry {#add-the-admin-menu-entry}
 
 If your project builds the admin menu manually, add an entry that points to `sfs_cms_admin_sections_list`:
+
+<!-- config-tabs:start -->
 
 ```yaml
 twig:
@@ -173,18 +268,43 @@ twig:
                     icon: 'bi bi-grid-fill me-2'
 ```
 
+```php
+<?php
+
+// config/packages/twig.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', [
+        'globals' => [
+            'admin_menu' => [
+                'cms' => [
+                    'sections' => [
+                        'translation_key' => 'sidebar.menu.cms.sections',
+                        'route' => 'sfs_cms_admin_sections_list',
+                        'role' => 'PERMISSION_SFS_CMS_ADMIN_SECTION_LIST',
+                        'active_expression' => 'sfs_cms_admin_sections_',
+                        'icon' => 'bi bi-grid-fill me-2',
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 ## Add admin assets {#add-admin-assets}
 
-The plugin includes JavaScript for section previews and for the `section` form type messages. Add the asset package and import its admin entry when your admin build does not already include it:
-
-```bash
-yarn add "file:vendor/softspring/cms-sections-plugin/assets" --dev
-```
+The plugin includes JavaScript for section previews and for the `section` form type messages. With Webpack Encore, import the source entry from your application admin entry:
 
 ```js
 // assets/admin.js
-import '@softspring/cms-sections-plugin/scripts/admin-cms';
+import '../vendor/softspring/cms-sections-plugin/assets/scripts/admin-cms.js';
 ```
+
+With AssetMapper, use the published importmap entry `@softspring/cms-sections-plugin/scripts/admin-cms.js`. Load it in the admin page alongside the CMS editor assets. Do not load a second copy when Armonic already includes it.
 
 ## Configuration reference {#configuration-reference}
 

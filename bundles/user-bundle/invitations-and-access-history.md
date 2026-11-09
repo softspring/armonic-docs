@@ -19,6 +19,8 @@ Use them when:
 
 Enable invitation services like this:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     invite:
@@ -26,7 +28,22 @@ sfs_user:
         class: App\Entity\UserInvitation
 ```
 
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['invite' => ['enabled' => true, 'class' => \App\Entity\UserInvitation::class]]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Then import the public invitation routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_invitation:
@@ -34,7 +51,22 @@ _sfs_invitation:
     prefix: '/invitation'
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/invitation.yaml')->prefix('/invitation');
+};
+```
+
+<!-- config-tabs:end -->
+
 And the admin invitation routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_user_invitations:
@@ -42,13 +74,41 @@ _sfs_user_invitations:
     prefix: '/invitations'
 ```
 
+```php
+<?php
+
+// config/routes/sfs_user_invitations.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/admin_invitations.yaml')->prefix('/invitations');
+};
+```
+
+<!-- config-tabs:end -->
+
 Finally, make the public invitation path accessible:
+
+<!-- config-tabs:start -->
 
 ```yaml
 security:
     access_control:
         - { path: ^/app/invitation, roles: PUBLIC_ACCESS }
 ```
+
+```php
+<?php
+
+// config/routing/admin_invitations.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', ['access_control' => [['path' => '^/app/invitation', 'roles' => 'PUBLIC_ACCESS']]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Invitation Entity {#invitation-entity}
 
@@ -113,6 +173,8 @@ This is useful for:
 
 Enable access history services:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     history:
@@ -120,13 +182,41 @@ sfs_user:
         class: App\Entity\UserAccess
 ```
 
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['history' => ['enabled' => true, 'class' => \App\Entity\UserAccess::class]]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Then import the admin route if you want the history list screen:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_user_history:
     resource: '@SfsUserBundle/config/routing/admin_access_history.yaml'
     prefix: '/access-history'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/admin_access_history.yaml')->prefix('/access-history');
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Access History Entity {#access-history-entity}
 
@@ -177,15 +267,15 @@ That is important because it keeps the audit trail consistent across several ent
 
 ## Real Use Cases {#real-use-cases}
 
-### Invitation-Only B2B SaaS
+### Invitation-Only B2B SaaS {#invitation-only-b2b-saas}
 
 Enable invitations, disable public register, and let admins create new users for each customer.
 
-### Internal Corporate Tool
+### Internal Corporate Tool {#internal-corporate-tool}
 
 Enable access history to help support or security teams review the last accesses of a user account.
 
-### High-Touch Support Team
+### High-Touch Support Team {#high-touch-support-team}
 
 Combine invitations, access history, and switch user to manage restricted accounts with a better audit trail.
 

@@ -41,6 +41,8 @@ composer require softspring/doctrine-paginator:^6.0
 
 This package builds on top of Doctrine ORM and is usually used together with `softspring/doctrine-query-filters`.
 
+Normalize page sizes and limit sorting to fields supported by the screen. When accepting filters from a request, use the allowed fields configured by your filter form rather than arbitrary user-supplied DQL expressions.
+
 ## Quick Start {#quick-start}
 
 If you already have a query builder, the quickest usage is:
@@ -223,8 +225,6 @@ Example:
 $nextUrl = $pagination->getNextPageUrl($request);
 $nameSortUrl = $pagination->getSortToggleUrl($request, 'name');
 ```
-
-This is one of the most useful parts of the package for classic server-rendered UIs.
 
 ## Twig Example {#twig-example}
 
@@ -423,7 +423,3 @@ Keep these limits in mind:
 - it is designed for classic page-based pagination, not cursor pagination
 - URL helpers are intentionally simple and based on the current request path and query string
 - filter semantics come from `doctrine-query-filters`, so complex filter behavior belongs there
-
-## Summary {#summary}
-
-Choose `doctrine-paginator` when you want classic Symfony listing pages to stay simple: one query builder, one pagination object, one GET form, and reusable helpers for sorting and page links.

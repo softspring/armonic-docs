@@ -18,11 +18,26 @@ These are the routes you enable when your application is not admin-only.
 
 Import the register routes:
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_register:
     resource: '@SfsUserBundle/config/routing/register.yaml'
     prefix: '/register'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/register.yaml')->prefix('/register');
+};
+```
+
+<!-- config-tabs:end -->
 
 This exposes:
 
@@ -32,11 +47,26 @@ This exposes:
 
 Then make the route public:
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     access_control:
         - { path: ^/app/register, roles: PUBLIC_ACCESS }
 ```
+
+```php
+<?php
+
+// config/routing/register.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', ['access_control' => [['path' => '^/app/register', 'roles' => 'PUBLIC_ACCESS']]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Entity Requirements For Registration {#entity-requirements-for-registration}
 
@@ -58,11 +88,26 @@ The register template already adapts to optional fields such as `name`, `surname
 
 The confirmation flow is enabled by default:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     confirm_email:
         enabled: true
 ```
+
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['confirm_email' => ['enabled' => true]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 When a user registers and your entity implements `ConfirmableInterface`:
 
@@ -77,17 +122,32 @@ That means you usually want:
 - a concrete `User` entity with confirmation fields
 - public access to the confirmation URL
 
-If your project should allow direct login immediately after register, disable confirmation or customize the registration event flow.
+Confirmation and enabled status are separate capabilities. Configure the user checker or registration event flow according to whether unconfirmed users may log in; changing the confirmation flag alone does not define the application's access policy.
 
 ## Reset Password Routes {#reset-password-routes}
 
 Import the reset password routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_reset_password:
     resource: '@SfsUserBundle/config/routing/reset_password.yaml'
     prefix: '/reset-password'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/reset_password.yaml')->prefix('/reset-password');
+};
+```
+
+<!-- config-tabs:end -->
 
 This exposes:
 
@@ -98,11 +158,26 @@ This exposes:
 
 And it must stay public:
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     access_control:
         - { path: ^/app/reset-password, roles: PUBLIC_ACCESS }
 ```
+
+```php
+<?php
+
+// config/routing/reset_password.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', ['access_control' => [['path' => '^/app/reset-password', 'roles' => 'PUBLIC_ACCESS']]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Entity Requirements For Reset Password {#entity-requirements-for-reset-password}
 
@@ -119,31 +194,46 @@ Without that interface, the reset email can be requested but the bundle has no p
 
 Configure the token TTL like this:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     reset_password:
         token_ttl: 86400
 ```
 
-This value is used by the bundle templates and flow configuration.
+```php
+<?php
 
-For most applications, one day is a reasonable default.
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['reset_password' => ['token_ttl' => 86400]]);
+};
+```
+
+<!-- config-tabs:end -->
+
+In the current 6.0 implementation, this value is passed to the UI, but `ResetPasswordController::reset()` checks token equality without enforcing the elapsed time. Do not rely on this option to expire a recovery link. Before exposing the default recovery flow, add an expiry check through a custom controller or an initialization listener and test missing users, expired tokens, invalid tokens, and reuse after success.
+
+Successful reset clears both the token and request timestamp. Keep recovery URLs out of analytics and application logs that do not need them.
 
 ## Real Project Patterns {#real-project-patterns}
 
-### Self-Service SaaS
+### Self-Service SaaS {#self-service-saas}
 
 Enable register, confirmation email, and reset password.
 
 This is the usual setup for public products where users create their own accounts.
 
-### Internal Tool With Manual Provisioning
+### Internal Tool With Manual Provisioning {#internal-tool-with-manual-provisioning}
 
 Disable registration and keep only reset password.
 
 This is common when users are created by staff, but still need a standard way to recover their password.
 
-### Invitation-Only B2B Product
+### Invitation-Only B2B Product {#invitation-only-b2b-product}
 
 Disable registration and use invitations instead.
 

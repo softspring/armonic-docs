@@ -16,6 +16,7 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 ## Getting started {#getting-started}
 
 - [Requirements](getting-started/requirements.md)
+- [Upgrade from 5.5 or 5.6 to 6.0](UPGRADE-6.0.md)
 - [Install a new Symfony project](getting-started/install-new-symfony-project.md)
 - [Install an existing Symfony project](getting-started/install-existing-symfony-project.md)
 - [Use Armonic standalone edition](standalone/install-armonic-standalone.md)
@@ -105,7 +106,6 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 ### Other bundles {#other-bundles}
 
 - [Mailer bundle](bundles/mailer-bundle.md)
-- [Notification bundle](bundles/notification-bundle.md)
 
 ## Components {#components}
 

@@ -48,13 +48,29 @@ They are not part of the Identity Platform contract, but they let the synchroniz
 
 Create a dedicated route import in your application:
 
+<!-- config-tabs:start -->
+
 ```yaml
 _sfs_user_google_identity_platform:
     resource: '@SfsUserBundle/config/routing/login_google_identity_platform.yaml'
     prefix: /auth/google
 ```
 
-With that prefix, the callback URL is `/auth/google/callback`.
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/login_google_identity_platform.yaml')
+        ->prefix('/auth/google');
+};
+```
+
+<!-- config-tabs:end -->
+
+With that prefix, the callback URL is `/auth/google/callback`. The login form and callback must be covered by the same stateful firewall used to establish the user session. Make the POST callback publicly reachable in access-control rules; credential verification remains in the controller.
 
 The route import exposes:
 
@@ -66,6 +82,8 @@ Both routes accept `POST` requests. The login page posts the Google credential a
 ## Enable The Feature {#enable-the-feature}
 
 Configure `sfs_user.login.google_identity_platform`:
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_user:
@@ -79,6 +97,30 @@ sfs_user:
             failure_route: sfs_user_login
 ```
 
+```php
+<?php
+
+// config/routing/login_google_identity_platform.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', [
+        'login' => [
+            'google_identity_platform' => [
+                'enabled' => true,
+                'client_id' => '%env(default::GOOGLE_CLIENT_ID)%',
+                'api_key' => '%env(default::IDENTITY_PLATFORM_API_KEY)%',
+                'tenant_id' => '%env(default::IDENTITY_PLATFORM_TENANT_ID)%',
+                'success_route' => 'app_home',
+                'failure_route' => 'sfs_user_login',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Important options:
 
 - `enabled`: renders the Google widget and enables the backend callback.
@@ -89,6 +131,8 @@ Important options:
 - `failure_route`: route used when sign-in fails.
 
 The feature also supports the Google button options exposed by the bundle configuration:
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_user:
@@ -103,6 +147,33 @@ sfs_user:
                 logo_alignment: left
                 width: 320
 ```
+
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', [
+        'login' => [
+            'google_identity_platform' => [
+                'button' => [
+                    'type' => 'standard',
+                    'theme' => 'outline',
+                    'size' => 'large',
+                    'shape' => 'rectangular',
+                    'text' => 'continue_with',
+                    'logo_alignment' => 'left',
+                    'width' => 320,
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Configure Google {#configure-google}
 

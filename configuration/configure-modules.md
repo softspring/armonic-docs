@@ -3,68 +3,64 @@ title: "Configure CMS Modules"
 description: "Define Armonic CMS modules with YAML configuration, templates, module type, and module options."
 ---
 
-# Module Configuration (`cms/modules`)
+# Configure modules {#configure-modules}
 
-Each module is configured in:
+Modules are the editable elements inside a layout container. A module combines a form for its data and a Twig template for its output. Editors can reuse the same module type in different pages, with different values.
 
-- `cms/modules/<module_name>/config.yaml`
+This example adds a hero heading and subtitle. Create `cms/modules/hero/config.yaml` and `cms/modules/hero/render.html.twig`.
 
-The schema is defined in `cms-bundle/src/Config/Model/Module.php`.
-
-## Minimal Example
+## Define the form fields {#define-form-fields}
 
 ```yaml
+# cms/modules/hero/config.yaml
 module:
     revision: 1
-```
-
-Only `revision` is required. Other keys are optional and have defaults.
-
-## Practical Example
-
-```yaml
-module:
-    revision: 1
-    enabled: true
-    group: 'content'
-    render_template: '@module/hero/render.html.twig'
-    edit_template: '@module/hero/edit.html.twig'
-    form_template: '@module/hero/form.html.twig'
-    compatible_contents: ['page', 'article']
-    module_type: 'Softspring\CmsBundle\Form\Module\DynamicFormModuleType'
+    group: content
+    compatible_contents: ['page']
     module_options:
-        label_format: 'modules.hero.%%name%%.label'
         form_fields:
             title:
                 type: translation
             subtitle:
                 type: text
+                type_options:
+                    required: false
 ```
 
-## Option Reference
+The default `module_type` is `Softspring\CmsBundle\Form\Module\DynamicFormModuleType`. It builds the fields in `module_options.form_fields`. `translation` stores a value per language; `text` stores a single text value.
 
-Top-level `module` keys:
+Use [dynamic form types](../components/dynamic-form-type.md) for additional field types and validation options. CMS-specific types include [media selection](../bundles/cms-bundle/module/form-types/media.md), [route selection](../bundles/cms-bundle/module/form-types/symfony-route.md), and [translatable fields](../bundles/cms-bundle/module/form-types/translatable.md).
 
-- `revision` (required, integer)
-- `enabled` (optional, boolean, default: `true`)
-- `group` (optional, string, default: `default`)
-- `render_template` (optional, default: `@module/<module_name>/render.html.twig`)
-- `edit_template` (optional)
-- `form_template` (optional)
-- `compatible_contents` (optional, array of content type ids)
-- `module_type` (optional, default: `Softspring\CmsBundle\Form\Module\DynamicFormModuleType`)
-- `module_options` (optional, free-form map passed to the module type)
+## Render the values {#render-values}
 
-## What To Configure First
+```twig
+{# cms/modules/hero/render.html.twig #}
+<section class="hero">
+    <h1>{{ title|default('')|sfs_cms_trans }}</h1>
+    {% if subtitle|default('') %}
+        <p>{{ subtitle }}</p>
+    {% endif %}
+</section>
+```
 
-- Set `revision` for every module.
-- Set at least `render_template` when you do not follow the default path.
-- Use `group` to keep the module picker organized in admin.
-- Use `compatible_contents` when a module should only appear in certain content types.
-- Use `module_options` according to the `module_type` you chose (keys depend on that type).
+Module data fields are available directly as Twig variables. Keep normal escaping for text. For rich HTML fields, only render unescaped output when that field is intended to contain trusted editorial HTML.
 
-## Notes
+The default template path is `@module/hero/render.html.twig`. Set `render_template` only when you use a different path. Optional `edit_template` and `form_template` let you customize the in-editor preview and field layout.
 
-- `module_options` has no fixed schema at this level; each module type defines what it expects.
-- If `enabled` is `false`, the module exists in config but is not available for usage.
-- Increase `revision` when module data structure or behavior changes.
+## Make the module available {#make-module-available}
+
+Clear the cache after adding the files:
+
+```bash
+php bin/console cache:clear
+```
+
+Open a page using a compatible content type and insert **hero** into a container that allows it. Enter the title, save a draft, and preview the page. Check every language enabled for that page before publishing.
+
+If the module is missing from the picker, check `enabled`, `compatible_contents`, and the container's `allowed_modules`. The `group` setting organizes the picker; it does not grant permissions.
+
+## Evolve a module safely {#evolve-module}
+
+Keep `revision` as an integer and increase it when the saved data format changes. Existing module instances keep their stored data. A revision number alone does not rename or convert fields; provide a `migrate.php` function when a conversion is needed. See [CMS modules](../bundles/cms-bundle/modules.md) for the rendering context and data migration API.
+
+Use a custom Symfony form type in `module_type` when the dynamic fields cannot express your form. Its options belong in `module_options`; their validity is checked by that form type when the form is built.

@@ -3,28 +3,43 @@ title: "Create New Media in Armonic CMS"
 description: "Upload and manage images, videos, and other assets in Armonic CMS, including media types and asset details."
 ---
 
-# Create a new media
+# Upload media {#create-a-new-media}
 
-Armonic CMS empowers you to integrate multimedia elements into your content, adding visual elements to your web pages. Whether it's images, videos, or icons, Armonic CMS provides a simple process for creating and managing your media assets.
+The media library stores the images and videos used by the site. Media types define the accepted files, upload requirements, and generated versions. The type names and available formats depend on your application.
 
-## Media Creation Journey {#media-creation-journey}
+## Upload a file {#upload-file}
 
-- Access the Media section: Navigate to the "Medias" section within the Armonic CMS administration panel. This serves as your central repository for managing all your media files.
+1. Open **Medias** in the admin sidebar.
+2. Choose **New media** and select a type appropriate to the file's intended use.
+3. Enter a recognizable **Name** and a useful **Description**.
+4. Select the original file in the upload field. Check the accepted formats, minimum dimensions, orientation, and size shown by the form.
+5. Complete the alternative text for each language, if the form exposes these fields. Describe what the image communicates in its context.
+6. Complete any additional uploads requested by that type and choose **Upload media**.
 
-- Locate the **"New Media"** button, often found near the top right corner of the Media section. Clicking on this button will launch the media creation process.
+![Upload a background image and enter translated alternative text](.files/media-upload.png)
 
-  - **Selecting the Media Type**: Armonic CMS presents a variety of media types to suit your creative needs. Choose from "Background Image," "Content Image (PNG)," "Content Image (JPG)," "Icon Image," "Content Video," or any other media types defined by your CMS. Carefully consider the intended use of the media when making your selection. 
-  - **Filling in the Media Details**:
-    - Provide a descriptive **"Name"** that accurately reflects the media's content, making it easy to identify and organize.
-    - Craft a concise **"Description"** that serves as alternative text for the media. This ensures accessibility for visually impaired users and enhances search engine optimization.
-    - Utilize the *"Main media"* field to select the media file you wish to add. Ensure the file format aligns with the chosen media type.
-    - Additional File Uploads: For certain media types, such as images with different breakpoints or formats, you may need to upload multiple files. Armonic CMS will guide you through this process.
-  - With a click on the **"Upload media"** button, your media creation journey comes to a successful end. **Your media asset is now ready to be incorporated into your website's content**.
+The bundle generates the configured derived versions from the original. Some types also request separately uploaded versions; do not assume that every upload field is generated automatically.
 
-## Show media details {#show-media-details}
+Use a description that identifies the image's purpose. The renderer can use it as fallback alternative text, but a template or translated alt-text field may override it.
 
-The media list in Armonic CMS offers a centralized section for managing and exploring your uploaded media assets. 
+## Review generated versions {#show-media-details}
 
-By clicking on a media element, you can access media information, all generated versions of the media and the Twig code that you can use in your templates if necessary.
+Open the saved record from the media list. Review the original, generated versions, file details, and available rendering examples. Confirm that each required version exists before using the media in a page.
 
-`{{ media|sfs_media_render_image('sm', {'class':'img-sm'}) }}`
+![Media details with generated versions and rendering examples](.files/media-details.png)
+
+For example, a type might generate a small thumbnail and a larger image for page content. These are different files derived from the same original, not separate media records.
+
+## Use the media in content {#use-media}
+
+Open the relevant page module or block, use its media selection field, and choose the saved record. Preview and publish the page after making the selection.
+
+A developer can also render a configured version from Twig:
+
+```twig
+{{ media|sfs_media_render_image('sm', {'class': 'img-fluid'}) }}
+```
+
+`sm` must be a version defined by that media type. A project using another version name must adapt the example. See [Media types](../bundles/media-bundle/media-types.md) for developer configuration.
+
+If an upload is rejected, compare it with the selected type's requirements. If version generation fails, ask a developer to check the configured image driver, codecs, and processing services before retrying.

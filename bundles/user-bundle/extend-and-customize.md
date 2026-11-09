@@ -39,6 +39,8 @@ That means you can replace form types with service aliases instead of replacing 
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     App\Form\User\RegisterForm: ~
@@ -46,6 +48,23 @@ services:
     Softspring\UserBundle\Form\RegisterFormInterface:
         alias: App\Form\User\RegisterForm
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\Form\User\RegisterForm::class);
+
+    $services->alias(\Softspring\UserBundle\Form\RegisterFormInterface::class, \App\Form\User\RegisterForm::class);
+};
+```
+
+<!-- config-tabs:end -->
 
 The same pattern is available for:
 
@@ -174,19 +193,19 @@ They are especially useful when:
 
 ## Real Extension Patterns {#real-extension-patterns}
 
-### Add Account Creation After Register
+### Add Account Creation After Register {#add-account-creation-after-register}
 
 Subscribe to `REGISTER_SUCCESS` and create the first account with `account-bundle`.
 
-### Add Extra Profile Fields
+### Add Extra Profile Fields {#add-extra-profile-fields}
 
 Extend the concrete user entity and replace the preferences or register form.
 
-### Use Your Own Admin Rules
+### Use Your Own Admin Rules {#use-your-own-admin-rules}
 
 Keep the built-in admin screens and add custom voters for the sensitive actions that need project-specific restrictions.
 
-### Keep The Bundle UI But Rebrand It
+### Keep The Bundle UI But Rebrand It {#keep-the-bundle-ui-but-rebrand-it}
 
 Override the public and admin Twig templates while keeping the routes, controllers, and forms.
 

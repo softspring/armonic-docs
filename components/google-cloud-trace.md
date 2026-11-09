@@ -48,9 +48,11 @@ The normal setup is:
 3. make sure your application receives a valid `traceparent` header from upstream infrastructure
 4. use the kernel trait if you want the kernel itself to own the top-level server span and trace submission
 
-There is no custom bundle configuration to add in the common case.
+Keep the default kernel instrumentation initially, then enable the additional layers you need.
 
 ## Configuration {#configuration}
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_google_cloud_trace:
@@ -65,13 +67,36 @@ sfs_google_cloud_trace:
         include_sql: false
 ```
 
+```php
+<?php
+
+// config/packages/sfs_google_cloud_trace.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_google_cloud_trace', [
+        'enabled' => true,
+        'instrumentation' => [
+            'kernel' => true,
+            'event_dispatcher' => false,
+            'twig' => false,
+            'doctrine' => false,
+            'http_cache' => false,
+        ],
+        'doctrine' => ['include_sql' => false],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 Enable `twig`, `event_dispatcher`, `doctrine`, or `http_cache` only when that detail is useful for the application. Keep `doctrine.include_sql` disabled unless query text is needed and safe to send to Google Cloud Trace.
 
 ## Important Requirement: Trace Context {#important-requirement-trace-context}
 
 The bundle only creates spans when an incoming trace context exists.
 
-In practice, that means the request must include a `traceparent` header. If that header is missing, the tracing helper returns `null` spans and the decorators behave as no-ops.
+The request must include a `traceparent` header with the sampled flag `01`. A header marked `00` is not sampled and does not initialize a trace. If that header is missing, the tracing helper returns `null` spans and the decorators behave as no-ops.
 
 This is important for adoption:
 
@@ -186,9 +211,11 @@ use Softspring\GoogleCloudTraceBundle\Trace\Tracer;
 $span = Tracer::createSpan('billing.generate_invoice');
 Tracer::start($span);
 
-// do work
-
-Tracer::stop($span);
+try {
+    // Perform the operation being measured.
+} finally {
+    Tracer::stop($span);
+}
 ```
 
 This is especially useful when the automatic layers are not enough and you need spans that match your domain language.
@@ -257,9 +284,3 @@ The main limits to keep in mind are:
 - there is no rich configuration layer for filtering or renaming spans
 - the bundle focuses on request lifecycle instrumentation, not full background worker tracing
 - automatic tracing gives infrastructure visibility first; domain-level spans still need to be added by the application when needed
-
-## Summary {#summary}
-
-Choose this bundle when you want Google Cloud Trace visibility across the main Symfony runtime layers with very little setup.
-
-Its main value is practical observability: faster debugging of slow requests, clearer understanding of where time is spent, and a simple base for adding your own application-level spans.

@@ -21,6 +21,8 @@ A media type decides:
 
 ## Example Image Type {#example-image-type}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     types:
@@ -53,6 +55,51 @@ sfs_media:
                     img:
                         src_version: article
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'article_image' => [
+                'type' => 'image',
+                'name' => 'Article image',
+                'description' => 'Responsive images used inside article pages',
+                'private' => false,
+                'upload_requirements' => [
+                    'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                    'minWidth' => 1200,
+                    'minHeight' => 675,
+                ],
+                'versions' => [
+                    'card' => ['type' => 'webp', 'scale_width' => 480, 'webp_quality' => 80],
+                    'article' => ['type' => 'webp', 'scale_width' => 1280, 'webp_quality' => 85],
+                ],
+                'pictures' => [
+                    'default' => [
+                        'sources' => [
+                            [
+                                'srcset' => [
+                                    ['version' => 'card', 'suffix' => '480w'],
+                                    ['version' => 'article', 'suffix' => '1280w'],
+                                ],
+                                'attrs' => ['sizes' => '100vw'],
+                            ],
+                        ],
+                        'img' => ['src_version' => 'article'],
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Most Important Fields {#most-important-fields}
 

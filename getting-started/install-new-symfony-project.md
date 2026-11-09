@@ -1,262 +1,314 @@
 ---
 title: "Install Armonic in a New Symfony Project"
-description: "Step-by-step guide to create a new Symfony application and set it up with Armonic and its required services."
+description: "Create a Symfony application, connect MySQL or PostgreSQL, install Armonic 6.0, and open the CMS admin area."
+next: "configuration"
+related:
+    - "bundles/user-bundle/install"
+    - "build-a-small-website"
+    - "install-existing-symfony-project"
 ---
 
-# Install Armonic in a new Symfony project
+# Install Armonic in a new Symfony project {#install-new-symfony-project}
 
->[!IMPORTANT]
-> This guide assumes you have Composer and Symfony CLI installed. 
-> If you don't have them installed, you can follow the instructions in the [Requirements](requirements.md) section.
+This guide takes you from an empty Symfony project to the Armonic admin area. It uses **Symfony 8.0** and **Armonic 6.0**, with **MySQL 8.4** or **PostgreSQL 17**.
 
-## 1.Create a new symfony project {#create-new-symfony-project}
+Before you start, check the [requirements](../getting-started/requirements.md). You will use Symfony CLI and Composer, plus Docker Compose for the database.
 
-Armonic is a Symfony project, so first of all we need to create a new Symfony project. 
-You can create a new Symfony project using the Symfony CLI or Composer as shown in the official <a href="https://symfony.com/doc/current/setup.html">Symfony documentation</a>. 
+## 1. Create your project {#create-new-symfony-project}
 
-Let's create a new Symfony project using the Symfony CLI:
-
-```bash
-symfony new cms-new-project --webapp
-```
-
-By default, Symfony 8.0 version will be used, but you can specify the version of Symfony to use:
+Create a Symfony web application and start its local server:
 
 ```bash
 symfony new cms-new-project --version="8.0.*" --webapp
-```
-
-* If it's your first time running symfony-cli, it might complain that you lack some needed packages (ie: ext-xml). You can install them with
-and try again, but you will need to delete the project folder "cms-new-project" and start over.
-
-After creating the project, you can start the Symfony local web server:
-
-```bash
 cd cms-new-project
 symfony server:start -d
 ```
 
-![welcome-to-symfony8.png](.files/welcome-to-symfony8.png){.img-fluid}
+Open the URL printed by Symfony CLI. You should see the Symfony welcome page.
 
-## 2.Configure database {#configure-database}
+![Symfony welcome page](.files/welcome-to-symfony8.png){.img-fluid}
 
->[!NOTE]
-> We use Docker for all our development, as it is the easiest way to manage different projects, services, and dependencies.
-> Here we use Docker to have a container with the Database, but you could have MySQL installed on your computer as well.
-> If you don't have Docker installed [Requirements](requirements.md) section.
+## 2. Configure your database {#configure-database}
 
-Armonic uses Doctrine to manage the database schema. You can use any database supported by Doctrine, but for this example we will use MySQL with Docker.
+Choose MySQL or PostgreSQL and follow [Configure MySQL or PostgreSQL](../getting-started/configure-database.md). It includes the Compose service, healthcheck, persistent volume, port mapping, and required PHP driver for each engine.
 
-First of all, you need to modify the composer.yaml file provided by the new Symfony project.
+Use one engine for this installation. If you already have a local database, use its connection details instead of starting another service.
 
-```yaml
-# compose.yaml
-services:
-    ###> doctrine/doctrine-bundle ###
-    database:
-        image: mysql:${MYSQL_VERSION:-8.3.0}
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DB:-app}
-            # You should definitely change the password in production
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
-            MYSQL_USER: ${MYSQL_USER:-app}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-        healthcheck:
-            test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-            timeout: 20s
-            retries: 10
-        volumes:
-            - database_data:/var/lib/mysqlql/data:rw
-    ###< doctrine/doctrine-bundle ###
+## 3. Connect your application {#start-database}
 
-volumes:
-    ###> doctrine/doctrine-bundle ###
-    database_data:
-    ###< doctrine/doctrine-bundle ###
+After starting the database with `docker compose up -d --wait database`, set one connection in **`.env.local`**.
+
+**MySQL:**
+
+```dotenv
+DATABASE_URL="mysql://app:app_password@127.0.0.1:33061/app?serverVersion=8.4&charset=utf8mb4"
 ```
 
-```yaml
-# compose.override.yaml
-services:
-    ###> doctrine/doctrine-bundle ###
-    database:
-        ports:
-            - "${MYSQL_PORT:-33061}:3306"
-    ###< doctrine/doctrine-bundle ###
-```
-## 3.Start the database {#start-database}
+**PostgreSQL:**
 
-Then you can start the database using Docker Compose:
+```dotenv
+DATABASE_URL="postgresql://app:app_password@127.0.0.1:54321/app?serverVersion=17&charset=utf8"
+```
+
+Use the same database name, user, password, and port as your Compose files. For an existing server, adjust the URL and `serverVersion`. The [database guide](../getting-started/configure-database.md) also explains the Doctrine settings to check when choosing PostgreSQL.
+
+Check the connection:
 
 ```bash
-docker-compose up -d
-```
->[!NOTE]
-> If you restart your computer at some point, you will need to start the database again with `docker-compose up -d`.
-
-You will need to modify the .env file to configure the database connection:
-
-```
-# .env
-###> doctrine/doctrine-bundle ###
-DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:33061/app?serverVersion=8.3.0&charset=utf8mb4"
-###< doctrine/doctrine-bundle ###
+php bin/console dbal:run-sql 'SELECT 1'
 ```
 
-## 4.Install armonic {#install-armonic}
+## 4. Install Armonic {#install-armonic}
 
-We will use Symfony Flex to install Armonic in the new Symfony project. 
+Configure the Softspring Flex recipes and allow the development packages used by the `6.0` line:
 
->[!NOTE]
-> For now, configure recipes manually:
-> ```bash
-> composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json",  "flex://defaults"]'
-> composer config minimum-stability dev
-> composer config prefer-stable true
-> ```
+```bash
+composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json", "flex://defaults"]'
+composer config minimum-stability dev
+composer config prefer-stable true
+```
 
-Install **armonic** package with composer (say Yes or Yes for all packages to install the recipes):
+Install Armonic. When Composer asks to execute the recipes, choose **Yes** or **Yes for all packages** for this installation.
 
 ```bash
 composer require softspring/armonic:6.0.x-dev -W
-
- Do you want to execute this recipe?
-    [y] Yes
-    [n] No
-    [a] Yes for all packages, only for the current installation session
-    [p] Yes permanently, never ask again for this project
-    (defaults to n): a
 ```
 
-This will install Armonic from the `6.0.x-dev` development branch.
+Check that `config/bundles.php` also registers the collection form bundle and the two plugins installed with Armonic. Add these entries to the returned array if they are missing:
 
->[!NOTE]
-> Also, you can configure the preferred install type for softspring packages as source:
-> ```bash
-> composer config 'preferred-install.softspring/*' source
-> ```
+```php
+Softspring\Component\CollectionFormType\SfsCollectionFormTypeBundle::class => ['all' => true],
+Softspring\CmsSectionsPlugin\SfsCmsSectionsPlugin::class => ['all' => true],
+Softspring\CmsTranslationPlugin\SfsCmsTranslationPlugin::class => ['all' => true],
+```
 
->[!NOTE]
-> If you get an error like:
-> `Cannot autowire service "...DynamicTypesExtension"... TypeResolverInterface ... no such service exists`
-> add this service definition to `config/services.yaml`:
-> ```yaml
-> services:
->     Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface:
->         class: Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver
->         arguments:
->             $resolvers:
->                 - '@Softspring\CmsBundle\Form\Resolver\AppTypeResolver'
->                 - '@Softspring\CmsBundle\Form\Resolver\CmsTypeResolver'
-> ```
-> and then try again to install the package.
+Enable optional plugins before running their migrations so their tables and mappings are included.
 
-After installing the package, you must run the Doctrine migrations to create the database schema:
-
->[!NOTE]
-> To avoid inconsistent migration state errors on first install, start with an empty database:
-> ```bash
-> bin/console doctrine:database:drop --if-exists --force
-> bin/console doctrine:database:create
-> bin/console doctrine:migrations:sync-metadata-storage -n
-> ```
-> If you use Docker for MySQL, make sure the database volume is also fresh between attempts.
+Create the CMS database tables:
 
 ```bash
-bin/console doctrine:migrations:migrate -n
+php bin/console doctrine:migrations:sync-metadata-storage -n
+php bin/console doctrine:migrations:migrate -n
 ```
 
-Now you can see the start page of the Armonic project:
+The CMS tables are ready. Continue below to configure login and open the admin area.
 
-![welcome-to-armonic.png](.files/welcome-to-armonic.png){.img-fluid}
+## 5. Set up admin access {#configure-security}
 
-## 5.Configure security {#configure-security}
+### Install the User Bundle {#configure-sfs-user-bundle}
 
-Before you can create your first page, you need to configure security to access the admin area.
-
-You can use any Symfony <a href="https://symfony.com/doc/current/security.html">security configuration</a> or bundle you want, but for this example we will use the Softspring User Bundle.
-
-### Configure Softspring User Bundle {#configure-sfs-user-bundle}
-
-Install the Softspring User Bundle with composer:
+This example uses the Softspring User Bundle for login and admin users. You can also integrate Armonic with your own Symfony security setup.
 
 ```bash
-composer require softspring/user-bundle:^6.0@dev -W
+composer require softspring/user-bundle:6.0.x-dev -W
 ```
 
-We recommend to use the Symfony flex recipes to configure the bundle:
+Accept the Flex recipe. It adds the user entity, routes, and a sample security configuration.
 
-```bash
-Do you want to execute this recipe?
-    [y] Yes
-    [n] No
-    [a] Yes for all packages, only for the current installation session
-    [p] Yes permanently, never ask again for this project
-    (defaults to n): y
-```
-
->[!NOTE]
-> Also you can do it manually, see the [User Bundle guide](../bundles/user-bundle.md).
-
-Then a new User entity has been created, and routes to login, register, and reset password have been added.
-
-But still some manual steps are needed to configure the security.
-
-Run the following commands to configure the security and routes:
+For this new project, use the supplied security configuration:
 
 ```bash
 mv config/packages/security.yaml.dist config/packages/security.yaml
 ```
 
-For older versions of Armonic you might also need to do:
+Under the existing `security.firewalls.main.form_login` configuration, add:
 
-```bash
-cat config/routes.yaml.dist >> config/routes.yaml
-rm config/routes.yaml.dist 
+<!-- config-tabs:start -->
+
+```yaml
+security:
+    firewalls:
+        main:
+            form_login:
+                default_target_path: sfs_cms_admin_content_page_list
 ```
 
-Create the database schema with a new Doctrine migration:
+```php
+<?php
 
->[!NOTE]
-> If `bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"` fails with
-> `Unknown column type "sfs_translation" requested`, check that these bundles are enabled in `config/bundles.php`:
-> ```php
-> Softspring\TranslatableBundle\SfsTranslatableBundle::class => ['all' => true],
-> Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle::class => ['all' => true],
-> ```
-> and ensure the DBAL type is registered in `config/packages/doctrine.yaml`:
-> ```yaml
-> doctrine:
->     dbal:
->         types:
->             sfs_translation: Softspring\TranslatableBundle\Doctrine\Type\TranslationType
-> ```
-> then run:
-> ```bash
-> bin/console cache:clear
-> ```
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-```bash
-bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"
-bin/console doctrine:migrations:migrate -n
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', [
+        'firewalls' => [
+            'main' => [
+                'form_login' => [
+                    'default_target_path' => 'sfs_cms_admin_content_page_list',
+                ],
+            ],
+        ],
+    ]);
+};
 ```
 
-Before entering the admin area, you need to create a user and promote it to the admin role.
+<!-- config-tabs:end -->
 
-```bash
-bin/console sfs:user:create username user@example.com 123456
-bin/console sfs:user:promote user@example.com
+This opens the page list after login. To style the login fields, add the Bootstrap form theme to the existing `twig` section in `config/packages/twig.yaml`:
+
+<!-- config-tabs:start -->
+
+```yaml
+twig:
+    form_themes: ['bootstrap_5_layout.html.twig']
 ```
 
-## 6. Done! {#enter-admin-area}
+```php
+<?php
 
-Now you can go to admin area and login with the user you just created:
-https://127.0.0.1:8002/app/login
+// config/packages/twig.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-For the admin area, any URL starting with `/admin` should redirect you there.
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', ['form_themes' => ['bootstrap_5_layout.html.twig']]);
+};
+```
 
-You can try with the pages list in the CMS: 
+<!-- config-tabs:end -->
 
-https://127.0.0.1:8002/admin/cms/pages/
+If you have already customised security, merge the sample configuration into your existing file instead. See the [User Bundle guide](../bundles/user-bundle.md) for integration details.
 
-![armonic-create-page.png](.files/armonic-create-page.png){.img-fluid}
+Create and run the migration for the user entity using the database engine selected above. Generate this migration after configuring `DATABASE_URL`; do not reuse SQL generated for the other engine:
+
+```bash
+php bin/console doctrine:migrations:diff --namespace="DoctrineMigrations"
+php bin/console doctrine:migrations:migrate -n
+```
+
+Create an admin user, replacing the example values with your own:
+
+```bash
+php bin/console sfs:user:create admin admin@example.com 'your-local-password' --enabled
+php bin/console sfs:user:promote admin@example.com
+```
+
+The recipe uses email addresses to identify users. `--enabled` allows the new user to sign in.
+
+## 6. Open the CMS {#enter-admin-area}
+
+Using the local URL printed by Symfony CLI:
+
+1. Open **`/app/login`** and sign in with the user you created.
+2. Open **`/admin/cms/pages/`** to manage pages.
+
+The screenshots below show the Armonic 6.0 standalone demo theme. Your project can use its own theme and configuration.
+
+![Armonic login](.files/armonic-login.png){.img-fluid}
+
+![Armonic pages list](.files/armonic-pages-list.png){.img-fluid}
+
+## If something goes wrong {#troubleshooting}
+
+<details markdown="1">
+<summary>Composer reports a missing PHP extension</summary>
+
+Install the extension named in the error for the PHP version used by your terminal, then retry the command. Check the [requirements](../getting-started/requirements.md) for the extensions used by Armonic.
+
+</details>
+
+<details markdown="1">
+<summary>The database connection fails</summary>
+
+Check that the database is healthy:
+
+```bash
+docker compose ps database
+```
+
+Compare the credentials and port in `.env.local` with your Compose configuration. MySQL and PostgreSQL only apply their initial database and user settings when the data directory is empty. See the [database connection checks](../getting-started/configure-database.md).
+
+</details>
+
+<details markdown="1">
+<summary>Symfony cannot autowire TypeResolverInterface</summary>
+
+First check that `SfsDynamicFormTypeBundle` is enabled in `config/bundles.php`; it registers the standard resolver chain. If the application overrides that chain and Symfony still reports a missing `TypeResolverInterface` service, add this definition to the existing `services` section in `config/services.yaml`:
+
+<!-- config-tabs:start -->
+
+```yaml
+services:
+    Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface:
+        class: Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver
+        arguments:
+            $resolvers:
+                - '@Softspring\CmsBundle\Form\Resolver\AppTypeResolver'
+                - '@Softspring\CmsBundle\Form\Resolver\CmsTypeResolver'
+                - '@Softspring\Component\DynamicFormType\Form\Resolver\DefaultTypeResolver'
+```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface::class, \Softspring\Component\DynamicFormType\Form\Resolver\ChainTypeResolver::class)
+        ->args([
+            '$resolvers' => [
+                service(\Softspring\CmsBundle\Form\Resolver\AppTypeResolver::class),
+                service(\Softspring\CmsBundle\Form\Resolver\CmsTypeResolver::class),
+                service(\Softspring\Component\DynamicFormType\Form\Resolver\DefaultTypeResolver::class),
+            ],
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Retry the installation command, then clear the cache:
+
+```bash
+php bin/console cache:clear
+```
+
+</details>
+
+<details markdown="1">
+<summary>Doctrine reports an unknown sfs_translation type</summary>
+
+Check that `config/bundles.php` enables these bundles:
+
+```php
+Softspring\TranslatableBundle\SfsTranslatableBundle::class => ['all' => true],
+Softspring\Component\DynamicFormType\SfsDynamicFormTypeBundle::class => ['all' => true],
+```
+
+Add the type to your existing Doctrine DBAL configuration if it is missing:
+
+<!-- config-tabs:start -->
+
+```yaml
+doctrine:
+    dbal:
+        types:
+            sfs_translation: Softspring\TranslatableBundle\Doctrine\Type\TranslationType
+```
+
+```php
+<?php
+
+// config/packages/doctrine.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('doctrine', [
+        'dbal' => [
+            'types' => ['sfs_translation' => \Softspring\TranslatableBundle\Doctrine\Type\TranslationType::class],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Clear the cache and retry the migration command:
+
+```bash
+php bin/console cache:clear
+```
+
+</details>

@@ -12,11 +12,11 @@ The bundle includes a real admin area for managing:
 - invitations
 - optional access history
 
-This is one of the main reasons to document `user-bundle` as a bundle and not as a low-level component: it ships application-facing admin screens, not only models and helpers.
-
 ## Admin Route Groups {#admin-route-groups}
 
 Base admin routes:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_user_admin:
@@ -28,7 +28,24 @@ _sfs_user_admins:
     prefix: '/admins'
 ```
 
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/admin_users.yaml')->prefix('/user');
+
+    $routes->import('@SfsUserBundle/config/routing/admin_administrators.yaml')->prefix('/admins');
+};
+```
+
+<!-- config-tabs:end -->
+
 Optional:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _sfs_user_invitations:
@@ -40,11 +57,26 @@ _sfs_user_history:
     prefix: '/access-history'
 ```
 
+```php
+<?php
+
+// config/routes/sfs_user_invitations.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@SfsUserBundle/config/routing/admin_invitations.yaml')->prefix('/invitations');
+
+    $routes->import('@SfsUserBundle/config/routing/admin_access_history.yaml')->prefix('/access-history');
+};
+```
+
+<!-- config-tabs:end -->
+
 In many applications these route groups are mounted under `/admin/users`.
 
 ## Main Screens {#main-screens}
 
-### Users
+### Users {#users}
 
 The users area includes routes for:
 
@@ -59,7 +91,7 @@ The users area includes routes for:
 
 This is the screen set you use for normal end users.
 
-### Administrators
+### Administrators {#administrators}
 
 The administrators area includes routes for:
 
@@ -100,6 +132,8 @@ Projects should usually:
 
 ## Practical Security Example {#practical-security-example}
 
+<!-- config-tabs:start -->
+
 ```yaml
 security:
     role_hierarchy:
@@ -114,11 +148,40 @@ security:
             - PERMISSION_SFS_USER_ADMIN_ADMINISTRATORS_DEMOTE_SUPER
 ```
 
+```php
+<?php
+
+// config/packages/security.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('security', [
+        'role_hierarchy' => [
+            'ROLE_ADMIN' => [
+                'ROLE_SFS_USER_ADMIN_USERS_RW',
+                'ROLE_SFS_USER_ADMIN_ADMINISTRATORS_RW',
+                'ROLE_SFS_USER_ADMIN_INVITATION_RO',
+                'ROLE_ALLOWED_TO_SWITCH',
+            ],
+            'ROLE_SUPER_ADMIN' => [
+                'ROLE_ADMIN',
+                'PERMISSION_SFS_USER_ADMIN_ADMINISTRATORS_PROMOTE_SUPER',
+                'PERMISSION_SFS_USER_ADMIN_ADMINISTRATORS_DEMOTE_SUPER',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
 This is close to the way `armonic-standalone` integrates the bundle.
 
 ## Admin Menu Integration {#admin-menu-integration}
 
 A practical menu setup is:
+
+<!-- config-tabs:start -->
 
 ```yaml
 twig:
@@ -139,6 +202,41 @@ twig:
                     active_expression: 'sfs_user_admin_administrators_'
                     icon: 'bi bi-people-fill me-2'
 ```
+
+```php
+<?php
+
+// config/packages/twig.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', [
+        'globals' => [
+            'admin_menu' => [
+                'users' => [
+                    'translation_key' => 'sidebar.menu.users.title',
+                    'users' => [
+                        'translation_key' => 'sidebar.menu.users.users',
+                        'route' => 'sfs_user_admin_users_list',
+                        'role' => 'PERMISSION_SFS_USER_ADMIN_USERS_LIST',
+                        'active_expression' => 'sfs_user_admin_users_',
+                        'icon' => 'bi bi-people me-2',
+                    ],
+                    'administrators' => [
+                        'translation_key' => 'sidebar.menu.users.administrators',
+                        'route' => 'sfs_user_admin_administrators_list',
+                        'role' => 'PERMISSION_SFS_USER_ADMIN_ADMINISTRATORS_LIST',
+                        'active_expression' => 'sfs_user_admin_administrators_',
+                        'icon' => 'bi bi-people-fill me-2',
+                    ],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 If you enable invitations or history, add those entries too.
 
@@ -167,17 +265,17 @@ This is especially useful in support-heavy products and internal tools.
 
 ## Real Use Cases {#real-use-cases}
 
-### Customer Support Backoffice
+### Customer Support Backoffice {#customer-support-backoffice}
 
 Use users, administrators, and switch user.
 
 Keep registration optional depending on whether the product is public or staff-managed.
 
-### Editorial Or CMS Admin
+### Editorial Or CMS Admin {#editorial-or-cms-admin}
 
 Combine user admin with `cms-bundle` and `media-bundle`, and aggregate all the related permissions into one `ROLE_ADMIN`.
 
-### Restricted B2B Administration
+### Restricted B2B Administration {#restricted-b2b-administration}
 
 Use users and invitations, but keep super-admin promotion only for a very small group.
 

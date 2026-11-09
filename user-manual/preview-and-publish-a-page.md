@@ -3,14 +3,29 @@ title: "Preview and Publish a Page"
 description: "Review how to preview page changes, publish versions, and roll back to earlier published versions in Armonic CMS."
 ---
 
-# Previewing and publishing a page
+# Preview and publish a page {#previewing-and-publishing-a-page}
 
-Once all the content has been created, we can see how it will look like once published, to do this we can go to the top right of the page and in the **drop-down Save version click on save and preview**.
+Editing creates or updates a content version. Publishing selects the version visitors will see. You can keep working on a draft while an earlier version remains public.
 
-From here we can return to edit the page (**Edit version**) if we have to change or add something. Once we are sure, it is time to publish.
+## Preview the current version {#preview-version}
 
-We can publish from the preview by clicking on **Publish version** or from the edition by clicking on **Save and publish**.
+1. Open the page's **Content** editor.
+2. Open the arrow next to **Save version** and choose **Save and preview**.
+3. Check the page's headings, images, links, shared blocks, and navigation.
+4. Switch through the enabled languages and sites when your application exposes those choices.
 
-Each time we publish a version, if we make a mistake we can go back to previous versions. 
+Use **Edit version** to return to the editor if something needs changing. A preview can use editor-only controls and URLs; send visitors the public page URL after publishing.
 
->> We can see all versions in the display of a page, **Versions tab**.
+## Publish the reviewed version {#publish-version}
+
+Choose **Publish version** in preview, or **Save and publish** in the editor. The available actions depend on your permissions and project configuration.
+
+Open the public route in a separate browser tab and verify the result. A page also needs a valid route for the selected site and locale. Publishing a version does not create a missing route or translate empty language fields.
+
+If the public output is unchanged, confirm which version is published and check the application's cache behavior with a developer.
+
+## Restore an earlier version {#restore-version}
+
+Open the page details with **View**, then use the **Versions** tab. Inspect or preview the earlier version before publishing it again.
+
+Restoring a version changes the page's published content. It does not automatically roll back shared block records, media files, routes, or configuration files changed outside that version.

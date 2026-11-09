@@ -3,56 +3,51 @@ title: "Add Modules or Blocks to a Page"
 description: "See how to edit page content in Armonic CMS by adding modules, blocks, and reusable content collections."
 ---
 
-# Adding modules or blocks to a page
+# Add modules or blocks to a page {#adding-modules-or-blocks-to-a-page}
 
-Once you've successfully created a page in Armonic CMS, you can add modules and blocks. These building blocks empower you to structure and present your content in a visually appealing and organized manner.
+Modules hold a page's editable content: headings, text, images, grids, or project-specific elements. A shared block holds content managed once and reused in several places.
 
-## Accessing the content section of a page {#accessing-content-section}
+The modules offered by the editor depend on the layout, content type, and project configuration. The screenshots show the standalone demo's translatable rich-text module.
 
-- Navigate to the Armonic CMS administration panel.
+## Open the content editor {#accessing-content-section}
 
-- In the **left sidebar**, locate the **CMS/Pages** section.
+Open **CMS / Pages**, find the page, and choose **Content**. You can also open **View** and use its **Content** tab.
 
-- Use the search bar or filter options to **find** the specific **page** you want to edit. You can search by page name, Status, or other relevant criteria.
+Choose the version and layout you want to edit. A layout defines named areas such as `main`; each area can restrict the modules allowed inside it.
 
-- Once you have found the page you want to edit, **click on Content** to open it or click on View and click on the Content tab.
+## Insert a module {#adding-modules-or-blocks}
 
-## Understanding Modules and Blocks {#understanding-modules-and-blocks}
+Move the pointer over an editable area and use its insert control:
 
-### Modules {#modules}
+![Insert module control inside an editable container](.files/insert-module.png){.img-fluid}
 
-A module is the minimum unit of content that can be added to a page or content type. A module can be a title block, a card, hero, containers and grids, etc.
+Choose a module from the picker:
 
-One of the SfsCms best and powerful features is that custom modules can be created easily.
+![Available modules grouped in the module picker](.files/modules-modal.png){.img-fluid}
 
-Also, it is posible to add modules collections.
+Select the module in the page to open its settings. For a translatable text module, enter the content in every language enabled for the page.
 
-### Blocks {#blocks}
+![Page editor with the module settings panel open](.files/adding-module.png){.img-fluid}
 
-A block is a piece of content that can be used in many pages, content types, or directly from twig templates.
+Common settings include:
 
-Blocks can be defined as static (just twig code, not editable) or dynamic, and can be singleton or many times instantiable. This means that an instance of a block can be created just once or many times.
+- **Content fields:** the text, media, links, or other values defined for this module.
+- **Language or site filters:** where the module appears, when the module provides these filters.
+- **Attributes:** optional HTML identifiers or CSS classes for the site's existing styles.
+- **HTML/code fields:** available only in modules designed for that purpose. Use them when you understand the resulting markup.
 
-## Adding Modules/Blocks {#adding-modules-or-blocks}
+The editor preview helps with composition. Use the page preview before publishing to check the final layout and links.
 
-On the content page by hovering over the gray parts, an add button will appear like the one in the image or in the primary color you have defined.
+## Insert shared content {#blocks}
 
-![insert-module.png](.files/insert-module.png){.img-fluid}
+To reuse an existing block, insert the **Block instance** module and select the block record. The name of this module can be customized by the application.
 
-Click on it, a modal will open with all the available blocks and modules.
+Create the record first under **CMS / Blocks** if it does not exist. Reusing the same record means that later block edits affect every page that renders it; copying a module's text into several pages creates separate values instead.
 
-![modules-modal.png](.files/modules-modal.png){.img-fluid}
+See [Create a block](create-a-new-block.md) for the full flow.
 
-Select the module or block you want to add and click on it.
+## Save and review {#save-and-review}
 
-![adding-module.png](.files/adding-module.png){.img-fluid}
+Use **Save version** to keep a draft, or its dropdown to choose **Save and preview**. Verify text, media, links, and each language. Publishing is a separate action; see [Preview and publish](preview-and-publish-a-page.md).
 
-We have selected the WYSIWYG translatable module that allows you to add formatted and translatable text, as you can see in the image when you click on the module you can open the module edition on the right side.
-Here we can see the following options:
-
-- Filters: to specify the languages in which the module's content should be displayed. This ensures that your multilingual content is presented to the appropriate audience.
-- Attributes: Assign a class and ID to the module for further customization and styling within your website's CSS.
-- Code: Access and modify the HTML code generated by the WYSIWYG editor in the "Code" section. This advanced option grants finer control over the module's structure and presentation.
-
-On the left side of the page you will see the **visual editing**. Utilize the visual editing tools to easily format text, insert links, images, and other multimedia elements within the WYSIWYG editor.
-
+If a module is missing, ask a developer to check the layout restrictions and enabled module types. Adding a record in the CMS does not install a new module type.

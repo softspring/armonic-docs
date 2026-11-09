@@ -9,7 +9,9 @@
                     "slug": "why-armonic",
                     "file": "introduction/why-armonic.md"
                 }
-            ]
+            ],
+            "slug": "introduction",
+            "file": "introduction/overview.md"
         },
         {
             "text": "Getting started",
@@ -18,6 +20,16 @@
                     "text": "Requirements",
                     "slug": "requirements",
                     "file": "getting-started/requirements.md"
+                },
+                {
+                    "text": "Upgrade from 5.5 or 5.6 to 6.0",
+                    "slug": "upgrade-to-6.0",
+                    "file": "UPGRADE-6.0.md"
+                },
+                {
+                    "text": "Configure MySQL or PostgreSQL",
+                    "slug": "configure-database",
+                    "file": "getting-started/configure-database.md"
                 },
                 {
                     "text": "Install a new Symfony project",
@@ -39,7 +51,9 @@
                     "slug": "install-sylius-project",
                     "file": "getting-started/install-sylius-project.md"
                 }
-            ]
+            ],
+            "slug": "getting-started",
+            "file": "getting-started/overview.md"
         },
         {
             "text": "Armonic configuration",
@@ -84,7 +98,9 @@
                     "slug": "configure-menu",
                     "file": "configuration/configure-menu.md"
                 }
-            ]
+            ],
+            "slug": "configuration",
+            "file": "configuration/overview.md"
         },
         {
             "text": "User manual",
@@ -129,7 +145,9 @@
                     "slug": "build-a-small-website",
                     "file": "user-manual/build-a-small-website.md"
                 }
-            ]
+            ],
+            "slug": "user-manual",
+            "file": "user-manual/overview.md"
         },
         {
             "text": "Bundles",
@@ -199,6 +217,11 @@
                                             "text": "Translatable",
                                             "slug": "bundles/cms-bundle/modules/translatable",
                                             "file": "bundles/cms-bundle/module/form-types/translatable.md"
+                                        },
+                                        {
+                                            "text": "Link",
+                                            "slug": "bundles/cms-bundle/modules/link",
+                                            "file": "bundles/cms-bundle/module/form-types/link.md"
                                         }
                                     ]
                                 }
@@ -213,8 +236,55 @@
                             "text": "Troubleshooting",
                             "slug": "bundles/cms-bundle/troubleshooting",
                             "file": "bundles/cms-bundle/troubleshooting.md"
+                        },
+                        {
+                            "text": "Content versions and publication",
+                            "slug": "bundles/cms-bundle/content-versions",
+                            "file": "bundles/cms-bundle/content-versions.md"
+                        },
+                        {
+                            "text": "Forms and metadata",
+                            "slug": "bundles/cms-bundle/forms-and-metadata",
+                            "file": "bundles/cms-bundle/forms-and-metadata.md"
+                        },
+                        {
+                            "text": "Blocks",
+                            "slug": "bundles/cms-bundle/blocks",
+                            "file": "bundles/cms-bundle/blocks.md"
+                        },
+                        {
+                            "text": "Menus",
+                            "slug": "bundles/cms-bundle/menus",
+                            "file": "bundles/cms-bundle/menus.md"
+                        },
+                        {
+                            "text": "Routes and URLs",
+                            "slug": "bundles/cms-bundle/routing",
+                            "file": "bundles/cms-bundle/routing.md"
+                        },
+                        {
+                            "text": "Sitemaps and robots.txt",
+                            "slug": "bundles/cms-bundle/sitemaps-and-robots",
+                            "file": "bundles/cms-bundle/sitemaps-and-robots.md"
+                        },
+                        {
+                            "text": "Frontend and admin assets",
+                            "slug": "bundles/cms-bundle/frontend-assets",
+                            "file": "bundles/cms-bundle/frontend-assets.md"
+                        },
+                        {
+                            "text": "Administration permissions",
+                            "slug": "bundles/cms-bundle/security-and-permissions",
+                            "file": "bundles/cms-bundle/security-and-permissions.md"
+                        },
+                        {
+                            "text": "Plugins and integrations",
+                            "slug": "bundles/cms-bundle/plugins",
+                            "file": "bundles/cms-bundle/plugins.md"
                         }
-                    ]
+                    ],
+                    "file": "bundles/cms-bundle.md",
+                    "slug": "bundles/cms-bundle"
                 },
                 {
                     "text": "Media bundle",
@@ -378,28 +448,40 @@
                     "file": "bundles/mailer-bundle.md"
                 },
                 {
-                    "text": "Notification bundle",
-                    "slug": "bundles/notification-bundle",
-                    "file": "bundles/notification-bundle.md"
+                    "text": "Blog plugin",
+                    "slug": "bundles/cms-blog-plugin",
+                    "file": "bundles/cms-blog-plugin.md"
+                },
+                {
+                    "text": "Data import and export",
+                    "slug": "bundles/cms-data-plugin",
+                    "file": "bundles/cms-data-plugin.md"
+                },
+                {
+                    "text": "Translation plugin",
+                    "slug": "bundles/cms-translation-plugin",
+                    "file": "bundles/cms-translation-plugin.md"
+                },
+                {
+                    "text": "Module collection",
+                    "slug": "bundles/cms-module-collection",
+                    "file": "bundles/cms-module-collection.md"
                 }
-            ]
+            ],
+            "slug": "bundles",
+            "file": "bundles/overview.md"
         },
         {
             "text": "Components",
             "children": [
                 {
-                    "text": "Overview",
+                    "text": "UI components",
                     "slug": "components/components",
                     "file": "components/components.md"
                 },
                 {
                     "text": "Forms",
                     "children": [
-                        {
-                            "text": "Form schema",
-                            "slug": "components/form-schema",
-                            "file": "components/form-schema.md"
-                        },
                         {
                             "text": "Collection form type",
                             "slug": "components/collection-form-type",
@@ -557,7 +639,9 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "slug": "components",
+            "file": "components/overview.md"
         }
     ],
     "redirects": {

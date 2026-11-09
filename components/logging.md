@@ -37,6 +37,8 @@ Its baseline is:
 
 ### Configuration By Environment {#configuration-by-environment}
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/monolog.yaml
 monolog:
@@ -85,6 +87,80 @@ when@prod:
                 channels: ['!event', '!doctrine']
 ```
 
+```php
+<?php
+
+// config/packages/monolog.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('monolog', ['channels' => ['deprecation', 'cms']]);
+
+    if ($container->env() === 'dev') {
+
+        $container->extension('monolog', [
+            'handlers' => [
+                'main' => [
+                    'type' => 'stream',
+                    'path' => 'php://stderr',
+                    'level' => 'debug',
+                    'channels' => ['!event', '!doctrine'],
+                ],
+                'console' => [
+                    'type' => 'console',
+                    'process_psr_3_messages' => false,
+                    'channels' => ['!event', '!doctrine', '!console'],
+                ],
+            ],
+        ]);
+
+    }
+
+    if ($container->env() === 'test') {
+
+        $container->extension('monolog', [
+            'handlers' => [
+                'main' => [
+                    'type' => 'fingers_crossed',
+                    'action_level' => 'error',
+                    'handler' => 'nested',
+                    'excluded_http_codes' => [404, 405],
+                    'channels' => ['!event'],
+                ],
+                'nested' => [
+                    'type' => 'stream',
+                    'path' => '%kernel.logs_dir%/%kernel.environment%.log',
+                    'level' => 'debug',
+                ],
+            ],
+        ]);
+
+    }
+
+    if ($container->env() === 'prod') {
+
+        $container->extension('monolog', [
+            'handlers' => [
+                'main' => [
+                    'type' => 'stream',
+                    'path' => 'php://stderr',
+                    'level' => 'info',
+                    'channels' => ['!deprecation'],
+                ],
+                'console' => [
+                    'type' => 'console',
+                    'process_psr_3_messages' => false,
+                    'channels' => ['!event', '!doctrine'],
+                ],
+            ],
+        ]);
+
+    }
+};
+```
+
+<!-- config-tabs:end -->
+
 This configuration follows a container-oriented deployment model:
 
 - containers collect development logs from `stderr`
@@ -99,6 +175,8 @@ Replace the production `stream` handler only when the hosting platform requires 
 
 You can also add `firephp` and `chromephp` handlers as development options:
 
+<!-- config-tabs:start -->
+
 ```yaml
 when@dev:
     monolog:
@@ -111,6 +189,28 @@ when@dev:
                 level: info
 ```
 
+```php
+<?php
+
+// config/packages/monolog.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    if ($container->env() === 'dev') {
+
+        $container->extension('monolog', [
+            'handlers' => [
+                'firephp' => ['type' => 'firephp', 'level' => 'info'],
+                'chromephp' => ['type' => 'chromephp', 'level' => 'info'],
+            ],
+        ]);
+
+    }
+};
+```
+
+<!-- config-tabs:end -->
+
 Enable them only when browser-based inspection is useful. These handlers add log data to response headers, so the web server may need a larger header-size limit.
 
 ### Channels And Handlers {#channels-and-handlers}
@@ -118,6 +218,8 @@ Enable them only when browser-based inspection is useful. These handlers add log
 Declaring a channel creates a named logger such as `monolog.logger.cms`. It does not create a separate destination by itself. The environment handlers still decide where records from that channel are sent.
 
 Add channels only when a component needs a named logger. For example, the HttpCache channel can be declared next to the component configuration:
+
+<!-- config-tabs:start -->
 
 ```yaml
 # config/packages/http_cache.yaml
@@ -128,6 +230,21 @@ sfs_http_cache_store:
     logger: 'monolog.logger.http_cache'
 ```
 
+```php
+<?php
+
+// config/packages/http_cache.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('monolog', ['channels' => ['http_cache']]);
+
+    $container->extension('sfs_http_cache_store', ['logger' => 'monolog.logger.http_cache']);
+};
+```
+
+<!-- config-tabs:end -->
+
 This keeps optional component configuration together while the main Monolog handlers continue to control the destination in each environment.
 
 ### How To Connect Armonic Components {#how-to-connect-armonic-components}
@@ -136,6 +253,8 @@ When a component accepts a logger service id, point it to a declared channel.
 
 For example, declare an `operations` channel only if command-controller output needs its own logger service:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/monolog.yaml
 monolog:
@@ -143,17 +262,58 @@ monolog:
         - deprecation
         - cms
         - operations
+```
 
+```php
+<?php
+
+// config/packages/monolog.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('monolog', ['channels' => ['deprecation', 'cms', 'operations']]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Then configure the route to use that logger:
+
+<!-- config-tabs:start -->
+
+```yaml
 # config/routes/admin_tools.yaml
 admin_tools_run_import:
     path: /admin/tools/run-import/{source}
     controller: Softspring\Component\CommandController\Controller\CommandController
+    methods: [POST]
     defaults:
         command: 'app:import'
         arguments: ['source']
-        options: ['env']
+        options: ['dry-run']
         loggerOutputService: 'monolog.logger.operations'
 ```
+
+```php
+<?php
+
+// config/routes/admin_tools.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_tools_run_import', '/admin/tools/run-import/{source}')
+        ->controller(\Softspring\Component\CommandController\Controller\CommandController::class)
+        ->methods(['POST'])
+        ->defaults([
+            'command' => 'app:import',
+            'arguments' => ['source'],
+            'options' => ['dry-run'],
+            'loggerOutputService' => 'monolog.logger.operations',
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The named channel makes routing and filtering possible, but it still reaches the normal `main` handler unless you explicitly add a more specific handler.
 
@@ -173,16 +333,40 @@ Use it when:
 
 Typical shape:
 
+<!-- config-tabs:start -->
+
 ```yaml
 admin_tools_run_import:
     path: /admin/tools/run-import/{source}
     controller: Softspring\Component\CommandController\Controller\CommandController
+    methods: [POST]
     defaults:
         command: 'app:import'
         arguments: ['source']
-        options: ['env']
+        options: ['dry-run']
         loggerOutputService: 'monolog.logger.operations'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('admin_tools_run_import', '/admin/tools/run-import/{source}')
+        ->controller(\Softspring\Component\CommandController\Controller\CommandController::class)
+        ->methods(['POST'])
+        ->defaults([
+            'command' => 'app:import',
+            'arguments' => ['source'],
+            'options' => ['dry-run'],
+            'loggerOutputService' => 'monolog.logger.operations',
+        ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is a good fit for maintenance endpoints, imports, or back office actions that should leave an operational log trail.
 
@@ -199,6 +383,8 @@ The bundle supports an optional logger service id for:
 
 Typical configuration:
 
+<!-- config-tabs:start -->
+
 ```yaml
 monolog:
     channels: ['http_cache']
@@ -206,6 +392,21 @@ monolog:
 sfs_http_cache_store:
     logger: 'monolog.logger.http_cache'
 ```
+
+```php
+<?php
+
+// config/packages/monolog.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('monolog', ['channels' => ['http_cache']]);
+
+    $container->extension('sfs_http_cache_store', ['logger' => 'monolog.logger.http_cache']);
+};
+```
+
+<!-- config-tabs:end -->
 
 This is the right tool when you are debugging cache behavior, `Vary` handling, or fragment-heavy pages.
 

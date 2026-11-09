@@ -26,21 +26,51 @@ composer require symfony/mailer
 
 Then enable the feature:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_user:
     mailer:
         enabled: true
 ```
 
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['mailer' => ['enabled' => true]]);
+};
+```
+
+<!-- config-tabs:end -->
+
 The bundle fails during configuration when `sfs_user.mailer.enabled` is `true` but `symfony/mailer` is not installed.
 
 Keep the mailer disabled when the application does not send user emails:
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_user:
     mailer:
         enabled: false
 ```
+
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', ['mailer' => ['enabled' => false]]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## What The Mailer Sends {#what-the-mailer-sends}
 
@@ -52,11 +82,15 @@ The default mailer sends:
 - `ResetPasswordEmail` after a valid reset password request when the user implements `PasswordRequestInterface`
 - `InvitationEmail` when an invitation is created and the invitation feature is enabled
 
-The admin and settings resend actions also use the same mailer when it is available.
+The admin and settings resend actions also use the same mailer when it is available. Delivery failures are logged and do not necessarily roll back successful user or invitation creation. Check the logs and test the resend path when verifying onboarding.
+
+For local verification, use a mail catcher or Symfony's `null://null` transport rather than a real recipient. Verify generated message content separately from delivery.
 
 ## Configure Sender Data {#configure-sender-data}
 
 The mailer configuration accepts a sender address and name:
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_user:
@@ -66,6 +100,21 @@ sfs_user:
             address: 'no-reply@example.com'
             name: 'Example'
 ```
+
+```php
+<?php
+
+// config/packages/sfs_user.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_user', [
+        'mailer' => ['enabled' => true, 'from' => ['address' => 'no-reply@example.com', 'name' => 'Example']],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Use project configuration or environment variables for real deployments.
 
@@ -89,11 +138,29 @@ Replace or decorate `Softspring\UserBundle\Mailer\UserMailerInterface` when the 
 
 Example:
 
+<!-- config-tabs:start -->
+
 ```yaml
 services:
     App\User\UserMailer:
         decorates: Softspring\UserBundle\Mailer\UserMailerInterface
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(\App\User\UserMailer::class)
+        ->decorate(\Softspring\UserBundle\Mailer\UserMailerInterface::class);
+};
+```
+
+<!-- config-tabs:end -->
 
 Prefer decorating the service when you only need to add behaviour before or after sending.
 

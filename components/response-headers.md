@@ -42,6 +42,8 @@ That listener subscribes to the Symfony response event and applies the configure
 
 You must register the listener yourself.
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/response_headers.yaml
 parameters:
@@ -57,6 +59,29 @@ services:
         tags: ['kernel.event_subscriber']
 ```
 
+```php
+<?php
+
+// config/packages/response_headers.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', [
+        'X-Frame-Options' => 'SAMEORIGIN',
+        'X-Content-Type-Options' => 'nosniff',
+        'Referrer-Policy' => 'same-origin',
+    ]);
+
+    $services = $container->services();
+
+    $services->set(\Softspring\Component\ResponseHeaders\EventListener\ResponseHeadersListener::class)
+        ->args(['$headers' => '%response_headers%'])
+        ->tag('kernel.event_subscriber');
+};
+```
+
+<!-- config-tabs:end -->
+
 This is enough when all you need is a fixed set of headers applied to every response.
 
 ## How Header Definitions Work {#how-header-definitions-work}
@@ -67,6 +92,8 @@ The component accepts three practical rule styles.
 
 Use a plain string when the header has one direct value:
 
+<!-- config-tabs:start -->
+
 ```yaml
 parameters:
     response_headers:
@@ -74,34 +101,64 @@ parameters:
         X-Content-Type-Options: "nosniff"
 ```
 
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', ['X-Frame-Options' => 'SAMEORIGIN', 'X-Content-Type-Options' => 'nosniff']);
+};
+```
+
+<!-- config-tabs:end -->
+
 This is the simplest form and works well for classic security headers.
 
 ### Multiple Directives In One Header {#multiple-directives-in-one-header}
 
 Use an array when you want to build one header from multiple fragments:
 
+<!-- config-tabs:start -->
+
 ```yaml
 parameters:
     response_headers:
-        Permissions-Policy:
-            - "geolocation=()"
-            - "camera=()"
+        Permissions-Policy: "geolocation=(), camera=()"
         Strict-Transport-Security:
             - "max-age=31536000"
             - "includeSubDomains"
 ```
 
-The component joins array values with `; `.
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', [
+        'Permissions-Policy' => 'geolocation=(), camera=()',
+        'Strict-Transport-Security' => ['max-age=31536000', 'includeSubDomains'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The component joins array values with `; `. Headers with another grammar, such as the comma-separated directives of [Permissions-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy), must use a correctly formatted string instead.
 
 That makes it practical for directive-style headers such as:
 
-- `Permissions-Policy`
 - `Strict-Transport-Security`
 - `Content-Security-Policy`
 
 ## Advanced Rule Options {#advanced-rule-options}
 
 Use a structured rule when you need more than a plain value:
+
+<!-- config-tabs:start -->
 
 ```yaml
 parameters:
@@ -112,6 +169,21 @@ parameters:
                 - "img-src 'self' data:"
             replace: true
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', [
+        'Content-Security-Policy' => ['value' => ['default-src \'self\'', 'img-src \'self\' data:'], 'replace' => true],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 The supported fields are:
 
@@ -129,6 +201,8 @@ If you do not configure conditions, the component works without `symfony/express
 
 If you do configure conditions, you must wire an `ExpressionLanguage` instance:
 
+<!-- config-tabs:start -->
+
 ```yaml
 # config/packages/response_headers.yaml
 parameters:
@@ -136,7 +210,7 @@ parameters:
     response_headers:
         X-Robots-Tag:
             value: 'noindex'
-            condition: 'request.getPathInfo() matches "^/admin"'
+            condition: 'request.getPathInfo() matches "{^/admin}"'
 
 services:
     softspring.response_headers.expression_language:
@@ -150,6 +224,33 @@ services:
         tags: ['kernel.event_subscriber']
 ```
 
+```php
+<?php
+
+// config/packages/response_headers.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers_global_conditions', []);
+
+    $container->parameters()->set('response_headers', ['X-Robots-Tag' => ['value' => 'noindex', 'condition' => 'request.getPathInfo() matches "{^/admin}"']]);
+
+    $services = $container->services();
+
+    $services->set('softspring.response_headers.expression_language', \Symfony\Component\ExpressionLanguage\ExpressionLanguage::class);
+
+    $services->set(\Softspring\Component\ResponseHeaders\EventListener\ResponseHeadersListener::class)
+        ->args([
+            '$headers' => '%response_headers%',
+            '$expressionLanguage' => service('softspring.response_headers.expression_language'),
+            '$globalConditions' => '%response_headers_global_conditions%',
+        ])
+        ->tag('kernel.event_subscriber');
+};
+```
+
+<!-- config-tabs:end -->
+
 If you add conditions but do not provide an expression language instance, the listener throws an explicit exception instead of silently ignoring the rule.
 
 ## Global Conditions {#global-conditions}
@@ -158,11 +259,26 @@ Global conditions run before any individual header rule.
 
 This is useful when you want one gate for the whole header set:
 
+<!-- config-tabs:start -->
+
 ```yaml
 parameters:
     response_headers_global_conditions:
         - 'isMainRequest'
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers_global_conditions', ['isMainRequest']);
+};
+```
+
+<!-- config-tabs:end -->
 
 This pattern is usually a good default because it avoids applying the same header rules to sub-requests.
 
@@ -176,20 +292,40 @@ Conditions can use these variables:
 
 That lets you build practical rules such as:
 
+<!-- config-tabs:start -->
+
 ```yaml
 parameters:
     response_headers:
         X-Robots-Tag:
             value: 'noindex'
-            condition: 'request.getPathInfo() matches "^/admin"'
+            condition: 'request.getPathInfo() matches "{^/admin}"'
         Access-Control-Allow-Origin:
             value: '*'
-            condition: 'request.getPathInfo() matches "^/api"'
+            condition: 'request.getPathInfo() matches "{^/api}"'
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', [
+        'X-Robots-Tag' => ['value' => 'noindex', 'condition' => 'request.getPathInfo() matches "{^/admin}"'],
+        'Access-Control-Allow-Origin' => ['value' => '*', 'condition' => 'request.getPathInfo() matches "{^/api}"'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Practical Use Cases {#practical-use-cases}
 
 ### Security Header Baseline {#security-header-baseline}
+
+<!-- config-tabs:start -->
 
 ```yaml
 parameters:
@@ -204,29 +340,82 @@ parameters:
             - "includeSubDomains"
 ```
 
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers_global_conditions', ['isMainRequest']);
+
+    $container->parameters()->set('response_headers', [
+        'X-Frame-Options' => 'SAMEORIGIN',
+        'X-Content-Type-Options' => 'nosniff',
+        'Referrer-Policy' => 'same-origin',
+        'Strict-Transport-Security' => ['max-age=31536000', 'includeSubDomains'],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Enable the HSTS example only for an HTTPS deployment whose subdomains also support HTTPS. These header values are examples to adapt to the application, not a complete security policy.
+
 ### Conditional Admin Headers {#conditional-admin-headers}
+
+<!-- config-tabs:start -->
 
 ```yaml
 parameters:
     response_headers:
         X-Robots-Tag:
             value: 'noindex'
-            condition: 'request.getPathInfo() matches "^/admin"'
+            condition: 'request.getPathInfo() matches "{^/admin}"'
 ```
 
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', ['X-Robots-Tag' => ['value' => 'noindex', 'condition' => 'request.getPathInfo() matches "{^/admin}"']]);
+};
+```
+
+<!-- config-tabs:end -->
+
 ### Policy Headers Built From Multiple Directives {#policy-headers-built-from-multiple-directives}
+
+<!-- config-tabs:start -->
 
 ```yaml
 parameters:
     response_headers:
-        Permissions-Policy:
-            - "geolocation=()"
-            - "camera=()"
+        Permissions-Policy: "geolocation=(), camera=()"
         Content-Security-Policy:
             - "default-src 'self'"
             - "img-src 'self' data:"
             - "script-src 'self'"
 ```
+
+```php
+<?php
+
+// config/services.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->parameters()->set('response_headers', [
+        'Permissions-Policy' => 'geolocation=(), camera=()',
+        'Content-Security-Policy' => ['default-src \'self\'', 'img-src \'self\' data:', 'script-src \'self\''],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 ## Extending The Component {#extending-the-component}
 

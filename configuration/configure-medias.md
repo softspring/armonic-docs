@@ -3,25 +3,15 @@ title: "Configure Medias"
 description: "Configure media storage and media types used by Armonic CMS through the Media Bundle."
 ---
 
-# Media Configuration (`config/packages/sfs_media.yaml`)
+# Media Configuration (`config/packages/sfs_media.yaml`) {#media-configuration-config-packages-sfs-media-yaml}
 
 CMS media behavior is configured through **Media Bundle** (`sfs_media`), not through `cms/*`.
 
-Main schema source:
-
-- `media-bundle/src/DependencyInjection/Configuration.php`
-
-## On This Page {#on-this-page}
-
-- [Minimal Practical Setup](#minimal-practical-setup)
-- [Typical CMS Setup (with one media type)](#typical-cms-setup-with-one-media-type)
-- [Key Sections](#key-sections)
-- [About `versions` (important)](#about-versions-important)
-- [Required vs Optional](#required-vs-optional)
-- [Important Validation Notes](#important-validation-notes)
-- [Related Docs](#related-docs)
+Media types control accepted uploads, generated sizes, and frontend rendering. Define storage first, then the types your editors need. Admin routes and permissions must also be enabled; see [Install Media Bundle](../bundles/media-bundle/install.md).
 
 ## Minimal Practical Setup {#minimal-practical-setup}
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_media:
@@ -33,9 +23,28 @@ sfs_media:
         admin_controller: true
 ```
 
-This is enough to store files and use media admin.
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'filesystem',
+        'filesystem' => ['path' => '%kernel.project_dir%/public/media', 'url' => '/media'],
+        'media' => ['admin_controller' => true],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+This selects local filesystem storage and enables the admin controller services. The upload directory must be writable by PHP. Configure the admin routes and permissions before opening the screens.
 
 ## Typical CMS Setup (with one media type) {#typical-cms-setup-with-one-media-type}
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_media:
@@ -47,6 +56,7 @@ sfs_media:
         background:
             type: image
             name: 'Background image'
+            imagine_driver: gd
             upload_requirements:
                 minWidth: 1280
                 minHeight: 450
@@ -59,6 +69,45 @@ sfs_media:
                     img:
                         src_version: xl
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'driver' => 'filesystem',
+        'filesystem' => ['path' => '%kernel.project_dir%/public/media', 'url' => '/media'],
+        'types' => [
+            'background' => [
+                'type' => 'image',
+                'name' => 'Background image',
+                'imagine_driver' => 'gd',
+                'upload_requirements' => ['minWidth' => 1280, 'minHeight' => 450, 'mimeTypes' => ['image/png', 'image/jpeg']],
+                'versions' => [
+                    '_thumbnail' => ['type' => 'jpeg', 'scale_width' => 300, 'jpeg_quality' => 90],
+                    'xl' => ['type' => 'jpeg', 'scale_width' => 1280, 'jpeg_quality' => 90],
+                ],
+                'pictures' => ['_default' => ['img' => ['src_version' => 'xl']]],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The example uses GD for JPEG generation, matching the required `ext-gd` extension. The bundle's default image driver is Imagick; install `ext-imagick` and the required codecs before using that driver instead.
+
+To render the configured picture in Twig:
+
+```twig
+{{ media|sfs_media_render_picture('_default', {'class': 'img-fluid'}) }}
+```
+
+Here `media` is a saved record of the `background` type. After adding or changing generated versions, regenerate existing files through the media admin; changing configuration alone does not recreate stored images.
 
 ## Key Sections {#key-sections}
 
@@ -83,7 +132,7 @@ Typical use cases:
 
 If a version includes its own `upload_requirements`, that version is expected as an uploaded version instead of being auto-generated.
 
-### `types.<id>` common keys
+### `types.<id>` common keys {#types-id-common-keys}
 
 - `type` (`image` or `video`, default `image`)
 - `name`

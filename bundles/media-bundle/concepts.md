@@ -58,7 +58,7 @@ The version lifecycle is driven by Doctrine listeners and tagged processors:
 
 1. `UploadedImageSizeProcessor`
 2. `VersionFileCopyProcessor`
-3. `ImagineProcessor`
+3. `FfmpegProcessor` for animated images or `ImagineProcessor` for static images
 4. `StoreFileProcessor`
 
 That means version generation is part of the entity lifecycle, not a separate batch command you must call manually after every upload.
@@ -96,9 +96,9 @@ This is useful when cleaning or consolidating large media libraries.
 
 - video support is rendering- and storage-oriented, not a transcoding pipeline
 - private media is a persisted flag, not a complete secure delivery system
-- some rendering paths still assume the default filesystem public URL behavior
+- file delivery uses the configured storage driver and public base URL; storage access control remains an application concern
 
-These are not reasons to avoid the bundle. They are integration details you should understand before depending on those behaviors.
+Choose the upload and delivery flow according to these constraints.
 
 ## Related Guides {#related-guides}
 

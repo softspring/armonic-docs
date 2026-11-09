@@ -13,23 +13,35 @@ Once the account is part of the route, the bundle can resolve it before your con
 
 This is the safest route pattern:
 
+<!-- config-tabs:start -->
+
 ```yaml
 project_list:
     path: /account/{_account}/projects
     controller: App\Controller\ProjectController::list
 ```
 
-Several internals still read `_account` directly:
+```php
+<?php
 
-- `AccountValueResolver`
-- `AccountFilteredEventListener`
-- `AccountFilter`
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
 
-That is why `_account` should be your default route parameter name.
+return static function (RoutingConfigurator $routes): void {
+    $routes->add('project_list', '/account/{_account}/projects')
+        ->controller('App\\Controller\\ProjectController::list');
+};
+```
+
+<!-- config-tabs:end -->
+
+`route_param_name` controls which request attribute the shared context resolver reads. The default `_account` keeps the examples and bundled routes consistent. The resolver uses `find_field_name` and reuses an entity already resolved into the attribute.
 
 ## Building Real Account Areas {#building-real-account-areas}
 
 The pattern becomes more useful when you apply it to whole areas:
+
+<!-- config-tabs:start -->
 
 ```yaml
 _provider:
@@ -40,6 +52,21 @@ _corporate:
     resource: 'routes/corporate/*'
     prefix: '/{_locale}/corporate/{_account}'
 ```
+
+```php
+<?php
+
+// config/routes.php
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('routes/provider/*')->prefix('/{_locale}/provider/{_account}');
+
+    $routes->import('routes/corporate/*')->prefix('/{_locale}/corporate/{_account}');
+};
+```
+
+<!-- config-tabs:end -->
 
 This lets your product areas stay account-aware without repeating account-loading code in every controller.
 
@@ -77,7 +104,7 @@ public function settings(AccountInterface $account): Response
 }
 ```
 
-The request listener is still the more flexible runtime mechanism, especially when you rely on `find_field_name`.
+The request listener and value resolver share the same context resolver, including `find_field_name`. Protect the route with a stateful firewall so account access is checked against the authenticated user.
 
 ## Using The Current Account In Twig {#using-the-current-account-in-twig}
 

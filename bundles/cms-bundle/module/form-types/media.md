@@ -1,236 +1,115 @@
 ---
 title: "CMS Module Media Field Type"
-description: "Use the CMS media form type to select media entries from the Media Bundle inside module configuration forms."
+description: "Select media and generated versions from the CMS editor and render them with the Media Bundle helpers."
 ---
 
-# Media type
+# Media fields {#media-type}
 
-This type depends on [softspring/media-bundle](https://github.com/softspring/media-bundle), and 
- **allows to select a media** instance in a select element.
+In 6.0, the CMS `media` field extends `Softspring\MediaBundle\Form\MediaModalType`. Editors select an existing media item in a modal. The stored model value is a media object; it does not include a selected output version.
 
-This **media** type makes reference to *Softspring\CmsBundle\Form\Type\MediaType* form type (see *Softspring\MediaBundle\Form\MediaChoiceType*).
+Use `mediaVersion` when editors must choose both the media and a generated image version, responsive picture, or video set. It extends `MediaVersionModalType` and stores an array with `media` and `version` keys.
 
-> *The "media" type replaces the deprecated "image" type, but it works exactly the same. It has been replaced because of semantic reasons.*
+The following examples are fragments of an existing module definition. See [Configure modules](../../../../configuration/configure-modules.md) to create the complete module.
 
-## Example usage {#example-usage}
-
-When you are modeling a CMS module, you can use this media field as follows:
+## Select a media item {#example-usage}
 
 ```yaml
-# cms/module/example/config.yaml
+# cms/modules/feature/config.yaml
 module:
     module_options:
         form_fields:
-            media_field:
-                type: 'media'
+            image:
+                type: media
                 type_options:
                     media_types:
-                        content:
-                            image: 'sm'
                         background:
-                            image: 'sm'
+                            image: [sm]
+                    show_thumbnail: true
 ```
 
-This example configuration requires a "content" media type in *softspring/media-bundle* configuration.
+The media type `background` and its `sm` version must exist in [Media Bundle configuration](../../../../configuration/configure-medias.md). This allow-list limits selectable media types. For a `media` field, choose the output version in the render template:
 
-```yaml
-# config/packages/sfs_media.yaml
-sfs_media:
-    types:
-        content:
-            name: 'Content image'
-            upload_requirements: { minWidth: 600, minHeight: 100, mimeTypes: ['image/jpeg', 'image/png'],  }
-            versions:
-                _thumbnail: { scale_width: 300 }
-                sm: { scale_width: 600 }
+```twig
+{# cms/modules/feature/render.html.twig #}
+{% if image|default(false) %}
+    {{ image|sfs_media_render_image('sm', {class: 'img-fluid'}) }}
+{% endif %}
 ```
 
-## Preview values {#preview-values}
+`media_types: null` permits all configured types. An empty map permits none. Avoid leaving the field unrestricted when its render template expects only images.
 
-To use the media preview feature, you must include a preview identificator in a **data-media-preview-input** attribute: 
+## Let editors choose the output {#select-output}
 
 ```yaml
-# cms/module/example/config.yaml
 module:
-    edit_template: '@module/example/edit.html.twig'
     module_options:
         form_fields:
-            media_field:
-                type: 'media'
+            visual:
+                type: mediaVersion
                 type_options:
+                    media_types:
+                        background:
+                            image: [sm, lg]
+                            picture: [responsive]
+                    show_thumbnail: true
+```
+
+Create `sm`, `lg`, and the `responsive` picture in the Media Bundle first. The submitted version must belong to the configured allow-list for the selected media type.
+
+```twig
+{% if visual.media|default(false) and visual.version|default(false) %}
+    {{ visual.media|sfs_media_render(visual.version, {class: 'img-fluid'}) }}
+{% endif %}
+```
+
+The generic render helper selects the appropriate image, picture, video, or video-set renderer from the selected output name.
+
+## Configure the editor preview {#preview-values}
+
+Pass a shared preview identifier through the field attributes and the editor template:
+
+```yaml
+module:
+    module_options:
+        form_fields:
+            image:
+                type: media
+                type_options:
+                    media_types:
+                        background:
+                            image: [sm]
                     attr:
-                        data-media-preview-input: 'exampleMedia'
+                        data-media-preview-input: featureImage
 ```
 
-Now, the following twig template makes the preview work. You must include **data-media-preview-target** attribute with the
- same identificator as in *data-media-preview-input*.
-
 ```twig
-{# cms/modules/example/edit.html.twig #}
-<div data-media-preview-target="exampleMedia">
-    {% if form.media_field.vars.data|default(false) %}
-        {{ form.media_field.vars.data|sfs_media_render_image('sm') }}
+{# cms/modules/feature/edit.html.twig #}
+<div data-media-preview-target="featureImage">
+    {% if form.image.vars.data|default(false) %}
+        {{ form.image.vars.data|sfs_media_render_image('sm', {class: 'img-fluid'}) }}
     {% endif %}
 </div>
 ```
 
-**Preview also video medias**
+Load the Media Bundle and CMS admin JavaScript and form themes. The modal also needs the media search admin routes. If the picker is absent, inspect the browser console and the search response before changing the stored field data.
 
-Maybe, your media field contains only video elements or, like in the example below, both images and videos.
+## HTML attributes {#media-attributes}
 
-```twig
-{# cms/modules/example/edit.html.twig #}
-<div data-media-preview-target="exampleMedia">
-    {% if form.media_field.vars.data|default(false) %}
-        {% if form.media_field.vars.data.isImage() %}
-            {{ form.media_field.vars.data|sfs_media_render_image('sm') }}
-        {% elseif form.media_field.vars.data.isVideo() %}
-            {{ form.media_field.vars.data|sfs_media_render_video('_original') }}
-        {% endif %}
-    {% endif %}
-</div>
-```
+`media_attr`, `image_attr`, `picture_attr`, and `video_attr` configure HTML attributes exposed to the form view and modal. The current implementation merges them with PHP's array union: a key present in `media_attr` takes precedence over the same key in a specific attribute map. Keep shared and specific keys distinct.
 
-## Field rendering {#field-rendering}
-
-Now you are ready to show your media image in the content render:
+Public rendering uses the attributes passed to the Twig render helper. It does not automatically read the module form configuration. For example:
 
 ```twig
-{# cms/modules/example/render.html.twig #}
-{{ media_field|sfs_media_render_image('sm') }}
-```
-
-Remember that if it can contain images or videos:
-
-```twig
-{# cms/modules/example/render.html.twig #}
-{% if media_field.isImage() %}
-    {{ media_field|sfs_media_render_image('sm') }}
-{% elseif media_field.isVideo() %}
-    {{ media_field|sfs_media_render_video('_original') }}
+{% if video|default(false) and video.isVideo() %}
+    {{ video|sfs_media_render_video('_original', {
+        controls: true,
+        preload: 'metadata'
+    }) }}
 {% endif %}
 ```
 
-## Media attributes {#media-attributes}
+## Use the legacy select widget {#legacy-select}
 
-In some cases, you want to add some attributes for the *sfs_media_render_image* or *sfs_media_render_video* twig filters.
+If an application still needs a plain select rather than a modal, use the explicit Symfony form class `Softspring\MediaBundle\Form\MediaChoiceType`. Its `media_types` map uses a single output name per mode, such as `background: {image: sm}`. An empty map produces no choices.
 
-There are several options to set them up, depending on the rendered type: *image_attr*, *video_attr*, *picture_attr*. Also
- a common options is available: *media_attr*.
-
-The *media_attr* is appened to the other specific *\*_attr* options, so is a shared option.
-
-The config file would be as follows:
-
-```yaml
-# cms/module/example/config.yaml
-module:
-    module_options:
-        form_fields:
-            media_field:
-                type: 'media'
-                type_options:
-                    media_attr:
-                        class: 'col'
-                    image_attr:
-                        class: 'img-fluid'
-                    video_attr:
-                        controls: true
-```
-
-> *Keep in mind that specific option values (image_attr, video_attr, picture_attr) overrides the media_attr ones.*
-
-You need to include those *\*_attr* options in the twig templates:
-
-```twig
-{# cms/modules/example/edit.html.twig #}
-<div data-media-preview-target="exampleMedia">
-    {% if form.media_field.vars.data|default(false) %}
-        {% if form.media_field.vars.data.isImage() %}
-            {{ form.media_field.vars.data|sfs_media_render_image('sm', form.media_field.vars.image_attr) }} 
-        {% elseif form.media_field.vars.data.isVideo() %}
-            {{ form.media_field.vars.data|sfs_media_render_video('_original', form.media_field.vars.video_attr) }}
-        {% endif %}
-    {% endif %}
-</div>
-```
-
-In the render template you can access to the module configuration with the **_config** variable:
-
-```twig
-{# cms/modules/example/render.html.twig #}
-{% if media_field.isImage() %}
-    {{ media_field|sfs_media_render_image('sm', _config.module_options.form_fields.media.type_options.image_attr) }}
-{% elseif media_field.isVideo() %}
-    {{ media_field|sfs_media_render_video('_original', _config.module_options.form_fields.media.type_options.video_attr) }}
-{% endif %}
-```
-
-### Working with videos {#working-with-videos}
-
-Usually, you will want to configure *\<video\>* tag attributes such as *autoplay* or *controls*. (View video [tag documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for all atributes).
-
-This is a common configuration for those attributes:
-
-```yaml
-# cms/module/example/config.yaml
-module:
-    module_options:
-        form_fields:
-            media_field:
-                type: 'media'
-                type_options:
-                    video_attr:
-                        autoplay: ''
-                        loop: ''
-                        muted: ''
-                        playsinline: ''
-                        controls: ''
-```
-
-This will render this tag:
-
-```html
-<video autoplay="" loop="" muted="" playsinline="" controls="" src=""></video>
-```
-
-## Field Options {#field-options}
-
-### media_types {#mediatypes}
-
-**type:** *array* **default:** *[]*
-
-This is the main configuration field, if no value provided the list of medias will be empty.
-
-It must be an associative array with the media type as key, including a list of media *modes* and witch media version
- must be used.
-
-For example, to use a version named *sm* as image: 
-
-```yaml
-media_types:
-    content:
-        image: 'sm'
-```
-
-For videos, you must use *video* attribute.
-
-```yaml
-media_types:
-    content:
-        video: '_original'
-```
-
-If instead of a simple image tag you want to use *pictures* (see *softspring/media-bundle*), you must configure the *picture* attribute:
-
-```yaml
-media_types:
-    background:
-        picture: '_default'
-```
-
-### media_attr {#mediaattr}
-
-**type:** *array* **default:** *[]*
-
-A list of attributes to be included in the resuting HTML tag.
+This is a different widget from the CMS `media` alias in 6.0. Do not assume that examples for the old select widget describe the current modal's options or submitted structure.

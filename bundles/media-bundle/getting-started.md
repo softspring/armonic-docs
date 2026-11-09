@@ -21,6 +21,8 @@ This lets you validate the real model before you add more formats, providers, or
 
 ## Example First Type {#example-first-type}
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_media:
     types:
@@ -41,6 +43,35 @@ sfs_media:
                     scale_width: 1280
                     webp_quality: 85
 ```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', [
+        'types' => [
+            'article_image' => [
+                'type' => 'image',
+                'name' => 'Article image',
+                'upload_requirements' => [
+                    'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                    'minWidth' => 1200,
+                    'minHeight' => 675,
+                ],
+                'versions' => [
+                    'card' => ['type' => 'webp', 'scale_width' => 480, 'webp_quality' => 80],
+                    'article' => ['type' => 'webp', 'scale_width' => 1280, 'webp_quality' => 85],
+                ],
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 This gives you:
 

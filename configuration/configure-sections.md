@@ -15,13 +15,30 @@ This is different from modules. Modules are reusable content types defined in `c
 
 The plugin works with defaults:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_cms_sections: ~
 ```
 
+```php
+<?php
+
+// config/packages/sfs_cms_sections.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms_sections', []);
+};
+```
+
+<!-- config-tabs:end -->
+
 With this configuration, Armonic uses the default section and section version entities provided by the plugin.
 
 ## Practical Example {#practical-example}
+
+<!-- config-tabs:start -->
 
 ```yaml
 sfs_cms_sections:
@@ -35,6 +52,30 @@ sfs_cms_sections:
         prefix_compiled: ''
         recompile: true
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms_sections.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms_sections', [
+        'section' => [
+            'class' => \App\Entity\Cms\Section::class,
+            'version_class' => \App\Entity\Cms\SectionVersion::class,
+            'find_field_name' => 'id',
+            'save_compiled' => true,
+            'autocompile_on_save' => false,
+            'autocompile_on_publish' => true,
+            'prefix_compiled' => '',
+            'recompile' => true,
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
 
 Use this when the project needs custom Doctrine entities for sections or when you need to tune how compiled section output is generated and stored.
 
@@ -105,11 +146,26 @@ Do not create section definitions in `cms/sections`. Sections are not configured
 
 The plugin adds its own `section` CMS module through a CMS collection:
 
+<!-- config-tabs:start -->
+
 ```yaml
 sfs_cms:
     collections:
         - vendor/softspring/cms-sections-plugin/cms
 ```
+
+```php
+<?php
+
+// config/packages/sfs_cms.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms', ['collections' => ['vendor/softspring/cms-sections-plugin/cms']]);
+};
+```
+
+<!-- config-tabs:end -->
 
 That module is what editors use to insert an existing section into a page or content type. The module itself comes from the plugin; the section records are created in the admin area.
 

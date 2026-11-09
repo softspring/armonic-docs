@@ -65,10 +65,23 @@ Typical usage:
 
 use Doctrine\ORM\Mapping as ORM;
 use Softspring\Component\DoctrineTemplates\Entity\Embeddable\Address;
+use Softspring\Component\DoctrineTemplates\Entity\Traits\AutoId;
 
 #[ORM\Entity]
 class Customer
 {
+    use AutoId;
+
+    public function __construct()
+    {
+        $this->billingAddress = new Address();
+    }
+
+    public function getBillingAddress(): Address
+    {
+        return $this->billingAddress;
+    }
+
     #[ORM\Embedded(class: Address::class)]
     protected Address $billingAddress;
 }
@@ -237,8 +250,4 @@ Keep these limits in mind:
 - validation rules are mostly your responsibility
 - lifecycle strategy still belongs to your application and Doctrine mapping decisions
 
-In short: it saves repetition, but it does not remove the need to design your own domain model carefully.
-
-## Summary {#summary}
-
-Choose `doctrine-templates` when your application repeatedly needs the same Doctrine embeddables, id styles, timestamp traits, and matching form types, and you want to reuse those pieces without building a bigger abstract model layer.
+Choose one identity and timestamp strategy per entity, and define the validation rules required by the application.
