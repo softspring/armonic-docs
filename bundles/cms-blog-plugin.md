@@ -11,7 +11,7 @@ The blog plugin adds an `article` content type to the CMS, with authors, publica
 ## Install and register {#install-and-register}
 
 ```bash
-composer require softspring/cms-blog-plugin:6.0.x-dev
+composer require softspring/cms-blog-plugin:6.1.*@dev
 ```
 
 Register the bundle when Flex does not do it automatically:

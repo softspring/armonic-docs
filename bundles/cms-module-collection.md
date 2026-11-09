@@ -11,7 +11,7 @@ The module collection supplies reusable definitions, edit forms, templates, tran
 ## Load the collection {#load-the-collection}
 
 ```bash
-composer require softspring/cms-module-collection:6.0.x-dev
+composer require softspring/cms-module-collection:6.1.*@dev
 ```
 
 Register the package root, which contains `modules/` directly:

@@ -60,3 +60,12 @@ The **[UI components package](../components/components.md)** provides shared Twi
 
 - [Crudl bundle](../components/crudl-bundle.md)
 - [Time ago bundle](../components/time-ago-bundle.md)
+
+## Experimental development packages {#experimental-development-packages}
+
+These optional packages belong to `6.1@dev`. Their public contracts may change before a stable release.
+
+- [cms-api-plugin (Experimental)](cms-api-plugin.md)
+- [cms-mcp-plugin (Experimental)](cms-mcp-plugin.md)
+- [cms-mate-extension (Experimental)](cms-mate-extension.md)
+- [form-schema (Experimental)](form-schema.md)

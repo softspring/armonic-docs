@@ -58,7 +58,7 @@ composer config prefer-stable true
 Install Armonic:
 
 ```bash
-composer require softspring/armonic:6.0.x-dev -W
+composer require softspring/armonic:6.1.*@dev -W
 ```
 
 >[!NOTE]

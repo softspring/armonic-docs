@@ -30,7 +30,7 @@ Sections are provided by `softspring/cms-sections-plugin`.
 Install the package with Composer:
 
 ```bash
-composer require softspring/cms-sections-plugin:6.0.x-dev
+composer require softspring/cms-sections-plugin:6.1.*@dev
 ```
 
 If your project does not use Symfony Flex, enable the plugin in `config/bundles.php`:

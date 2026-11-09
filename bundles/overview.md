@@ -33,3 +33,11 @@ The [Components](../components/overview.md) section covers forms, Doctrine helpe
 ## Extend the CMS {#extend-the-cms}
 
 The [CMS plugin catalog](cms-bundle/plugins.md) covers blog articles, sections, translation workflows, data import/export, and ready-made modules. Choose the plugin by the workflow it adds and check its current compatibility requirements.
+
+## Experimental development packages {#experimental-development-packages}
+
+These optional packages belong to `6.1@dev`. Their public contracts may change before a stable release.
+
+- [cms-ai-plugin (Experimental)](cms-ai-plugin.md)
+- [cms-analytics-plugin (Experimental)](cms-analytics-plugin.md)
+- [cms-seo-plugin (Experimental)](cms-seo-plugin.md)

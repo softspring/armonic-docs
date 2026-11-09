@@ -71,7 +71,7 @@ composer config prefer-stable true
 Install Armonic. When Composer asks to execute the recipes, choose **Yes** or **Yes for all packages** for this installation.
 
 ```bash
-composer require softspring/armonic:6.0.x-dev -W
+composer require softspring/armonic:6.1.*@dev -W
 ```
 
 Check that `config/bundles.php` also registers the collection form bundle and the two plugins installed with Armonic. Add these entries to the returned array if they are missing:
@@ -100,7 +100,7 @@ The CMS tables are ready. Continue below to configure login and open the admin a
 This example uses the Softspring User Bundle for login and admin users. You can also integrate Armonic with your own Symfony security setup.
 
 ```bash
-composer require softspring/user-bundle:6.0.x-dev -W
+composer require softspring/user-bundle:6.1.*@dev -W
 ```
 
 Accept the Flex recipe. It adds the user entity, routes, and a sample security configuration.

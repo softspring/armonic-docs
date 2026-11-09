@@ -49,7 +49,7 @@ If you are integrating the bundle for the first time, the usual reading order is
 Install the bundle:
 
 ```bash
-composer require softspring/media-bundle:6.0.x-dev
+composer require softspring/media-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable it manually:

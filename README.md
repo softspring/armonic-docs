@@ -3,7 +3,7 @@ title: "Armonic Documentation Repository"
 description: "Source Markdown files for the Armonic documentation site, including guides, bundle references, and contribution information."
 ---
 
-<p align="center"><a href="https://armonic.softspring.es/6.0/" target="_blank">
+<p align="center"><a href="https://armonic.softspring.es/6.1@dev/" target="_blank">
   <img src="https://storage.googleapis.com/softspring-images/d3ca848a7019bd4965f1b7da8ccb03c473b81dd0.png">
 </a></p>
 
@@ -12,7 +12,7 @@ description: "Source Markdown files for the Armonic documentation site, includin
 </h3>
 
 <p align="center">
-  <a href="https://armonic.softspring.es/6.0/">
+  <a href="https://armonic.softspring.es/6.1@dev/">
     Read this documentation online
   </a>
     ·
@@ -56,17 +56,17 @@ Upgrade guides compare each supported starting line with the target package code
 
 ## Release documentation scope
 
-The `6.0` documentation covers the maintained Armonic features selected for this release.
-Experimental packages are deferred to `6.1@dev`: CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema.
-Do not publish their guides or link to unavailable future documentation from package READMEs.
-Revalidate their examples against `6.1` before including them in that development documentation.
+The `6.1` branch is the development documentation published as `6.1@dev`.
+It inherits the maintained `6.0` guides and includes experimental CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema guides. Navigation and each guide identify their experimental status. Their configuration, APIs, and output may change before a stable release.
+
+Use `6.1.*@dev` when installing this development line. The inherited `6.0` upgrade guide and screenshots remain reference material for the base release; they do not establish new runtime or provider compatibility for `6.1`.
 
 Notification Bundle and Subscription Bundle are excluded until their implementation, maintenance,
 and continued relevance have been reviewed. This does not declare those packages removed or deprecated.
 
 ## Contributing
 
-Follow [the authoring instructions](AGENTS.md). Current release work targets `6.0`. Guides follow Symfony's practical technical style: explain the goal, establish prerequisites, show usable examples and describe verified limits. Compare page coverage with real CMS elements, bundle features and plugin configuration, adding missing guides with their navigation and package README links.
+Follow [the authoring instructions](AGENTS.md). Development work targets `6.1`. Guides follow Symfony's practical technical style: explain the goal, establish prerequisites, show usable examples and describe verified limits. Compare page coverage with real CMS elements, bundle features and plugin configuration, adding missing guides with their navigation and package README links.
 
 Review examples against the selected package branch. State whether a configuration block is complete or an override of an existing definition. Use disposable projects and synthetic data to check installation, migrations, forms, and editorial workflows. A successful Composer install or migration is only one part of validation: open the relevant screen and exercise its main action before describing that integration as working.
 

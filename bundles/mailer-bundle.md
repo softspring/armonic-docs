@@ -21,7 +21,7 @@ A good way to think about this bundle is: it is the shared infrastructure around
 Install the package:
 
 ```bash
-composer require softspring/mailer-bundle:6.0.x-dev
+composer require softspring/mailer-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable it manually:

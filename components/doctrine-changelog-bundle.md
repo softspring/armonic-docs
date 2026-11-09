@@ -23,7 +23,7 @@ This package is infrastructure, not UI. It does not ship routes, screens, or bac
 ## Install {#install}
 
 ```bash
-composer require softspring/doctrine-changelog-bundle:6.0.x-dev
+composer require softspring/doctrine-changelog-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:

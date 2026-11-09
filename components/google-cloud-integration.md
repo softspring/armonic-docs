@@ -10,7 +10,7 @@ Use this bundle to connect Monolog to Google Cloud Logging and attach request co
 ## Install the bundle {#installation}
 
 ```bash
-composer require softspring/google-cloud-integration-bundle:6.0.x-dev
+composer require softspring/google-cloud-integration-bundle:6.1.*@dev
 ```
 
 Enable the bundle if Flex does not register it:

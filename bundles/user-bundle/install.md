@@ -18,7 +18,7 @@ At the end of this guide you will have:
 ## Install The Package {#install-the-package}
 
 ```bash
-composer require softspring/user-bundle:6.0.x-dev
+composer require softspring/user-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:

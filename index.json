@@ -466,6 +466,26 @@
                     "text": "Module collection",
                     "slug": "bundles/cms-module-collection",
                     "file": "bundles/cms-module-collection.md"
+                },
+                {
+                    "text": "Experimental (6.1@dev)",
+                    "children": [
+                        {
+                            "text": "CMS AI Plugin (Experimental)",
+                            "slug": "bundles/cms-ai-plugin",
+                            "file": "bundles/cms-ai-plugin.md"
+                        },
+                        {
+                            "text": "CMS Analytics Plugin (Experimental)",
+                            "slug": "bundles/cms-analytics-plugin",
+                            "file": "bundles/cms-analytics-plugin.md"
+                        },
+                        {
+                            "text": "CMS SEO Plugin (Experimental)",
+                            "slug": "bundles/cms-seo-plugin",
+                            "file": "bundles/cms-seo-plugin.md"
+                        }
+                    ]
                 }
             ],
             "slug": "bundles",
@@ -636,6 +656,31 @@
                             "text": "Time ago bundle",
                             "slug": "components/time-ago-bundle",
                             "file": "components/time-ago-bundle.md"
+                        }
+                    ]
+                },
+                {
+                    "text": "Experimental (6.1@dev)",
+                    "children": [
+                        {
+                            "text": "CMS API Plugin (Experimental)",
+                            "slug": "components/cms-api-plugin",
+                            "file": "components/cms-api-plugin.md"
+                        },
+                        {
+                            "text": "CMS MCP Plugin (Experimental)",
+                            "slug": "components/cms-mcp-plugin",
+                            "file": "components/cms-mcp-plugin.md"
+                        },
+                        {
+                            "text": "CMS Mate Extension (Experimental)",
+                            "slug": "components/cms-mate-extension",
+                            "file": "components/cms-mate-extension.md"
+                        },
+                        {
+                            "text": "Form Schema (Experimental)",
+                            "slug": "components/form-schema",
+                            "file": "components/form-schema.md"
                         }
                     ]
                 }

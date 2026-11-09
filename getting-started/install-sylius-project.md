@@ -46,7 +46,7 @@ Configure the Softspring Flex endpoint, then install the matching development li
 composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json", "flex://defaults"]'
 composer config minimum-stability dev
 composer config prefer-stable true
-composer require softspring/cms-bundle:6.0.x-dev softspring/cms-sylius-bundle:6.0.x-dev softspring/collection-form-type:6.0.x-dev -W
+composer require softspring/cms-bundle:6.1.*@dev softspring/cms-sylius-bundle:6.1.*@dev softspring/collection-form-type:6.1.*@dev -W
 ```
 
 Accept and review the Flex recipes. Check that `config/bundles.php` registers the integration and collection assets bundle; add these entries if missing:

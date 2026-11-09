@@ -12,7 +12,7 @@ This bundle expects `softspring/user-bundle` to be installed first. Enable `soft
 ## Install The Package {#install-the-package}
 
 ```bash
-composer require softspring/account-bundle:6.0.x-dev
+composer require softspring/account-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:

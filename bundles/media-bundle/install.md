@@ -10,7 +10,7 @@ description: "Install and configure Media Bundle with the minimum setup needed t
 ## Install The Package {#install-the-package}
 
 ```bash
-composer require softspring/media-bundle:6.0.x-dev
+composer require softspring/media-bundle:6.1.*@dev
 ```
 
 If your application does not use Symfony Flex, enable the bundle manually:

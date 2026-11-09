@@ -17,7 +17,7 @@ For the development packages used by this `6.0` documentation:
 composer config --json extra.symfony.endpoint '["https://api.github.com/repos/softspring/recipes/contents/index.json", "flex://defaults"]'
 composer config minimum-stability dev
 composer config prefer-stable true
-composer require softspring/cms-bundle:6.0.x-dev -W
+composer require softspring/cms-bundle:6.1.*@dev -W
 ```
 
 Review the Flex recipe changes to routes, services, permissions, and CMS configuration. Merge them with the application's existing setup rather than replacing working security configuration.

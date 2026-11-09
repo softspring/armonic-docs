@@ -13,7 +13,7 @@ This is distinct from Symfony's UI message catalogs and the `translation` form f
 ## Install and register {#install-and-register}
 
 ```bash
-composer require softspring/cms-translation-plugin:6.0.x-dev
+composer require softspring/cms-translation-plugin:6.1.*@dev
 ```
 
 Register the bundle when Flex does not do it automatically:
