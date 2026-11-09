@@ -73,6 +73,7 @@ Working rules for documentation changes in this repository.
 ## Screenshots and runtime verification
 
 - Capture real interfaces from applications running the documentation's target package branch. Refresh screenshots when UI styles or workflows change; do not invent interfaces or use mockups as proof of functionality.
+- Before capturing a modal, wait for its opening transition to finish (`shown.bs.modal` for Bootstrap), allow a few seconds for asynchronous content to settle, and wait for fonts and images. Inspect the final screenshot; visibility alone does not prove the modal is ready, and a faded or partially loaded dialog must not be published.
 - Store screenshots in the relevant guide's `.files/` directory and use relative Markdown image links. Keep images in the same Git branch as their guide; do not hardcode another branch's raw image URL.
 - Use isolated application copies, fresh test databases, fictitious accounts and synthetic content. Never reset a developer or customer database to prepare documentation captures.
 - Execute documented commands and configurations, then check the affected forms, generated output, public routes and main user actions. Record any extra setup or workaround instead of implying the original sequence passed unchanged.
