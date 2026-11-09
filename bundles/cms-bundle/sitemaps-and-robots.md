@@ -1,7 +1,7 @@
 ---
 title: "CMS sitemaps and robots.txt"
 description: "Publish site sitemaps and robots directives and understand how they relate to indexability and SEO analysis."
-related: ["bundles/cms-bundle/sites", "bundles/cms-seo-plugin"]
+related: ["bundles/cms-bundle/sites", "bundles/cms-bundle/routing"]
 ---
 
 # Sitemaps and robots.txt {#sitemaps-and-robots-txt}
@@ -62,4 +62,4 @@ Inspect the response status, XML or text content, public host, language alternat
 
 The current sitemap index generator does not include a non-standard port from the canonical host configuration. Check generated absolute URLs when testing on a local port or deploying behind a proxy.
 
-The optional [SEO plugin](../cms-seo-plugin.md) checks public robots and sitemap resources from the application runtime. A successful schema load alone does not show that a reverse proxy serves those URLs correctly.
+Check the public robots and sitemap URLs after deployment, including requests through the application proxy or CDN. A successful schema load alone does not show that those URLs are served correctly.

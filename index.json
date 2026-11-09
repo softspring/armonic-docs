@@ -443,11 +443,6 @@
                     "file": "bundles/mailer-bundle.md"
                 },
                 {
-                    "text": "Notification bundle",
-                    "slug": "bundles/notification-bundle",
-                    "file": "bundles/notification-bundle.md"
-                },
-                {
                     "text": "Blog plugin",
                     "slug": "bundles/cms-blog-plugin",
                     "file": "bundles/cms-blog-plugin.md"
@@ -463,29 +458,9 @@
                     "file": "bundles/cms-translation-plugin.md"
                 },
                 {
-                    "text": "SEO plugin",
-                    "slug": "bundles/cms-seo-plugin",
-                    "file": "bundles/cms-seo-plugin.md"
-                },
-                {
-                    "text": "Analytics plugin",
-                    "slug": "bundles/cms-analytics-plugin",
-                    "file": "bundles/cms-analytics-plugin.md"
-                },
-                {
-                    "text": "AI plugin",
-                    "slug": "bundles/cms-ai-plugin",
-                    "file": "bundles/cms-ai-plugin.md"
-                },
-                {
                     "text": "Module collection",
                     "slug": "bundles/cms-module-collection",
                     "file": "bundles/cms-module-collection.md"
-                },
-                {
-                    "text": "Subscription bundle",
-                    "slug": "bundles/subscription-bundle",
-                    "file": "bundles/subscription-bundle.md"
                 }
             ],
             "slug": "bundles",
@@ -502,11 +477,6 @@
                 {
                     "text": "Forms",
                     "children": [
-                        {
-                            "text": "Form schema",
-                            "slug": "components/form-schema",
-                            "file": "components/form-schema.md"
-                        },
                         {
                             "text": "Collection form type",
                             "slug": "components/collection-form-type",
@@ -661,26 +631,6 @@
                             "text": "Time ago bundle",
                             "slug": "components/time-ago-bundle",
                             "file": "components/time-ago-bundle.md"
-                        }
-                    ]
-                },
-                {
-                    "text": "CMS integrations",
-                    "children": [
-                        {
-                            "text": "CMS API",
-                            "slug": "components/cms-api-plugin",
-                            "file": "components/cms-api-plugin.md"
-                        },
-                        {
-                            "text": "CMS MCP",
-                            "slug": "components/cms-mcp-plugin",
-                            "file": "components/cms-mcp-plugin.md"
-                        },
-                        {
-                            "text": "CMS Mate",
-                            "slug": "components/cms-mate-extension",
-                            "file": "components/cms-mate-extension.md"
                         }
                     ]
                 }

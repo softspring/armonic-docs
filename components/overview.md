@@ -17,7 +17,6 @@ The **[UI components package](../components/components.md)** provides shared Twi
 
 ## Forms {#forms}
 
-- [Form schema](../components/form-schema.md)
 - [Collection form type](../components/collection-form-type.md)
 - [Dynamic form type](../components/dynamic-form-type.md)
 - [Polymorphic form type](../components/polymorphic-form-type.md)
@@ -61,9 +60,3 @@ The **[UI components package](../components/components.md)** provides shared Twi
 
 - [Crudl bundle](../components/crudl-bundle.md)
 - [Time ago bundle](../components/time-ago-bundle.md)
-
-## CMS integrations {#cms-integrations}
-
-- [CMS API](cms-api-plugin.md): read-only HTTP JSON endpoints.
-- [CMS MCP](cms-mcp-plugin.md): structured tools for MCP consumers.
-- [CMS Mate](cms-mate-extension.md): local inspection through the host Symfony kernel.

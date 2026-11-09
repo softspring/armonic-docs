@@ -290,4 +290,4 @@ current resolved site. Standalone ESI fragments have a site and locale, but no
 originating page request. Invalidate cached fragments and pages after deploying
 changes to site-context resolution.
 
-For a complete discovery-resource example, see [Sitemaps and robots.txt](sitemaps-and-robots.md). The [SEO plugin](../cms-seo-plugin.md) can analyze the published result.
+For a complete discovery-resource example, see [Sitemaps and robots.txt](sitemaps-and-robots.md).

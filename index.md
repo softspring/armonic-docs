@@ -105,7 +105,6 @@ description: "Documentation hub for Armonic, covering installation, CMS usage, c
 ### Other bundles {#other-bundles}
 
 - [Mailer bundle](bundles/mailer-bundle.md)
-- [Notification bundle](bundles/notification-bundle.md)
 
 ## Components {#components}
 

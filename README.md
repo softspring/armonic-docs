@@ -47,6 +47,17 @@ Symfony configuration examples offer YAML and PHP tabs. Choose one format for ea
 
 For authors, wrap exactly two fenced blocks, `yaml` followed by `php`, between `<!-- config-tabs:start -->` and `<!-- config-tabs:end -->`. Leave blank lines around the blocks and markers. The server remembers the reader's selected format. Without JavaScript, both examples remain readable. Native CMS definitions, translations, and Docker Compose files keep their own format. Database setup examples cover both MySQL and PostgreSQL; keep the driver, connection URL, server version, and Docker volume layout consistent. See [Configure MySQL or PostgreSQL](getting-started/configure-database.md).
 
+
+## Release documentation scope
+
+The `6.0` documentation covers the maintained Armonic features selected for this release.
+Experimental packages are deferred to `6.1@dev`: CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema.
+Do not publish their guides or link to unavailable future documentation from package READMEs.
+Revalidate their examples against `6.1` before including them in that development documentation.
+
+Notification Bundle and Subscription Bundle are excluded until their implementation, maintenance,
+and continued relevance have been reviewed. This does not declare those packages removed or deprecated.
+
 ## Contributing
 
 Follow [the authoring instructions](AGENTS.md). Current release work targets `6.0`. Guides follow Symfony's practical technical style: explain the goal, establish prerequisites, show usable examples and describe verified limits. Compare page coverage with real CMS elements, bundle features and plugin configuration, adding missing guides with their navigation and package README links.

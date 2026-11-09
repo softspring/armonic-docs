@@ -11,7 +11,7 @@ In some situations, Doctrine can dispatch a "Doctrine\DBAL\Exception\DriverExcep
 
 > SQLSTATE[HY001]: Memory allocation error: 1038 Out of sort memory, consider increasing server sort buffer size
 
-This MySQL-specific error and its `sort_buffer_size` setting do not apply to PostgreSQL. For PostgreSQL connection or encoding issues, see [Configure MySQL or PostgreSQL](../getting-started/configure-database.md).
+This MySQL-specific error and its `sort_buffer_size` setting do not apply to PostgreSQL. For PostgreSQL connection or encoding issues, see [Configure MySQL or PostgreSQL](../../getting-started/configure-database.md).
 
 This is a common error if database instance has a low value for [sort_buffer_size](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_sort_buffer_size) variable.
 

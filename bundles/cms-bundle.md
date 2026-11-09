@@ -31,4 +31,4 @@ Follow [installation](cms-bundle/install.md) and [getting started](cms-bundle/ge
 
 Use [forms and metadata](cms-bundle/forms-and-metadata.md) for editorial properties and custom fields, [routes](cms-bundle/routing.md) for Symfony/CMS URL integration, and [admin permissions](cms-bundle/security-and-permissions.md) to assign editor access. Configure [assets](cms-bundle/frontend-assets.md) before validating the editor in a browser.
 
-The [plugin catalog](cms-bundle/plugins.md) covers blog articles, import/export, translations, SEO, analytics, APIs, and AI tooling. Plugins add their own requirements; installing CMS core does not automatically configure every integration.
+The [plugin catalog](cms-bundle/plugins.md) covers blog articles, sections, import/export, translations, and ready-made modules. Plugins add their own requirements; installing CMS core does not automatically configure every integration.
