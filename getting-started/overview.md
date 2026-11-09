@@ -7,11 +7,16 @@ related:
     - "user-manual"
     - "configure-database"
     - "use-armonic-standalone-edition"
+    - "upgrade-to-6.0"
 ---
 
 # Getting started {#getting-started}
 
 Start by checking the [requirements](../getting-started/requirements.md), then choose the guide that matches your project. Use [Configure MySQL or PostgreSQL](../getting-started/configure-database.md) for the database service and connection settings.
+
+## Upgrade an existing installation {#upgrade-an-existing-installation}
+
+If the application already uses Softspring packages from `5.5` or `5.6`, follow [Upgrade to 6.0](../UPGRADE-6.0.md). It covers changes to application code, account memberships, CMS features, forms, assets, and existing databases.
 
 ## Choose an installation {#choose-an-installation}
 

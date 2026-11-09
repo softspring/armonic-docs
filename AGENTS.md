@@ -56,6 +56,8 @@ Working rules for documentation changes in this repository.
 - When authorized, consult `site-new` and `softspring-web-project` as read-only configuration references. Rewrite examples with generic values; do not include customer data, internal URLs, credentials, branding or screenshots.
 - Use `FEATURES.md` as the starting point for documentation structure, but always verify the current code and real integrations before writing or changing guides.
 - Prefer current configuration, commands, and examples over historical content.
+- Upgrade guides must compare the real source and target package branches, including independent differences between starting lines such as `5.5` and `5.6`. Verify removed aliases, renamed configuration and changed signatures against code; do not describe formatting changes or inherited methods as API removals.
+- Distinguish mandatory application changes from optional integrations and external framework upgrades. Show concrete replacements, preserve identifiers and stored data, and verify migration ordering and representative examples in isolated fixtures. Keep comparison revisions and validation limits in review evidence, not in the public guide's narrative.
 - Identify override fragments explicitly; complete examples must include required schema fields and the classes or templates they reference.
 - Verify the relevant runtime flow in a disposable project before claiming compatibility. Record unsupported integrations and validation limits honestly, even when Composer and database migrations succeed.
 - When documenting database setup, include MySQL and PostgreSQL alternatives with matching drivers, URLs, server versions, and persistent volumes. Keep platform-specific troubleshooting clearly scoped to its database.

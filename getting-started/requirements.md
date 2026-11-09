@@ -3,6 +3,7 @@ title: "Armonic Requirements"
 description: "Check the PHP, Symfony, database, and development tools needed for Armonic 6.0."
 next: "configure-database"
 related:
+    - "upgrade-to-6.0"
     - "install-new-symfony-project"
     - "install-existing-symfony-project"
     - "use-armonic-standalone-edition"
@@ -18,7 +19,7 @@ Armonic runs inside a Symfony application. Before installing it, check that your
 | Requirement | For Armonic 6.0 |
 | --- | --- |
 | PHP | **8.4 or later**, for both the command line and the web server. |
-| Symfony | **6.4, 7.4, or 8.x**. The standalone project currently uses Symfony 8.0. |
+| Symfony | **6.4, 7.4, or 8.x**. The standalone project currently uses Symfony 8.1. |
 | Composer | To install Armonic and its PHP dependencies. |
 | Database | MySQL or PostgreSQL, configured through Doctrine. The examples use MySQL 8.4 or PostgreSQL 17. |
 

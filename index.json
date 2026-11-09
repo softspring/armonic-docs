@@ -22,6 +22,11 @@
                     "file": "getting-started/requirements.md"
                 },
                 {
+                    "text": "Upgrade from 5.5 or 5.6 to 6.0",
+                    "slug": "upgrade-to-6.0",
+                    "file": "UPGRADE-6.0.md"
+                },
+                {
                     "text": "Configure MySQL or PostgreSQL",
                     "slug": "configure-database",
                     "file": "getting-started/configure-database.md"

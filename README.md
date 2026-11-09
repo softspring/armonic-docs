@@ -48,6 +48,12 @@ Symfony configuration examples offer YAML and PHP tabs. Choose one format for ea
 For authors, wrap exactly two fenced blocks, `yaml` followed by `php`, between `<!-- config-tabs:start -->` and `<!-- config-tabs:end -->`. Leave blank lines around the blocks and markers. The server remembers the reader's selected format. Without JavaScript, both examples remain readable. Native CMS definitions, translations, and Docker Compose files keep their own format. Database setup examples cover both MySQL and PostgreSQL; keep the driver, connection URL, server version, and Docker volume layout consistent. See [Configure MySQL or PostgreSQL](getting-started/configure-database.md).
 
 
+## Upgrading an application {#upgrading-an-application}
+
+The [5.5/5.6 to 6.0 upgrade guide](UPGRADE-6.0.md) describes application code, configuration, entity, asset and database changes. It is indexed under Getting started as `upgrade-to-6.0`.
+
+Upgrade guides compare each supported starting line with the target package code. Separate mandatory changes from optional integrations, preserve application data and migration history, and explain changed extension contracts with concrete before/after references. Keep source comparison and execution evidence in the review report or associated issue, rather than turning the public guide into a maintenance log.
+
 ## Release documentation scope
 
 The `6.0` documentation covers the maintained Armonic features selected for this release.
