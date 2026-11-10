@@ -6,7 +6,7 @@ related: ["components/cms-api-plugin", "components/cms-mcp-plugin"]
 
 # CMS Mate Extension {#cms-mate-extension}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The Mate extension lets a local AI Mate process inspect CMS content through the host Symfony application's kernel and Doctrine setup. It is experimental and distinct from the HTTP API and MCP server plugins.
 

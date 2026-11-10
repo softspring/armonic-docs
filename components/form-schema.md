@@ -5,7 +5,7 @@ description: "Extract form schemas from Symfony forms and extend field extractio
 
 # Form Schema {#form-schema}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 `softspring/form-schema` extracts JSON-schema-like metadata from Symfony forms.
 

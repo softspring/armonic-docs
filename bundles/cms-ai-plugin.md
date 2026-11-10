@@ -6,7 +6,7 @@ related: ["components/form-schema", "components/cms-mcp-plugin", "bundles/cms-bu
 
 # CMS AI Plugin {#cms-ai-plugin}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The AI plugin adds an admin chatbot, a content-editor agent panel, site instructions, and media generation helpers. It is experimental and requires a configured Symfony AI platform.
 

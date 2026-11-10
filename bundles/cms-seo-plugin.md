@@ -6,7 +6,7 @@ related: ["bundles/cms-bundle/sitemaps-and-robots", "bundles/cms-analytics-plugi
 
 # CMS SEO Plugin {#cms-seo-plugin}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The SEO plugin analyzes the public HTML of CMS content and the discovery resources of CMS sites. It adds a dashboard and SEO tabs to content and site administration. The package is experimental.
 

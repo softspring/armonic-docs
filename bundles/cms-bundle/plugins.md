@@ -24,7 +24,7 @@ Use the normal CMS admin imports so plugin routing providers can contribute thei
 
 For Sylius, read the [installation and compatibility guide](../../getting-started/install-sylius-project.md). The current Sylius 2 admin-template incompatibility applies even when package installation and migrations succeed.
 
-## Experimental integrations in 6.1@dev {#experimental-integrations}
+## Experimental integrations in 6.1-dev {#experimental-integrations}
 
 These integrations are optional and their contracts may change before a stable release:
 

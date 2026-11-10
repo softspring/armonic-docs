@@ -6,7 +6,7 @@ related: ["components/cms-api-plugin", "bundles/cms-ai-plugin"]
 
 # CMS MCP Plugin {#cms-mcp-plugin}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The MCP plugin registers read-only tools for site context, configuration, published content, internal links, menus, images, and optional traffic metrics. Use it when an agent should query CMS context through a structured tool interface.
 

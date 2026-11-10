@@ -468,7 +468,7 @@
                     "file": "bundles/cms-module-collection.md"
                 },
                 {
-                    "text": "Experimental (6.1@dev)",
+                    "text": "Experimental (6.1-dev)",
                     "children": [
                         {
                             "text": "CMS AI Plugin (Experimental)",
@@ -660,7 +660,7 @@
                     ]
                 },
                 {
-                    "text": "Experimental (6.1@dev)",
+                    "text": "Experimental (6.1-dev)",
                     "children": [
                         {
                             "text": "CMS API Plugin (Experimental)",

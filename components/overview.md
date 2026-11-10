@@ -63,7 +63,7 @@ The **[UI components package](../components/components.md)** provides shared Twi
 
 ## Experimental development packages {#experimental-development-packages}
 
-These optional packages belong to `6.1@dev`. Their public contracts may change before a stable release.
+These optional packages belong to `6.1-dev`. Their public contracts may change before a stable release.
 
 - [cms-api-plugin (Experimental)](cms-api-plugin.md)
 - [cms-mcp-plugin (Experimental)](cms-mcp-plugin.md)

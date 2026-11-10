@@ -36,7 +36,7 @@ The [CMS plugin catalog](cms-bundle/plugins.md) covers blog articles, sections, 
 
 ## Experimental development packages {#experimental-development-packages}
 
-These optional packages belong to `6.1@dev`. Their public contracts may change before a stable release.
+These optional packages belong to `6.1-dev`. Their public contracts may change before a stable release.
 
 - [cms-ai-plugin (Experimental)](cms-ai-plugin.md)
 - [cms-analytics-plugin (Experimental)](cms-analytics-plugin.md)

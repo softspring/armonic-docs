@@ -6,7 +6,7 @@ related: ["components/cms-mcp-plugin", "bundles/cms-bundle/security-and-permissi
 
 # CMS API Plugin {#cms-api-plugin}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The API plugin exposes CMS configuration and stored instances through read-only JSON endpoints. Use it for a controlled application client that needs content structure or published versions. The route and payload contracts are experimental.
 

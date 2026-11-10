@@ -3,7 +3,7 @@ title: "Armonic Documentation Repository"
 description: "Source Markdown files for the Armonic documentation site, including guides, bundle references, and contribution information."
 ---
 
-<p align="center"><a href="https://armonic.softspring.es/6.1@dev/" target="_blank">
+<p align="center"><a href="https://armonic.softspring.es/6.1-dev/" target="_blank">
   <img src="https://storage.googleapis.com/softspring-images/d3ca848a7019bd4965f1b7da8ccb03c473b81dd0.png">
 </a></p>
 
@@ -12,7 +12,7 @@ description: "Source Markdown files for the Armonic documentation site, includin
 </h3>
 
 <p align="center">
-  <a href="https://armonic.softspring.es/6.1@dev/">
+  <a href="https://armonic.softspring.es/6.1-dev/">
     Read this documentation online
   </a>
     ·
@@ -56,7 +56,7 @@ Upgrade guides compare each supported starting line with the target package code
 
 ## Release documentation scope
 
-The `6.1` branch is the development documentation published as `6.1@dev`.
+The `6.1` branch is the development documentation published as `6.1-dev`.
 It inherits the maintained `6.0` guides and includes experimental CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema guides. Navigation and each guide identify their experimental status. Their configuration, APIs, and output may change before a stable release.
 
 Use `6.1.*@dev` when installing this development line. The inherited `6.0` upgrade guide and screenshots remain reference material for the base release; they do not establish new runtime or provider compatibility for `6.1`.

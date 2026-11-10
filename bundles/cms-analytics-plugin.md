@@ -6,7 +6,7 @@ related: ["bundles/cms-seo-plugin", "components/cms-mcp-plugin"]
 
 # CMS Analytics Plugin {#cms-analytics-plugin}
 
-> **Experimental — 6.1@dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
+> **Experimental — 6.1-dev:** configuration, APIs and output may change before a stable release. Use this package in development and validate the workflows enabled in your application.
 
 The analytics plugin adds a **Statistics** tab to CMS content and a provider-independent statistics API. Use it to compare traffic for the public URLs associated with a page. The package is experimental.
 

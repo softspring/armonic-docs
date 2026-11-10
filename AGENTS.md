@@ -9,7 +9,7 @@ Working rules for documentation changes in this repository.
 - Review guides page by page for usefulness, readability, current behavior and missing topics. Compare coverage with CMS elements and bundle/plugin code, configuration and real application usage, rather than checking package names alone.
 - Follow Symfony's technical documentation style: professional, clear, practical and detailed when necessary. Lead with what users can do, introduce prerequisites before steps, and use examples to explain capabilities without marketing claims.
 
-- Exclude experimental package guides from `6.0`, including CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema. On `6.1`, include them under `6.1@dev` after source revalidation, with explicit experimental labels. Keep runtime and provider validation limits clear.
+- Exclude experimental package guides from `6.0`, including CMS AI, Analytics, SEO, API, MCP, Mate, and Form Schema. On `6.1`, include them under `6.1-dev` after source revalidation, with explicit experimental labels. Keep runtime and provider validation limits clear.
 - Exclude Notification Bundle and Subscription Bundle from Armonic documentation until their update and relevance have been reviewed. Keep navigation, related links, catalogs and package README destinations consistent with these exclusions.
 
 ## Format
