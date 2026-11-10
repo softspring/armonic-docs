@@ -89,6 +89,8 @@ Check direct interface implementations, not only subclasses. The following contr
 | Interface | Methods to provide |
 | --- | --- |
 | CMS `SiteInterface` and Media `MediaInterface` | `getMetadata(): ?array`, `setMetadata(?array $metadata): void`, `setMetadataField(string $field, mixed $value): void`, `getMetadataField(string $field, mixed $default = null): mixed`, and `removeMetadataField(string $field): void`. |
+| CMS `CompilableInterface` | `getCompiledGeneration(): string`, supplied by `CompilableTrait`. |
+| CMS `CompiledDataInterface` | `getGeneration(): string` and `setGeneration(string $generation): void`. |
 | Blog `ArticleContentInterface` | `getTags(): array` and `setTags(array $tags): void`. |
 | Media `NameGeneratorInterface` | `public static function getPriority(): int`. |
 | Media `MediaTypeProviderInterface` | `public static function getPriority(): int`. |
@@ -118,6 +120,7 @@ Examples to check in your application:
 | `StreamedCommandRunner::runCommands()` | Returns `void`. |
 | `MediaManagerInterface::migrate()` | Adds `bool $force = false` after the output argument. Forward it when delegating to the bundled manager. |
 | `ContentVersionCompiler::compileRequest()` | Adds `bool $saveCompiled = true` as its fourth argument. |
+| Sections `SectionVersionCompiler::compileRequest()` | Adds `bool $saveCompiled = true` as its third argument. Runtime managers pass `false` to keep cache fills out of editorial ORM persistence. |
 | `PaginatedCollection::add()` | Returns `void`; do not depend on the previous implicit return value. |
 | `PaginatedCollection::filter()` and `map()` | Return `Doctrine\Common\Collections\Collection`. |
 | `PaginatedCollection::indexOf()` | Returns `int|string|false`. Check a missing element with `=== false`. |
@@ -689,6 +692,25 @@ Check that the installed packages' migration namespaces are registered. These ar
 | Sections `Version20261109100000` | Normalize the plugin-owned content-version reference and restore its cascading foreign key. |
 
 Apply core CMS migrations before the dependent Sections correction. That reference-column conversion belongs to **Sections**, not to an application copy of the core migration. If planning a rollback, reverse the dependency order. Test the complete upgrade/rollback plan for the application's actual data and database; do not assume every DDL operation is transactional on MySQL.
+
+### Migrate compiled content and sections together {#compiled-cache-migrations}
+
+Runtime compilation now stores derived HTML without flushing editorial entities. Install the updated CMS bundle and, when used, Sections Plugin as one coordinated deployment. Custom compilable and compiled-data models must implement the generation methods listed [above](#new-interface-methods), with the corresponding mapped fields. Models inheriting the bundled implementations already provide these methods.
+
+Apply these new migrations only if they are not already recorded:
+
+| Package migration | Change |
+| --- | --- |
+| CMS `Version20261110120000` | Clear derived page HTML, add `cms_content_version.compiled_generation` and `cms_compiled_data.generation`, and add uniqueness for content version, compilation key and generation. |
+| Sections `Version20261110121000` | Clear derived section HTML, add `cms_section_version.compiled_generation`, and add the matching section-version/key/generation constraint. |
+
+Keep rendering stopped during this schema change. Apply CMS before Sections, rebuild Doctrine metadata and application caches, and invalidate any HTTP response caches that still contain old output. Warm published site/language contexts before reopening traffic if the application requires it. These migrations clear derived HTML; they preserve content records, versions, media and publication state. Custom table mappings require equivalent application migrations.
+
+The generation is part of uniqueness because Doctrine can insert new editorial compiled rows before deleting old orphaned rows in the same flush. Obsolete generations are excluded from runtime reads. A runtime cache writer checks the persisted version token before storing its result.
+
+Shared compilation locks are optional. [Configure the named Redis factory](bundles/cms-bundle/content-versions.md#shared-compilation-locks) to reduce duplicate rendering across instances; the database generation checks still apply without that factory. Preserve existing application lock resources.
+
+For rollback, restore matching code and schema while rendering is stopped, reversing the Sections/CMS dependency order. Review the complete migration plan for the application's database engine; MySQL DDL must not be treated as fully transactional.
 
 ### Review custom references and mappings {#custom-database-references}
 
