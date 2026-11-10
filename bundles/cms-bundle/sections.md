@@ -457,3 +457,11 @@ Projects can use custom Doctrine entities for sections and section versions. Con
 The section entity should extend the base model or implement `SectionInterface`. The version entity should extend the base version model or implement `SectionVersionInterface`.
 
 Use this when the project needs extra metadata, project-specific relations, or custom admin behavior around reusable fragments. Keep the standard versioning and compilation behavior unless there is a clear reason to change it, because the render controller, Twig helpers, admin actions, and relationship listeners expect the section and version contracts.
+
+## Coordinate concurrent section compilation {#concurrent-section-compilation}
+
+Sections use the CMS runtime compilation coordinator. A public cache fill stores derived HTML without saving the section version or changing the parent section's last-modified timestamp. Generation tokens prevent a render started before invalidation from restoring obsolete compiled output.
+
+Compilation works without a lock factory. For multiple PHP processes or application instances, configure the shared `sfs_cms_compile` resource described in [concurrent compilation](content-versions.md#shared-compilation-locks). Pages and sections use the same coordinator, so nested rendering does not wait for another compilation lock. If a lock is busy or unavailable, rendering continues without writing the compiled cache.
+
+Install compatible CMS and Sections versions together and apply the [compiled-cache migrations](../../UPGRADE-6.0.md#compiled-cache-migrations) in dependency order. Section publication and explicit recompilation retain their editorial compilation and error-reporting behavior. Clear or recompile through the CMS actions; direct SQL invalidation must also update generation tokens and affected ORM caches.

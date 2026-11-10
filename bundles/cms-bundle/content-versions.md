@@ -65,6 +65,59 @@ Content and layout definitions can override compilation behavior. After changing
 
 `prefix_compiled` can distinguish application releases. It does not migrate module data or repair an invalid template. See [Cache configuration](../../components/cache.md) when combining compiled output with HTTP caching.
 
+## Handle concurrent compilation {#concurrent-compilation}
+
+When several visitors request the same uncached version, the CMS can compile its HTML at runtime. This cache fill does not save the editorial version or update the parent page's last-modified timestamp. A short database transaction checks the invalidation generation before storing the result. HTML compiled before a committed invalidation cannot repopulate the new generation's cache.
+
+This works without configuring locks or Redis. Concurrent requests may repeat the same rendering work, but database serialization and uniqueness protect each version, context and generation. Apply the [compiled-cache migrations](../../UPGRADE-6.0.md#compiled-cache-migrations) before using the updated code.
+
+### Share compilation locks between instances {#shared-compilation-locks}
+
+Configure a named Symfony lock factory to reduce duplicate rendering across PHP processes and application instances. Use a Redis store shared by every instance of the application. Merge this named resource into the existing lock configuration, preserving other resources and their default store:
+
+<!-- config-tabs:start -->
+
+```yaml
+# config/packages/lock.yaml
+framework:
+    lock:
+        resources:
+            sfs_cms_compile: '%env(CMS_COMPILE_LOCK_DSN)%'
+```
+
+```php
+<?php
+
+// config/packages/lock.php
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'lock' => [
+            'resources' => [
+                'sfs_cms_compile' => '%env(CMS_COMPILE_LOCK_DSN)%',
+            ],
+        ],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Set `CMS_COMPILE_LOCK_DSN` through the application's environment configuration, for example `redis://redis:6379` in a local container network. Choose the shared service address for a deployment; separate per-instance Redis servers or filesystem locks do not coordinate multiple instances. The bundle installs the `symfony/lock` dependency and consumes `lock.sfs_cms_compile.factory` when it exists.
+
+A cache hit does not acquire a compilation lock. A competing request waits for at most two seconds, then renders without writing the compiled cache. Nested compilations do not wait for other compilation locks. If Redis fails, the visitor can still receive rendered HTML. A lost or expired lease prevents that request from writing the cache; a failed release expires with the lease's 300-second TTL.
+
+Locks reduce duplicated work. They do not replace database transactions or the generation check used during invalidation. The [Sections Plugin](sections.md#concurrent-section-compilation) uses the same coordinator.
+
+### Keep invalidation and extension code consistent {#compiled-cache-extensions}
+
+Use the CMS recompile and clear-compiled actions to invalidate stored output. `cleanCompiled()` rotates the version's generation token; persist that change with the editorial operation. A custom invalidator using SQL must also rotate the affected version tokens and evict affected Doctrine second-level entity and collection caches. Clearing Symfony's container cache or deleting HTML rows alone is not equivalent to this invalidation. HTTP response caches are a separate layer and must also be invalidated when necessary.
+
+Runtime compilation skips shared compiled-cache access while the caller owns a database transaction, and skips storage for unsaved versions and query-dependent requests. This keeps uncommitted or request-specific HTML out of the shared compiled cache. Template errors remain visible and are not saved as successful cache entries.
+
+Applications needing custom cache persistence can replace `Softspring\CmsBundle\Cache\CompiledDataStoreInterface`. Its `find()`, `save()` and `isTransactionActive()` methods must preserve generation checks and caller-owned transaction boundaries. Cache persistence must not flush, clear or close the rendering EntityManager. The default store uses the configured Doctrine connection and the bundle's single-table compiled-data mapping with string version identifiers.
+
 ## Evolve saved data {#evolve-saved-data}
 
 A module revision records its data format. Add a migration when renaming or restructuring saved fields; increasing `revision` alone does not transform existing versions. Test the migration with old saved data before publishing the updated module. See [Module data migrations](modules.md#migrate-stored-values).
