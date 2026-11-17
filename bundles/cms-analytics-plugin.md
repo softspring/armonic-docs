@@ -70,3 +70,13 @@ The plugin reads statistics; it does not install a browser tracking script or st
 ## Add another provider {#add-another-provider}
 
 Implement `Softspring\CmsAnalyticsPlugin\Analytics\StatisticsProviderInterface` and tag the service `sfs_cms_analytics.statistics_provider`. Its API resolves site configuration, returns aggregate metrics, and queries page statistics. Keep provider-specific authentication there rather than coupling consumers such as [CMS MCP](../components/cms-mcp-plugin.md) to one vendor.
+
+## Reuse analytics outside MCP {#reuse-analytics-outside-mcp}
+
+When the API Plugin is enabled, inject `Softspring\CmsApiPlugin\Application\Query\AnalyticsQuery` into an application service to read
+site metrics or query page statistics without starting an MCP session. `getSiteAnalytics()` accepts a site id,
+a date range, and an optional path. `queryPages()` adds path patterns, sorting, pagination, and optional CMS content matching.
+
+The API layer registers this query only when the Analytics Plugin is enabled. It uses the same statistics provider chain as the MCP adapter. Configure providers through this plugin,
+and enforce the application's access policy before exposing its results. The query does not configure OAuth
+or require the MCP plugin.
