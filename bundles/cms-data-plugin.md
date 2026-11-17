@@ -72,6 +72,8 @@ cms/fixtures/
 
 Media descriptors use JSON with companion files; other supported elements are read through the structured YAML storage. References are resolved across imported elements instead of treating every identifier as an unrelated string.
 
+The `sfs:cms:dump-fixtures` command is registered lazily through Symfony command metadata. Listing console commands or installing bundle assets does not initialize its exporter or require runtime service credentials.
+
 The CMS fixture group is `sfs_cms`. Its importer uses fixture-origin versions and requests automatic publication. Loading fixture data therefore has editorial effects; use synthetic fixtures in isolated databases. The dump command currently writes to `/srv/cms/fixtures` and clears exported media files before dumping, so it is not a generic configurable backup destination. Keep operational fixture procedures in the package's contribution guidance.
 
 ## Adapt application data {#adapt-application-data}
