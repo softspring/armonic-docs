@@ -678,6 +678,11 @@
                             "file": "components/cms-mate-extension.md"
                         },
                         {
+                            "text": "Config Bundle (Experimental)",
+                            "slug": "components/config-bundle",
+                            "file": "components/config-bundle.md"
+                        },
+                        {
                             "text": "Form Schema (Experimental)",
                             "slug": "components/form-schema",
                             "file": "components/form-schema.md"

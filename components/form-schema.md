@@ -15,6 +15,7 @@ This package is still in active development. Its public API, extracted schema sh
 
 - Schema extraction from a Symfony `FormInterface`, form type class, or form type instance.
 - Field extractors for scalar fields, compound fields, collections, choices, and buttons.
+- Inherited collection types with resolved prototype options, and expanded/inherited choice types with submitted choice values.
 - Support for explicit `json_schema` and `json_scheme` form options.
 - Basic metadata extraction from labels, help text, defaults, and Symfony validator constraints.
 - A Symfony bundle that registers the extractor services and field extractor tags.
@@ -85,3 +86,12 @@ You can also pass a resolved `FormInterface` when the form must be created with 
 Create a service implementing `FieldSchemaExtractorInterface` and tag it with `softspring.form_schema.field_extractor`.
 
 Extractors are evaluated in service order. Return `true` from `supports()` only for the fields your extractor owns.
+
+## CMS operation integration {#cms-operation-integration}
+
+The CMS API Plugin uses this component to build `form.schema` for operation descriptions. MCP exposes the same
+schema through `sfs_cms_operation_schema`; it does not maintain a separate type extractor. The API adds runtime
+field metadata, choices and module prototypes alongside the schema. Its CMS-specific field extractor describes
+module collections and allowed module identifiers through the normal extractor tag.
+
+See [CMS operation payloads](cms-api-plugin.md#operation-form-schema) for the complete discovery and submission workflow.

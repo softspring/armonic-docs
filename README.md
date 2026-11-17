@@ -64,6 +64,18 @@ Use `6.1.*@dev` when installing this development line. The inherited `6.0` upgra
 Notification Bundle and Subscription Bundle are excluded until their implementation, maintenance,
 and continued relevance have been reviewed. This does not declare those packages removed or deprecated.
 
+## Package documentation ownership
+
+This repository owns package installation, configuration, usage, and extension guides.
+Keep `FEATURES.md` and `CONTRIBUTING.md` in each package for its functional contract and
+contributor/maintenance guidance. Keep each guide on the same Git version branch as its package: `6.1` documentation describes `6.1` code. `6.1-dev` is the
+published website alias, not a branch name.
+
+Package READMEs link here instead of duplicating documentation. Keep package licenses and
+security reporting policies in their repositories. When migrating local documentation,
+preserve useful content and update links before removing the replaced files. Keep planned
+capabilities explicitly separate from implemented behavior.
+
 ## Contributing
 
 Follow [the authoring instructions](AGENTS.md). Development work targets `6.1`. Guides follow Symfony's practical technical style: explain the goal, establish prerequisites, show usable examples and describe verified limits. Compare page coverage with real CMS elements, bundle features and plugin configuration, adding missing guides with their navigation and package README links.

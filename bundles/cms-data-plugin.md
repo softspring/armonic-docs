@@ -79,3 +79,19 @@ The CMS fixture group is `sfs_cms`. Its importer uses fixture-origin versions an
 Implement `EntityTransformerInterface` for additional entity types or `FieldTransformerInterface` for specialized saved fields. With autoconfiguration enabled, the plugin tags these services as `sfs_cms.data.entity_transformer` and `sfs_cms.data.field_transformer`. Check priorities and preserve reference resolution when decorating a transformer.
 
 Content definitions can override the `admin.import`, `admin.version_import`, and `admin.export_version` actions. Use this for project-specific permissions or import forms while retaining the standard workflow.
+
+### Order custom transformers {#order-custom-transformers}
+
+Entity and field transformer collections use Symfony's `AsTaggedItem` priorities, with higher values running
+first. On a custom transformer class, use `#[AsTaggedItem(priority: 100)]` from
+`Symfony\Component\DependencyInjection\Attribute\AsTaggedItem` with service autoconfiguration enabled.
+Alternatively, set `priority` directly on its transformer service tag.
+
+The built-in entity transformers use `0`. Specialized block, media, route, site and translation field
+transformers use `100`, the generic entity transformer uses `10`, arrays use `0`, and the default scalar
+transformer uses `-255`. Keep the generic fallback last so it does not consume values intended for another
+transformer.
+
+When upgrading a custom implementation, move its ordering metadata from the static `getPriority()` convention
+to an attribute or explicit service tag. The method remains part of the interfaces for PHP compatibility,
+but dependency injection no longer calls it. Without ordering metadata, the service priority is `0`.

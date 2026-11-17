@@ -10,6 +10,15 @@ related: ["components/form-schema", "components/cms-mcp-plugin", "bundles/cms-bu
 
 The AI plugin adds an admin chatbot, a content-editor agent panel, site instructions, and media generation helpers. It is experimental and requires a configured Symfony AI platform.
 
+## Interface language {#interface-language}
+
+The Armonic AI chat and content-editor panel follow the admin request locale. English and Spanish
+translations include form labels, buttons, status messages, validation notices and descriptions of known
+CMS tools. The `sfs_cms_ai` translation domain can be overridden through the application's normal Symfony
+translation catalogs. Tool identifiers and MCP protocol metadata stay unchanged. Custom tools without a
+translated description display their own description; provider errors and conversation content are shown
+as received.
+
 ## Install and register {#install-and-register}
 
 ```bash
@@ -308,3 +317,132 @@ Reload the editor and select `gpt-6.1-sol` under the OpenAI platform. Registerin
 it does not change an existing session's compatible selection. Provider account access and available API credits
 are still required. A model appearing in the selector or a successful model metadata lookup does not prove that
 generation, tool calls, or structured output have completed successfully.
+
+
+## Configure shared AI instructions {#configure-shared-ai-instructions}
+
+The plugin requires [Config Bundle](../components/config-bundle.md). Register its bundle class alongside the AI
+plugin. CMS AI registers the multiline `cms_ai.instructions` setting with an empty default. Set a project default
+through Symfony configuration, or enable Config Bundle administration to let authorized editors maintain it:
+
+<!-- config-tabs:start -->
+
+```yaml
+# config/packages/sfs_config.yaml
+sfs_config:
+    defaults:
+        cms_ai.instructions: 'Use clear language and the project editorial style.'
+    admin:
+        enabled: true
+```
+
+```php
+<?php
+
+// config/packages/sfs_config.php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_config', [
+        'defaults' => ['cms_ai.instructions' => 'Use clear language and the project editorial style.'],
+        'admin' => ['enabled' => true],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Follow the Config Bundle guide to import protected admin routes and run its migration. The plugin registers the `cms` configuration block with translated title and description.
+The field appears inside this CMS block. Global CRUDL permissions control access to configuration. Editing and resetting this key
+also require `PERMISSION_SFS_CMS_ADMIN_AI_CONFIG`, handled by the Permissions Bundle. Reading inherits the global
+read permission, so an administrator without the management permission can inspect instructions without changing them.
+A stored override wins over the default; reset removes the override. Empty project preferences omit only that lower-priority section; the application instructions always remain.
+
+`AiInstructions` composes the prompt in the following order:
+
+1. The versioned application instructions in `config/prompts/application.txt`, identifying the assistant as the AI
+   plugin of Armonic, Softspring's CMS, and defining its task and instruction precedence.
+2. The current workflow's technical requirements, such as structured output, tool contracts and image constraints.
+   These belong to the application instruction level.
+3. The `cms_ai.instructions` project preferences from Config Bundle, explicitly marked as lower priority.
+4. The user's request and conversation context, within those constraints.
+
+The application file is a runtime asset included in the plugin repository and Composer package. Keep shared identity,
+scope and priority rules there. It is independent of the editable project setting. A missing, unreadable or empty file
+fails explicitly rather than silently removing the application's instructions.
+
+Chat, content editing, SEO keyword review and image descriptions use a composed Symfony AI `SystemMessage`,
+followed by ordinary user/assistant history and the current `UserMessage`. This Symfony AI version exposes system
+and user roles rather than a separate developer role: precedence between application requirements and project
+preferences is stated within the system message. The current user request is not promoted into it.
+
+Image generation APIs receive a single text prompt. It contains the same instruction sections followed by a clearly
+labelled user request; those APIs do not provide a separate chat-system role. The image request is kept outside the
+application/workflow section when composing that text.
+
+`AiInstructions` binds `cms_ai.instructions` through the Config Bundle `#[SfsConfig]` constructor attribute.
+Its `ConfigValueInterface` reads the provider for every `get()`, so the file and current preferences are read
+for each newly prepared prompt. Changing the database preference affects
+the next request without rebuilding the container. Already-running model calls are not rewritten. The workflow's
+schemas, CMS permissions, confirmation checks and persistence validation remain enforced in application code;
+instruction text guides the model and does not replace these controls.
+
+
+### Grant the AI configuration permission {#grant-ai-configuration-permission}
+
+Enable the [Permissions Bundle](../components/permissions-bundle.md) and import the plugin's role hierarchy,
+as for the other CMS bundles. The plugin declares `ROLE_SFS_CMS_ADMIN_AI_CONFIG`, which grants
+`PERMISSION_SFS_CMS_ADMIN_AI_CONFIG`. It does not grant that group to every administrator automatically.
+Applications decide which business roles receive it. For example, grant it to super administrators:
+
+<!-- config-tabs:start -->
+
+```yaml
+# config/packages/security.yaml (additional configuration)
+imports:
+    - { resource: '@SfsCmsAiPlugin/config/security/admin_role_hierarchy.yaml' }
+
+security:
+    role_hierarchy:
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_SFS_CMS_ADMIN_AI_CONFIG
+```
+
+```php
+<?php
+
+// config/packages/security.php (additional configuration)
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->import('@SfsCmsAiPlugin/config/security/admin_role_hierarchy.yaml');
+    $container->extension('security', [
+        'role_hierarchy' => ['ROLE_SUPER_ADMIN' => ['ROLE_ADMIN', 'ROLE_SFS_CMS_ADMIN_AI_CONFIG']],
+    ]);
+};
+```
+
+<!-- config-tabs:end -->
+
+Merge this fragment with existing role grants. To delegate management to another administrator, grant the
+configuration group alongside their existing admin role. The group itself does not grant admin access.
+Global Config Bundle permissions and the per-key permission must both succeed. Links are hidden when the
+permission is missing, and direct GET/POST requests for editing or resetting are rejected server-side.
+
+
+The CMS block uses `groups.cms.label` and `groups.cms.description` in the `sfs_config` translation domain.
+Projects can override its metadata under `sfs_config.groups.cms`, including `priority`, without changing the
+`cms_ai.instructions` key or its stored override. See [configuration blocks](../components/config-bundle.md#configuration-groups)
+for grouping additional settings into CMS, Mailer or other application blocks.
+
+## Follow element usage instructions {#element-instructions}
+
+The content editor receives the shared API's `elementInstructions` catalog in the current edit context, including
+module purposes, preferred alternatives, container guidance and instructions for other configured CMS elements.
+The application prompt directs assistants to consult supplied guidance or retrieve it through configuration and
+operation tools. Element guidance has project-preference priority and cannot override the application's technical
+contracts, available elements, permissions or confirmation rules.
+
+This supplies deterministic configuration context; it does not call another model or guarantee that a provider will
+follow every recommendation. See [configure element instructions](../bundles/cms-bundle/configuration.md#ai-instructions).
