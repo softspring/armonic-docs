@@ -22,10 +22,11 @@ Register the bundle when Flex does not do it automatically:
 
 ```php
 // config/bundles.php
+Softspring\Component\FormSchema\SfsFormSchemaBundle::class => ['all' => true],
 Softspring\CmsApiPlugin\SfsCmsApiPlugin::class => ['all' => true],
 ```
 
-Its runtime dependencies include CMS core, Media Bundle, and Sections Plugin. Enable those bundles before warming
+Its runtime dependencies include CMS core, Media Bundle, Sections Plugin and Form Schema. Enable those bundles before warming
 the application container. NelmioApiDocBundle is optional: install and enable it only when generating OpenAPI
 documentation for REST endpoints. MCP clients do not need it.
 
@@ -196,3 +197,46 @@ analysis with `ok: false`, so callers must inspect the payload as well as HTTP s
 The result contains word counts, density, frequency and emphasis rankings, tag contexts and algorithm parameters.
 It delegates to the [SEO Plugin's version analysis](../bundles/cms-seo-plugin.md#version-word-statistics), without
 publishing, modifying metadata, or requiring an AI provider. The SEO Plugin remains optional for other API resources.
+
+## Inspect operation payloads with Form Schema {#operation-form-schema}
+
+`OperationService::describe()` prepares the actual Symfony form and passes it to
+`Softspring\Component\FormSchema\Schema\SchemaExtractor`. REST and MCP receive the same result:
+
+- `form.schema` contains the JSON-schema-like structure produced by Form Schema, including custom field extractors and explicit schema overrides.
+- `form.fields` retains current values, choice values, collection prototypes and disabled/required flags for the active operation.
+- CMS module collections are arrays of objects with an allowed `_module` identifier. Module fields are described by the grouped prototypes in `form.fields.module_prototypes_collection.prototypes`.
+
+Use the schema and runtime metadata together. Module collections intentionally do not inline every possible
+module's fields into `form.schema`; inspect the selected module prototype to build its payload. Do not submit
+`module_prototypes_collection`, `_token` or `_ok` as generated content. The prototype collection remains available
+as metadata and is excluded from the payload schema. Put module data under `data.<container>`.
+
+This is a description, not an alternative validator. Execution still submits the payload to the real Symfony form
+and enforces CMS permissions, operation scopes and confirmation checks. Inspecting a schema does not save a version
+or publish content.
+
+## Give clients element usage instructions {#element-instructions}
+
+CMS definitions and media type configuration can include literal `meta.ai_instructions`. Configuration summaries,
+site context and media requirements expose configured text as `aiInstructions` without requiring raw configuration.
+The configuration context supports `media_types` in addition to its existing sections; `all` includes `mediaTypes`.
+
+Operation descriptions also return a text-only `aiInstructions` catalog keyed by definition identifier. Its sections
+are `modules`, `contents`, `layouts`, `menus`, `blocks`, `sites` and `mediaTypes`. Container guidance is under
+`containers.<definition-section>.<definition-id>.<container-id>`. Only configured, non-empty text is included;
+disabled modules, layouts and blocks are excluded from this catalog. It contains usage guidance rather than raw
+provider credentials or runtime configuration.
+
+For content versions, `form.fields.module_prototypes_collection.prototypes.<group>.<module>.aiInstructions`
+contains the selected module's guidance. Container fields also carry their own `aiInstructions`, and their Form
+Schema description includes it. The content editor receives the API catalog in `elementInstructions` for every
+newly prepared model request.
+
+Clients should read these instructions before choosing elements and combine them with `form.schema`, allowed
+module identifiers, actual field choices and runtime prototypes. For example, prefer individual paragraph modules
+when their configured guidance recommends them, and use hero background guidance when choosing a media type.
+MCP tools expose the same information and direct agents to consult it; arbitrary external clients still decide how
+to use descriptive metadata. These strings are recommendations, not a second authorization or validation system.
+
+See [configuration keys and override examples](../bundles/cms-bundle/configuration.md#ai-instructions).

@@ -1451,3 +1451,51 @@ The default provider reads `sfs_media.types`, but the bundle architecture allows
 So type definitions can come from more than one place.
 
 For advanced projects, that is the better extension point than trying to keep all type config in one very large YAML file.
+
+## Describe media usage for assistants {#ai-instructions}
+
+Add `meta.ai_instructions` to an existing media type to explain how to select or compose its images or videos.
+This is an override fragment for a configured `hero` type; retain its upload requirements, versions and pictures:
+
+<!-- config-tabs:start -->
+
+```yaml
+# config/packages/sfs_media.yaml
+sfs_media:
+    types:
+        hero:
+            meta:
+                ai_instructions: 'Use a wide, visually strong image. Keep space for readable overlay text and allow for responsive cropping.'
+```
+
+```php
+<?php
+
+// config/packages/sfs_media.php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_media', ['types' => ['hero' => [
+        'meta' => ['ai_instructions' => 'Use a wide, visually strong image. Keep space for readable overlay text and allow for responsive cropping.'],
+    ]]]);
+};
+```
+
+<!-- config-tabs:end -->
+
+The CMS context and image requirements APIs expose this text as `aiInstructions`; clients do not need raw
+configuration to read it. The metadata key is optional; only non-empty string values are consumed as usage guidance. Guidance supplements the actual MIME type,
+dimension, orientation and privacy requirements; it does not replace upload validation or change access control.
+
+## Order custom media services {#order-custom-media-services}
+
+The processor, name generator and media type provider collections use Symfony's `AsTaggedItem` attribute.
+Add `#[AsTaggedItem(priority: 100)]` from `Symfony\Component\DependencyInjection\Attribute\AsTaggedItem`
+to an existing implementation with service autoconfiguration enabled, or set an explicit `priority` on its
+`sfs_media.media_processor`, `sfs_media.name_generator` or `sfs_media.media_type_provider` tag.
+
+Higher priorities run first. The built-in processor order described above is unchanged; the default name
+generator and configuration type provider both use `0`. Keep any methods required by the interfaces, including
+`getPriority()`, for PHP compatibility. When upgrading custom implementations, move their ordering metadata
+to the attribute or service tag: dependency injection no longer calls `getPriority()`, and a service without
+explicit priority uses `0`.

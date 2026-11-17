@@ -16,6 +16,8 @@ This example adds a hero heading and subtitle. Create `cms/modules/hero/config.y
 module:
     revision: 1
     group: content
+    meta:
+        ai_instructions: Use for a concise introduction, with a heading and optional subtitle.
     compatible_contents: ['page']
     module_options:
         form_fields:
@@ -64,3 +66,9 @@ If the module is missing from the picker, check `enabled`, `compatible_contents`
 Keep `revision` as an integer and increase it when the saved data format changes. Existing module instances keep their stored data. A revision number alone does not rename or convert fields; provide a `migrate.php` function when a conversion is needed. See [CMS modules](../bundles/cms-bundle/modules.md) for the rendering context and data migration API.
 
 Use a custom Symfony form type in `module_type` when the dynamic fields cannot express your form. Its options belong in `module_options`; their validity is checked by that form type when the form is built.
+
+## Give assistants usage guidance {#ai-instructions}
+
+Use `module.meta.ai_instructions` for a literal description or multiline usage recommendations. It is separate from
+`module_options`, which configures the Symfony form. Explain when to choose the module, how to compose it and
+when another module is preferable. See [instructions for CMS elements](../bundles/cms-bundle/configuration.md#ai-instructions).

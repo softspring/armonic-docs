@@ -42,3 +42,19 @@ These integrations are optional and their contracts may change before a stable r
 The [API Plugin](../../components/cms-api-plugin.md#reuse-cms-operations) provides shared application queries.
 REST controllers, MCP tools, and AI integrations consume those services directly. CMS core keeps models,
 managers, validation, and serializers; it does not depend on the API, MCP, or AI plugins.
+
+## Order admin menu providers {#order-menu-providers}
+
+CMS admin menu providers use Symfony's `#[AsTaggedItem(priority: ...)]` attribute. Higher priorities run
+first: core content, site and section providers use `255`, translation uses `253`, analytics uses `252`,
+SEO uses `251`, and AI site settings use `250`. Providers at the same priority retain registration order.
+
+When upgrading a custom `MenuProviderInterface` implementation to this development branch, declare its
+priority with `Symfony\Component\DependencyInjection\Attribute\AsTaggedItem`, or with the `priority`
+attribute on its `sfs_cms.admin_menu.menu_provider` service tag. Enable service autoconfiguration when using
+`AsTaggedItem`. For example, `#[AsTaggedItem(priority: 254)]` inserts a provider after core and before
+translation. Keep the methods required by the interface, including `getPriority()`, for PHP compatibility;
+the container no longer calls that method to discover the priority. A provider without explicit priority
+uses `0`.
+
+This also applies to the menu providers supplied by optional plugins. Their built-in order is unchanged.
