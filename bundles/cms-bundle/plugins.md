@@ -35,3 +35,10 @@ These integrations are optional and their contracts may change before a stable r
 - [MCP tools](../../components/cms-mcp-plugin.md)
 - [Local Mate tools](../../components/cms-mate-extension.md)
 - [Form schema extraction](../../components/form-schema.md)
+
+
+## Reuse CMS services in integrations {#reuse-cms-services}
+
+The [API Plugin](../../components/cms-api-plugin.md#reuse-cms-operations) provides shared application queries.
+REST controllers, MCP tools, and AI integrations consume those services directly. CMS core keeps models,
+managers, validation, and serializers; it does not depend on the API, MCP, or AI plugins.
