@@ -43,8 +43,9 @@ Working rules for documentation changes in this repository.
 ## Content
 
 - Document real bundle and component behavior from the source code.
-- Read the package `FEATURES.md` first when it exists and use it as the functional base for the guide.
-- Treat `FEATURES.md` as a functional contract for behavior and scope, not as a documentation outline to copy mechanically.
+- Keep package documentation and functional contracts here, on the same Git version branch as the package. Published aliases such as `6.1-dev` are not branch names.
+- Read the central package guide and its functional scope first. Read an existing package-local `FEATURES.md` only until its useful content has been migrated here.
+- Separate implemented behavior from planned capabilities in the central guide; verify both against source and tests.
 - Read the relevant classes, configuration, forms, commands, Twig extensions, services, and examples before writing documentation.
 - Do not write superficial documentation based only on package metadata or previous docs.
 - Focus first on the functionality the bundle or component provides, the problem it solves, and how to use it well.
@@ -54,7 +55,7 @@ Working rules for documentation changes in this repository.
 - Treat bundles and components as extensible tools, and document the supported extension points and the recommended extension patterns.
 - When possible, use other bundles, components, and `armonic-standalone` as references to show how the package is integrated in practice.
 - When authorized, consult `site-new` and `softspring-web-project` as read-only configuration references. Rewrite examples with generic values; do not include customer data, internal URLs, credentials, branding or screenshots.
-- Use `FEATURES.md` as the starting point for documentation structure, but always verify the current code and real integrations before writing or changing guides.
+- Use the functional contract as the starting point for guide coverage, but verify the current code and real integrations before writing or changing guides.
 - Prefer current configuration, commands, and examples over historical content.
 - Upgrade guides must compare the real source and target package branches, including independent differences between starting lines such as `5.5` and `5.6`. Verify removed aliases, renamed configuration and changed signatures against code; do not describe formatting changes or inherited methods as API removals.
 - Distinguish mandatory application changes from optional integrations and external framework upgrades. Show concrete replacements, preserve identifiers and stored data, and verify migration ordering and representative examples in isolated fixtures. Keep comparison revisions and validation limits in review evidence, not in the public guide's narrative.
@@ -67,8 +68,9 @@ Working rules for documentation changes in this repository.
 - If a bundle or component already has documentation in its local `docs/` directory, reuse the useful parts when moving that content to `armonic-docs`.
 - After moving useful documentation from a package `docs/` directory to `armonic-docs`, remove the old package documentation files.
 - Update indexes and internal links when pages are merged, renamed, or removed.
-- Do not add a `Validation and Maintenance` section to pages in `armonic-docs`.
-- Package maintenance commands and validation information should go to the `Contributing` section of each package `README.md`.
+- Put package maintenance and validation guidance in a clearly separated `Contributing` section of the central package guide.
+- Keep package READMEs as short branch-specific links to the guide and contributor section. Keep licenses and security reporting policies in the package.
+- When migrating local documentation or functional contracts, preserve useful content centrally before removing the replaced files. Do not duplicate installation, usage, or contributor guidance in the package.
 
 ## Screenshots and runtime verification
 
