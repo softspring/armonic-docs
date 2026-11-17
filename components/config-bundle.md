@@ -471,7 +471,7 @@ The routes `sfs_config_admin_list`, `sfs_config_admin_read`, `sfs_config_admin_u
 `sfs_config_admin_delete` use the configured CRUDL controller. Update creates the first stored override or edits
 an existing one. Delete is a reset action with its own confirmation form: it removes the override, preserving the
 registered key and its default. There is no separate action for creating or deleting definitions.
-The list includes defaults even when no override exists, filters inaccessible keys, and identifies the active source.
+The list includes defaults even when no override exists, filters inaccessible keys, and identifies the active source. Each setting shows its translated label and help text. Technical configuration keys are not displayed in the list.
 Views and action permissions can be customized through the standard `sfs_crudl.controllers.sfs_config` configuration.
 Override `@SfsConfig/admin/layout.html.twig` in the application's bundle templates to use its admin layout.
 
