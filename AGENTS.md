@@ -43,8 +43,8 @@ Working rules for documentation changes in this repository.
 ## Content
 
 - Document real bundle and component behavior from the source code.
-- Keep package documentation and functional contracts here, on the same Git version branch as the package. Published aliases such as `6.1-dev` are not branch names.
-- Read the central package guide and its functional scope first. Read an existing package-local `FEATURES.md` only until its useful content has been migrated here.
+- Keep package user documentation here, on the same Git version branch as the package. Keep functional contracts in each package FEATURES.md and contribution guidance in CONTRIBUTING.md; do not remove either file when centralizing user documentation. Published aliases such as `6.1-dev` are not branch names.
+- Read the central package guide and the package-local `FEATURES.md` before changing guides. Keep the functional contract maintained in the package.
 - Separate implemented behavior from planned capabilities in the central guide; verify both against source and tests.
 - Read the relevant classes, configuration, forms, commands, Twig extensions, services, and examples before writing documentation.
 - Do not write superficial documentation based only on package metadata or previous docs.
@@ -68,9 +68,9 @@ Working rules for documentation changes in this repository.
 - If a bundle or component already has documentation in its local `docs/` directory, reuse the useful parts when moving that content to `armonic-docs`.
 - After moving useful documentation from a package `docs/` directory to `armonic-docs`, remove the old package documentation files.
 - Update indexes and internal links when pages are merged, renamed, or removed.
-- Put package maintenance and validation guidance in a clearly separated `Contributing` section of the central package guide.
-- Keep package READMEs as short branch-specific links to the guide and contributor section. Keep licenses and security reporting policies in the package.
-- When migrating local documentation or functional contracts, preserve useful content centrally before removing the replaced files. Do not duplicate installation, usage, or contributor guidance in the package.
+- Keep package maintenance and validation guidance in its local `CONTRIBUTING.md`. Central guides may link to it.
+- Keep package READMEs as short branch-specific links to the guide and their local CONTRIBUTING.md. Keep licenses and security reporting policies in the package.
+- When migrating local user documentation, preserve useful content centrally before removing replaced guides. Keep package `FEATURES.md` and `CONTRIBUTING.md`; neither is removed as part of centralizing user documentation.
 
 ## Screenshots and runtime verification
 
