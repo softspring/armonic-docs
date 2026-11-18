@@ -446,3 +446,41 @@ contracts, available elements, permissions or confirmation rules.
 
 This supplies deterministic configuration context; it does not call another model or guarantee that a provider will
 follow every recommendation. See [configure element instructions](../bundles/cms-bundle/configuration.md#ai-instructions).
+
+## Invalid generated edits {#invalid-generated-edits}
+
+The editor applies generated patches only after successful Symfony form validation. Invalid changes return HTTP 422, leave the current browser draft and successful conversation history unchanged, and do not display the generated success message. Text-only edits must preserve module types, identifiers and collection structure. Review the validation errors and retry the instruction; the normal Save action remains necessary to persist a version.
+
+## Collapsible editor panel {#collapsible-editor-panel}
+
+The content editor starts with the AI panel collapsed. Use the stars icon to open it and the hide button or Escape
+inside the panel to close it. The host-only `sfs_cms_ai_editor_panel` cookie remembers the open or closed state for one
+year across content editing pages. The preference is saved automatically when toggling the panel. Clearing the cookie
+restores the collapsed default. The cookie contains only the panel state; hiding the panel does not save or discard
+content changes or reset the conversation. If cookies are blocked, toggling still works for the current page.
+
+## Disable the content editor assistant {#disable-content-editor}
+
+Set `content_editor.enabled` to `false` to use the normal CMS editor without the AI panel or its launcher.
+The assistant endpoint also returns HTTP 404 and never invokes a model. This option defaults to `true` and does not
+disable the separate admin chatbot, SEO or media AI features. A panel cookie cannot override this configuration.
+
+<!-- config-tabs:start -->
+
+```yaml
+# config/packages/sfs_cms_ai.yaml
+sfs_cms_ai:
+    content_editor:
+        enabled: false
+```
+
+```php
+// config/packages/sfs_cms_ai.php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('sfs_cms_ai', ['content_editor' => ['enabled' => false]]);
+};
+```
+
+<!-- config-tabs:end -->
