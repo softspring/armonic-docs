@@ -23,6 +23,8 @@ The list is defined by your application. A singleton type allows one record; a r
 
 Give the block a recognizable internal name, such as **Contact invitation**, and complete the fields supplied by its type. For the example call to action, enter a heading, message, and contact email.
 
+The name must be unique across all blocks, whatever their type. If another block already uses it, the form shows an error under the name field and keeps the values you entered, so you can choose another name and save again.
+
 ![New block form with editable call-to-action fields](.files/armonic-new-block-form.png){.img-fluid}
 
 Choose **Create**. Confirm that the new record appears in the list:
